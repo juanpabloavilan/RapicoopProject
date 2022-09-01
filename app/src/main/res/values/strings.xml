@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RapicoopProject</string>
+    <string name="rapicoop">Rapicoop</string>
+    <string name="no_tiene_cuenta">No tienes una cuenta? registrate haciendo clic aquí</string>
 </resources>
