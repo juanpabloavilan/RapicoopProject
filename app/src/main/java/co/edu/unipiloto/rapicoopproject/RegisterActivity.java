@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 String gender = ((RadioButton)findViewById(radioGroupIds[0])).getText().toString();
                 String type = ((RadioButton)findViewById(radioGroupIds[1])).getText().toString();
-                User new_user = new User(editFullName.getText().toString(), editPhone.getText().toString(), editEmail.getText().toString(), editPassword.getText().toString(), gender, type);
+                User new_user = new User(editFullName.getText().toString(), editEmail.getText().toString(), editPhone.getText().toString(), editPassword.getText().toString(), gender, type);
                 appDb.insertUser(new_user);
                 Toast.makeText(RegisterActivity.this,"User created successfully",Toast.LENGTH_SHORT).show();
                 finish();
