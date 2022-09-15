@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 
@@ -45,45 +46,47 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText[] registrationEditTexts = new EditText[]{editFullName, editEmail, editPhone, editPassword};
-                ArrayList<String> registrationData = getDataStrings(registrationEditTexts);
-                int[] radioGroupIds = new int[]{rGroupGenders.getCheckedRadioButtonId(),rGroupType.getCheckedRadioButtonId()};
-                if(unvalidRadioGroupIds(radioGroupIds) || unvalidFields(registrationData)){
+                RadioGroup[] registrationRadioGroups = new RadioGroup[]{rGroupType, rGroupGenders};
+                if( anyUnvalidField(registrationEditTexts,registrationRadioGroups) ){
                     Toast.makeText(RegisterActivity.this,"Invalid data fields",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String gender = ((RadioButton)findViewById(radioGroupIds[0])).getText().toString();
-                String type = ((RadioButton)findViewById(radioGroupIds[1])).getText().toString();
-                User new_user = new User(editFullName.getText().toString(), editEmail.getText().toString(), editPhone.getText().toString(), editPassword.getText().toString(), gender, type);
-                appDb.insertUser(new_user);
-                Toast.makeText(RegisterActivity.this,"User created successfully",Toast.LENGTH_SHORT).show();
+                User createdUser = newUserFromFields(registrationEditTexts, registrationRadioGroups);
+                String insertResultMsg = appDb.insertUser(createdUser) ? "User created successfully" : "Error when adding user to the database";
+                Toast.makeText(RegisterActivity.this,insertResultMsg,Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
 
-    private boolean unvalidRadioGroupIds(int[] ids){
-        for (int id:ids) {
-            if(id == -1)
-                return true;
+    private boolean anyUnvalidField(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
+        return (unvalidTextFields(registerEditTexts) || unvalidRadioGroupIds(registerRadioGroups));
+    }
+
+    private boolean unvalidRadioGroupIds(RadioGroup[] radioGroups){
+        for (RadioGroup rGroup:radioGroups) {
+            if(rGroup.getCheckedRadioButtonId() == -1) return true;  //-1: NO CHECKED RADIO BUTTON
         }
         return false;
     }
 
-    private ArrayList<String> getDataStrings(EditText[] dataFields){
-        ArrayList<String> dataStrings = new ArrayList<String>();
+    private boolean unvalidTextFields(EditText[] dataFields){
         for (EditText field:dataFields) {
-            dataStrings.add(field.getText().toString());
-        }
-        return dataStrings;
-    }
-
-    private boolean unvalidFields(ArrayList<String> dataStrings){
-        for (String data:dataStrings) {
-            if(data.equals("")) {  //non-filled field
-                return true;
-            }
+            if(field.getText().toString().equals("")) return true;
         }
         return false;
+    }
+
+    private User newUserFromFields(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
+        ArrayList<String> userData = new ArrayList<>();
+        for (EditText textField: registerEditTexts) {
+            userData.add(textField.getText().toString());
+        }
+        for (RadioGroup groupField: registerRadioGroups){  //GET TEXT FROM RADIO BUTTON KNOWING RADIO GROUP CHECKED ID
+            int checkedButtonInGroup = groupField.getCheckedRadioButtonId();
+            userData.add( ( (RadioButton) findViewById(checkedButtonInGroup)).getText().toString() );
+        }
+        return new User(userData.get(0),userData.get(1),userData.get(2), userData.get(3), userData.get(4), userData.get(5));  //USER DATA IS ORDERED IN LIST AS IN USER PARAMS
     }
 
     public void onClickGoBack(View view) {

@@ -116,7 +116,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
                 @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
                 @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
-                user = new User(fullname, email, password, password, gender, type);
+                user = new User(fullname, email, password, password, type, gender);
 
             }
         }catch (Exception e){
