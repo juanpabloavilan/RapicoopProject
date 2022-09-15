@@ -6,6 +6,7 @@
     <string name="register_email_hint">e-mail</string>
     <string name="phone_hint">celular</string>
     <string name="register_password_hint">contraseña</string>
+    <string name="type_label">Tipo de usuario</string>
     <string name="gender_label">Genero</string>
     <string name="register_btn">registrarse</string>
     <string name="cancel_btn">cancelar</string>

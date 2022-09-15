@@ -23,8 +23,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String USERS_TABLE_NAME = "users_table";
     public static final String USER_ID ="ID";
     public static final String USER_FULLNAME ="FULLNAME";
-    public static final String USER_USERNAME ="USERNAME";
     public static final String USER_EMAIL ="EMAIL";
+    public static final String USER_PHONE ="PHONE";
     public static final String USER_PASSWORD ="PASSWORD";
     public static final String USER_GENDER ="GENDER";
     public static final String USER_TYPE ="TYPE";
@@ -54,7 +54,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         String CREATE_USERS_TABLE = "CREATE TABLE "+ USERS_TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "FULLNAME TEXT NOT NULL," +
                 "EMAIL TEXT NOT NULL UNIQUE," +
-                "USERNAME TEXT NOT NULL UNIQUE," +
+                "PHONE TEXT NOT NULL," +
                 "PASSWORD TEXT NOT NULL," +
                 "GENDER TEXT NOT NULL," +
                 "TYPE TEXT NOT NULL)";
@@ -77,8 +77,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues userDataSet = new ContentValues();
         userDataSet.put(USER_FULLNAME,user.getFullName());
-        userDataSet.put(USER_USERNAME,user.getUsername());
         userDataSet.put(USER_EMAIL,user.getEmail());
+        userDataSet.put(USER_PHONE,user.getPhone());
         userDataSet.put(USER_PASSWORD,user.getPassword());
         userDataSet.put(USER_GENDER,user.getGender());
         userDataSet.put(USER_TYPE,user.getType());
@@ -111,11 +111,11 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
 
                 @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
                 @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
-                @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
-                @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_TYPE));
+                @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
-                @SuppressLint("Range") String username = cursor.getString(cursor.getColumnIndex(USER_USERNAME));
-                user = new User(fullname, username, email, password, gender, type);
+                @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
+                @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
+                user = new User(fullname, email, password, password, gender, type);
 
             }
         }catch (Exception e){
