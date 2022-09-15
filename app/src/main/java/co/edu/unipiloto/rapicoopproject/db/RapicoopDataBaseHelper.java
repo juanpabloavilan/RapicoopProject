@@ -16,7 +16,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
 
     //Database info
     public static final String DATABASE_NAME = "Rapicoop.db";
-    public static final int DATABASE_VER = 1 ;
+    public static final int DATABASE_VER = 1;
     private final String TAG = "RAPICOOPDATABASE_HELPER";
 
     //Users table
@@ -102,7 +102,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
 
     public User getUserByEmail(String emailInput) {
         String USER_SELECT_QUERY = "SELECT * FROM "+ USERS_TABLE_NAME + " " +
-                                    "WHERE "+ USER_EMAIL +" = "+ emailInput;
+                                    "WHERE "+ USER_EMAIL +" = "+"'"+ emailInput+"'";
+        System.out.println(USER_SELECT_QUERY);
         User user = null;
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);

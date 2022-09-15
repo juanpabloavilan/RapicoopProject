@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 
@@ -16,6 +18,7 @@ public class LoginForm extends AppCompatActivity{
     private String password;
     private TextView emailTextView;
     private TextView passwordTextView;
+    private final String TAG = "LOGIN_FORM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,25 @@ public class LoginForm extends AppCompatActivity{
     private void validateLogin(String email, String password){
         //Validar en la tabla usuarios si existe un usuario con mismo email y password
         RapicoopDataBaseHelper dbHelper = RapicoopDataBaseHelper.getInstance(LoginForm.this);
-        dbHelper.getUserByEmail(email);
-        //Si el login es válido redirigir a vista de menú
-        //Si el login no es válido mostrar error en la interfaz
+        User userFound = dbHelper.getUserByEmail(email);
+        if (userFound != null){
+            Log.i(TAG, userFound.getFullName());
+            if(password.equals(userFound.getPassword())){
+                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                //Si el login es válido redirigir a vista de menú
+            }
+        }else {
+            //Si el login no es válido mostrar error en la interfaz
+            Log.i(TAG, "NOT USER FOUND");
+            Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    public void onClickRegister(View view) {
+        Intent registerIntent = new Intent(this,RegisterActivity.class);
+        startActivity(registerIntent);
     }
 
 }

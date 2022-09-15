@@ -17,11 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
         RapicoopDataBaseHelper dbHelper = RapicoopDataBaseHelper.getInstance(MainActivity.this);
+        if(dbHelper.getWritableDatabase() != null){
+            Toast.makeText(this, "DATABASE CREADA", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
-    public void onClickRegister(View view) {
-        Intent registerIntent = new Intent(this,RegisterActivity.class);
-        startActivity(registerIntent);
-    }
+
 }
