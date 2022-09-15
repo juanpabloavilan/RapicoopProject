@@ -16,13 +16,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
-        RapicoopDataBaseHelper dbHelper = new RapicoopDataBaseHelper(MainActivity.this);
-        SQLiteDatabase DB = dbHelper.getWritableDatabase();
-        if(DB != null){
-            Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this, "ERROR AL CREAR BASE DE DATOS", Toast.LENGTH_SHORT).show();
-        }
+        RapicoopDataBaseHelper dbHelper = RapicoopDataBaseHelper.getInstance(MainActivity.this);
+
     }
 
     public void onClickRegister(View view) {

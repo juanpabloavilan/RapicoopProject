@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class LoginForm extends AppCompatActivity {
+import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+
+public class LoginForm extends AppCompatActivity{
     private Button loginBtn;
     private String email;
     private String password;
@@ -31,6 +33,8 @@ public class LoginForm extends AppCompatActivity {
 
     private void validateLogin(String email, String password){
         //Validar en la tabla usuarios si existe un usuario con mismo email y password
+        RapicoopDataBaseHelper dbHelper = RapicoopDataBaseHelper.getInstance(LoginForm.this);
+        dbHelper.getUserByEmail(email);
         //Si el login es válido redirigir a vista de menú
         //Si el login no es válido mostrar error en la interfaz
     }
