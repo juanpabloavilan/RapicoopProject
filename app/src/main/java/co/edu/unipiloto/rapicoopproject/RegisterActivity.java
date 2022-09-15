@@ -17,4 +17,5 @@ public class RegisterActivity extends AppCompatActivity {
     public void onClickGoBack(View view) {
         finish();
     }
+
 }

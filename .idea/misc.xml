@@ -5,7 +5,11 @@
       <map>
         <entry key="..\:/AndroidStudioProjects/RapicoopProject/app/src/main/res/layout/activity_login_form.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/RapicoopProject/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/AndroidStudioProjects/RapicoopProject/app/src/main/res/layout/activity_register.xml" value="0.10855263157894737" />
+        <entry key="..\:/AndroidStudioProjects/RapicoopProject/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/javil/AndroidStudioProjects/RapicoopProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.309" />
+        <entry key="..\:/Users/javil/AndroidStudioProjects/RapicoopProject/app/src/main/res/layout/activity_login_form.xml" value="0.375" />
+        <entry key="..\:/Users/javil/AndroidStudioProjects/RapicoopProject/app/src/main/res/layout/activity_register.xml" value="0.33229166666666665" />
+        <entry key="..\:/Users/javil/AndroidStudioProjects/RapicoopProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.309" />
       </map>
     </option>
   </component>
