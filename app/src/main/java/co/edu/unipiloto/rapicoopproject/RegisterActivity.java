@@ -2,10 +2,7 @@ package co.edu.unipiloto.rapicoopproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +11,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 
@@ -51,6 +47,10 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,"Invalid data fields",Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(appDb.getUserByEmail(editEmail.getText().toString()) != null){
+                    Toast.makeText(RegisterActivity.this,"This email is already taken",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 User createdUser = newUserFromFields(registrationEditTexts, registrationRadioGroups);
                 String insertResultMsg = appDb.insertUser(createdUser) ? "User created successfully" : "Error when adding user to the database";
                 Toast.makeText(RegisterActivity.this,insertResultMsg,Toast.LENGTH_SHORT).show();
@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean unvalidRadioGroupIds(RadioGroup[] radioGroups){
         for (RadioGroup rGroup:radioGroups) {
-            if(rGroup.getCheckedRadioButtonId() == -1) return true;  //-1: NO CHECKED RADIO BUTTON
+            if(rGroup.getCheckedRadioButtonId() == -1) return true;  //-1 = NO CHECKED RADIO BUTTON
         }
         return false;
     }
