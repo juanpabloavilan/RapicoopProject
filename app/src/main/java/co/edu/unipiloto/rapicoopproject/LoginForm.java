@@ -42,15 +42,14 @@ public class LoginForm extends AppCompatActivity{
             Log.i(TAG, userFound.getFullName());
             if(password.equals(userFound.getPassword())){
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                return;
                 //Si el login es válido redirigir a vista de menú
             }
         }else {
             //Si el login no es válido mostrar error en la interfaz
             Log.i(TAG, "NOT USER FOUND");
-            Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
         }
-
-
+        Toast.makeText(this, "Datos Invalidos", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickRegister(View view) {

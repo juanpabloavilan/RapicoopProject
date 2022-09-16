@@ -43,24 +43,26 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText[] registrationEditTexts = new EditText[]{editFullName, editEmail, editPhone, editPassword};
                 RadioGroup[] registrationRadioGroups = new RadioGroup[]{rGroupType, rGroupGenders};
-                if( anyUnvalidField(registrationEditTexts,registrationRadioGroups) ){
-                    Toast.makeText(RegisterActivity.this,"Invalid data fields",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(appDb.getUserByEmail(editEmail.getText().toString()) != null){
-                    Toast.makeText(RegisterActivity.this,"This email is already taken",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                User createdUser = newUserFromFields(registrationEditTexts, registrationRadioGroups);
-                String insertResultMsg = appDb.insertUser(createdUser) ? "User created successfully" : "Error when adding user to the database";
-                Toast.makeText(RegisterActivity.this,insertResultMsg,Toast.LENGTH_SHORT).show();
+                if(!validateFields(registrationEditTexts, registrationRadioGroups)) return;
+                User inputUser = newUserFromFields(registrationEditTexts, registrationRadioGroups);
+                storeNewUser(inputUser);
                 finish();
             }
         });
     }
 
-    private boolean anyUnvalidField(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
-        return (unvalidTextFields(registerEditTexts) || unvalidRadioGroupIds(registerRadioGroups));
+    private boolean validateFields(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
+        String flag = ""; //none
+        if(unvalidTextFields(registerEditTexts) || unvalidRadioGroupIds(registerRadioGroups)){
+            flag = "There are empty data fields";
+        } else if(appDb.getUserByEmail(editEmail.getText().toString()) != null){
+            flag = "This email is already taken";
+        }
+        if( !flag.equals("") ){
+            Toast.makeText(RegisterActivity.this,flag,Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private boolean unvalidRadioGroupIds(RadioGroup[] radioGroups){
@@ -87,6 +89,11 @@ public class RegisterActivity extends AppCompatActivity {
             userData.add( ( (RadioButton) findViewById(checkedButtonInGroup)).getText().toString() );
         }
         return new User(userData.get(0),userData.get(1),userData.get(2), userData.get(3), userData.get(4), userData.get(5));  //USER DATA IS ORDERED IN LIST AS IN USER PARAMS
+    }
+
+    private void storeNewUser(User newUser){
+        String insertResultMsg = appDb.insertUser(newUser) ? "User created successfully" : "Error when adding user to the database";
+        Toast.makeText(RegisterActivity.this,insertResultMsg,Toast.LENGTH_SHORT).show();
     }
 
     public void onClickGoBack(View view) {
