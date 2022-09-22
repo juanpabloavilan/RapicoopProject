@@ -2,6 +2,7 @@ package co.edu.unipiloto.rapicoopproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,10 +35,12 @@ public class LoginForm extends AppCompatActivity{
             email = emailTextView.getText().toString();
             password = passwordTextView.getText().toString();
             validateLogin(email, password);
+            Intent intent = new Intent(this, MenuClienteActivity.class);
+            startActivity(intent);
         });
     }
 
-    private void validateLogin(String email, String password){
+    private boolean validateLogin(String email, String password){
         //Validar en la tabla usuarios si existe un usuario con mismo email y password
         RapicoopDataBaseHelper dbHelper = RapicoopDataBaseHelper.getInstance(LoginForm.this);
         User userFound = dbHelper.getUserByEmail(email);
@@ -45,7 +48,7 @@ public class LoginForm extends AppCompatActivity{
             Log.i(TAG, userFound.getFullName());
             if(password.equals(userFound.getPassword())){
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-                return;
+                return true;
                 //Si el login es válido redirigir a vista de menú
 
                 Intent intent;
@@ -64,11 +67,11 @@ public class LoginForm extends AppCompatActivity{
                         Toast.makeText(this, "Bad request", Toast.LENGTH_SHORT).show();
                 }
             }
-        }else {
-            //Si el login no es válido mostrar error en la interfaz
-            Log.i(TAG, "NOT USER FOUND");
         }
+        //Si el login no es válido mostrar error en la interfaz
+        Log.i(TAG, "NOT USER FOUND");
         Toast.makeText(this, "Datos Invalidos", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
     public void onClickRegister(View view) {
