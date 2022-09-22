@@ -1,6 +1,8 @@
 package co.edu.unipiloto.rapicoopproject;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String fullName;
     private String email;
     private String cellphone;

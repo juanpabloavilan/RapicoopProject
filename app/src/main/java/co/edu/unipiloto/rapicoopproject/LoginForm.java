@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 
 public class LoginForm extends AppCompatActivity{
@@ -19,6 +21,7 @@ public class LoginForm extends AppCompatActivity{
     private TextView emailTextView;
     private TextView passwordTextView;
     private final String TAG = "LOGIN_FORM";
+    public static final String USER_PAYLOAD_KEY = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,22 @@ public class LoginForm extends AppCompatActivity{
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
                 return;
                 //Si el login es válido redirigir a vista de menú
+
+                Intent intent;
+                switch (userFound.getType()){
+                    case "Cliente":
+                        intent = new Intent(LoginForm.this, MenuClienteActivity.class);
+                        intent.putExtra(USER_PAYLOAD_KEY, (Serializable) userFound);
+                        startActivity(intent);
+                        break;
+                    case "Vendedor":
+                        intent = new Intent(LoginForm.this, MenuVendedorActivity.class);
+                        intent.putExtra(USER_PAYLOAD_KEY, (Serializable) userFound);
+                        startActivity(intent);
+                        break;
+                    default:
+                        Toast.makeText(this, "Bad request", Toast.LENGTH_SHORT).show();
+                }
             }
         }else {
             //Si el login no es válido mostrar error en la interfaz
