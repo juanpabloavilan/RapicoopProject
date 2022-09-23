@@ -10,4 +10,6 @@
     <string name="gender_label">Genero</string>
     <string name="register_btn">registrarse</string>
     <string name="cancel_btn">cancelar</string>
+    <string name="search_hint"><i>¿Qué pedirás hoy?</i></string>
+    <string name="menu_icons_size">55dp</string>
 </resources>

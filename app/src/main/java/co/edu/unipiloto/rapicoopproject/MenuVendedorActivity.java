@@ -42,9 +42,6 @@ public class MenuVendedorActivity extends AppCompatActivity {
         miMenuButton.setOnClickListener(this::onClickGoToMiMenu);
         misPedidosButton.setOnClickListener(this::onClickGoToMisPedidos);
         editarMiPerfilButton.setOnClickListener(this::onClickGoToEditarPerfil);
-
-
-
     }
 
     public void onClickGoToEditarPerfil(View view) {
