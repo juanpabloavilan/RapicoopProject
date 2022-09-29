@@ -60,7 +60,8 @@ public class MenuVendedorActivity extends AppCompatActivity {
     }
 
     public void onClickGoToMiCocina(View view) {
-
+        Intent intent = new Intent(MenuVendedorActivity.this, MiCocinaActivity.class);
+        startActivity(intent);
         Toast.makeText(this, "IR a mi cocina", Toast.LENGTH_SHORT).show();
     }
 
