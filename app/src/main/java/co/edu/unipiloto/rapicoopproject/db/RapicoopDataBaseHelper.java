@@ -116,7 +116,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
                 @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
                 @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
-                user = new User(fullname, email, password, password, type, gender);
+                @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user = new User(id, fullname, email, password, password, type, gender);
 
             }
         }catch (Exception e){
@@ -128,4 +129,18 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         }
         return user;
     }
+
+    /*public User updateUser(String emailInput, User user){
+        SQLiteDatabase db = getWritableDatabase();
+        long userId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(USER_ID, user.getId());
+            values
+        }
+        String USER_UPDATE_QUERY = "SELECT"
+
+    }*/
 }

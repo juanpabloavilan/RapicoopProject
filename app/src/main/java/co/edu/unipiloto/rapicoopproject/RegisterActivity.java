@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
             int checkedButtonInGroup = groupField.getCheckedRadioButtonId();
             userData.add( ( (RadioButton) findViewById(checkedButtonInGroup)).getText().toString() );
         }
-        return new User(userData.get(0),userData.get(1),userData.get(2), userData.get(3), userData.get(4), userData.get(5));  //USER DATA IS ORDERED IN LIST AS IN USER PARAMS
+        return new User(-1,userData.get(0),userData.get(1),userData.get(2), userData.get(3), userData.get(4), userData.get(5));  //USER DATA IS ORDERED IN LIST AS IN USER PARAMS
     }
 
     private void storeNewUser(User newUser){

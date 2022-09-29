@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
+
 public class EditProfileActivity extends AppCompatActivity {
     TextInputEditText nombreCompleto;
     TextInputEditText correo;
@@ -23,10 +25,10 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        Intent intent = getIntent();
 
-        //Obteniendo info del usuario loggeado a tráves del intent
-        User userLogged = (User) intent.getSerializableExtra(LoginForm.USER_PAYLOAD_KEY);
+
+        //Obteniendo info del usuario loggeado a tráves del Context
+        User userLogged = UserLoggedContext.getInstance().getUser();
 
         //Asignar los componenentes del layout a las variables;
         nombreCompleto = findViewById(R.id.input_nombre_completo);

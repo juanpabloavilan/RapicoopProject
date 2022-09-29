@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 
 public class LoginForm extends AppCompatActivity{
@@ -69,12 +70,14 @@ public class LoginForm extends AppCompatActivity{
         switch (validUser.getType()){
             case "Cliente":
                 Intent clientIntent = new Intent(LoginForm.this, MenuClienteActivity.class);
-                clientIntent.putExtra(MenuClienteActivity.LOGGED_USER, (Serializable) validUser);
+                //clientIntent.putExtra(MenuClienteActivity.LOGGED_USER, (Serializable) validUser);
+                UserLoggedContext.getInstance().setUser(validUser);
                 startActivity(clientIntent);
                 break;
             case "Vendedor":
                 Intent vendorIntent = new Intent(LoginForm.this, MenuVendedorActivity.class);
-                vendorIntent.putExtra(USER_PAYLOAD_KEY, (Serializable) validUser);
+                //vendorIntent.putExtra(USER_PAYLOAD_KEY, (Serializable) validUser);
+                UserLoggedContext.getInstance().setUser(validUser);
                 startActivity(vendorIntent);
                 break;
             default:

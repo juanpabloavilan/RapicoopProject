@@ -3,6 +3,7 @@ package co.edu.unipiloto.rapicoopproject;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    private int id;
     private String fullName;
     private String email;
     private String cellphone;
@@ -10,7 +11,7 @@ public class User implements Serializable {
     private String gender;
     private String type;
 
-    public User(String fullName, String email, String cellphone, String password, String type, String gender){
+    public User(int id, String fullName, String email, String cellphone, String password, String type, String gender){
         this.fullName = fullName;
         this.email = email;
         this.cellphone = cellphone;
@@ -39,5 +40,9 @@ public class User implements Serializable {
 
     public String getType() {
         return type;
+    }
+
+    public int getId() {
+        return id;
     }
 }

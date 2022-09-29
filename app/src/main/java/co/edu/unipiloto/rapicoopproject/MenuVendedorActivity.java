@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
+
 public class MenuVendedorActivity extends AppCompatActivity {
     TextView welcomeMessageTextView;
     Button miCocinaButton;
@@ -25,7 +27,7 @@ public class MenuVendedorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu_vendedor);
 
         intent = getIntent();
-        userLogged = (User) intent.getSerializableExtra(LoginForm.USER_PAYLOAD_KEY);
+        userLogged = UserLoggedContext.getInstance().getUser();
         welcomeMessageTextView = findViewById(R.id.user_logged_welcome_message);
 
         //Actualizar View con los datos del usuario loggeado
@@ -46,7 +48,6 @@ public class MenuVendedorActivity extends AppCompatActivity {
 
     public void onClickGoToEditarPerfil(View view) {
         Intent intent = new Intent(MenuVendedorActivity.this, EditProfileActivity.class);
-        intent.putExtra(LoginForm.USER_PAYLOAD_KEY, userLogged);
         startActivity(intent);
     }
 
@@ -59,6 +60,7 @@ public class MenuVendedorActivity extends AppCompatActivity {
     }
 
     public void onClickGoToMiCocina(View view) {
+
         Toast.makeText(this, "IR a mi cocina", Toast.LENGTH_SHORT).show();
     }
 
