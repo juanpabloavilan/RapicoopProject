@@ -2,7 +2,7 @@ package co.edu.unipiloto.rapicoopproject.applicationcontext;
 
 import java.io.Serializable;
 
-import co.edu.unipiloto.rapicoopproject.User;
+import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class UserLoggedContext implements Serializable {
     private static UserLoggedContext instance;

@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 
+import co.edu.unipiloto.rapicoopproject.lib.User;
+
 public class MenuVendedorActivity extends AppCompatActivity {
     TextView welcomeMessageTextView;
     Button miCocinaButton;

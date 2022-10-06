@@ -1,4 +1,4 @@
-package co.edu.unipiloto.rapicoopproject;
+package co.edu.unipiloto.rapicoopproject.lib;
 
 import java.io.Serializable;
 

@@ -3,6 +3,7 @@ package co.edu.unipiloto.rapicoopproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class LoginForm extends AppCompatActivity{
     private Button loginBtn;
@@ -31,7 +33,6 @@ public class LoginForm extends AppCompatActivity{
         setContentView(R.layout.activity_login_form);
         loginBtn = findViewById(R.id.login_btn);
         registerLink = findViewById(R.id.register_link);
-
         loginBtn.setOnClickListener((view)->{
             emailTextView = findViewById(R.id.emaiInput);
             passwordTextView = findViewById(R.id.passwordInput);

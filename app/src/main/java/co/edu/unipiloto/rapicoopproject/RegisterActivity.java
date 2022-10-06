@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
