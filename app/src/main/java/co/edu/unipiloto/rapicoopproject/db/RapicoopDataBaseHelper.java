@@ -8,7 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import co.edu.unipiloto.rapicoopproject.User;
+import java.util.ArrayList;
+
+import co.edu.unipiloto.rapicoopproject.lib.Kitchen;
+import co.edu.unipiloto.rapicoopproject.lib.KitchenLease;
+import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
 
@@ -29,6 +33,21 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String USER_GENDER ="GENDER";
     public static final String USER_TYPE ="TYPE";
 
+    //Kitchens table
+    public static final String KITCHENS_TABLE_NAME = "kitchens_table";
+    public static final String KITCHEN_ID ="ID";
+    public static final String KITCHEN_NAME ="NAME";
+    public static final String KITCHEN_ADDRESS ="ADDRESS";
+    public static final String KITCHEN_LOCALITY ="LOCALITY";
+
+    //Kitchen lease table
+    public static final String LEASE_TABLE_NAME = "lease_table";
+    public static final String LEASE_ID ="ID";
+    public static final String LEASE_VENDOR_ID ="VENDOR_ID";
+    public static final String LEASE_KITCHEN_ID ="KITCHEN_ID";
+    public static final String LEASE_INI_DATE = "INITIAL_DATE";
+    public static final String LEASE_END_DATE = "ENDING_DATE";
+    
     /**
      * Constructor privado que crea la instancias de RapicoopDataBaseHelper.
      * @param context
@@ -59,13 +78,43 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 "GENDER TEXT NOT NULL," +
                 "TYPE TEXT NOT NULL)";
 
+        String CREATE_KITCHENS_TABLE = "CREATE TABLE "+ KITCHENS_TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "NAME TEXT NOT NULL," +
+                "ADDRESS TEXT NOT NULL UNIQUE," +
+                "LOCALITY TEXT NOT NULL, " +
+                "DESCRIPTION TEXT)";
+
+        String CREATE_LEASE_TABLE = "CREATE TABLE " + LEASE_TABLE_NAME + "( ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "VENDOR_ID	INTEGER NOT NULL UNIQUE," +
+                "KITCHEN_ID	INTEGER NOT NULL UNIQUE," +
+                "INI_DATE	INTEGER NOT NULL," +
+                "END_DATE	INTEGER NOT NULL," +
+                "FOREIGN KEY(VENDOR_ID) REFERENCES "+USERS_TABLE_NAME+"(id)," +
+                "FOREIGN KEY(KITCHEN_ID) REFERENCES "+KITCHENS_TABLE_NAME+"(id))";
+
         sqLiteDatabase.execSQL(CREATE_USERS_TABLE);
+        sqLiteDatabase.execSQL(CREATE_KITCHENS_TABLE);
+        sqLiteDatabase.execSQL(CREATE_LEASE_TABLE);
+    }
+
+    public void populateKitchens(){
+        String[] kitchenValues = {"Plaza Industrial,Calle 132-45C,Castilla","Villa Mendoza,Carrera 30,Castilla","Plazoleta Verde,Carrera 71A-10B,Chapinero",
+                "Centro Insular,CL 32 # 6B - 43,Usaquen","C.C. Abelidez,AK 7 # 74 - 26,Usaquen"};
+        SQLiteDatabase db= getWritableDatabase();
+        for (String value:kitchenValues) {
+            String[] params = value.split(",");
+            db.execSQL("INSERT INTO " + KITCHENS_TABLE_NAME +
+                    " (" + KITCHEN_NAME + "," +KITCHEN_ADDRESS+","+KITCHEN_LOCALITY+ ") " + " VALUES " + "('"+params[0]+"','"+params[1]+"','"+params[2]+"')");
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ USERS_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ KITCHENS_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ LEASE_TABLE_NAME);
         onCreate(sqLiteDatabase);
+        populateKitchens();
     }
 
     public void initDb(){
@@ -141,6 +190,61 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
             values
         }
         String USER_UPDATE_QUERY = "SELECT"
-
     }*/
+    public String[] getAllKitchenLocalities(){
+        String LOCALITY_SELECT_QUERY = "SELECT DISTINCT " + KITCHEN_LOCALITY + " FROM " + KITCHENS_TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor localitiesCursor = db.rawQuery(LOCALITY_SELECT_QUERY,null);
+        ArrayList<String> localities = new ArrayList<String>();
+        while(localitiesCursor.moveToNext()) {
+            @SuppressLint("Range") String locality = localitiesCursor.getString(localitiesCursor.getColumnIndex(KITCHEN_LOCALITY));
+            localities.add(locality);
+        }
+        localitiesCursor.close();
+        return localities.toArray(new String[0]);
+    }
+
+    public Kitchen[] getAllKitchensByLocality(String targetLocality){
+        String KITCHEN_SELECT_QUERY = "SELECT * FROM " + KITCHENS_TABLE_NAME +
+                " WHERE " + KITCHEN_LOCALITY + " = '" + targetLocality + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor kitchensCursor = db.rawQuery(KITCHEN_SELECT_QUERY,null);
+        ArrayList<Kitchen> kitchens = new ArrayList<Kitchen>();
+        while(kitchensCursor.moveToNext()){
+            @SuppressLint("Range") int id = Integer.parseInt(kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_ID)));
+            @SuppressLint("Range") String name = kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_NAME));
+            @SuppressLint("Range") String address = kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_ADDRESS));
+            @SuppressLint("Range") String locality = kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_LOCALITY));
+            kitchens.add(new Kitchen(id, name, address, locality));
+        }
+        kitchensCursor.close();
+        return kitchens.toArray(new Kitchen[0]);
+    }
+
+    public boolean insertLease(KitchenLease lease){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues leaseDataSet = new ContentValues();
+        leaseDataSet.put(LEASE_VENDOR_ID,lease.getVendor_id());
+        leaseDataSet.put(LEASE_KITCHEN_ID,lease.getKitchen_id());
+        leaseDataSet.put(LEASE_INI_DATE,lease.getIni_date());
+        leaseDataSet.put(LEASE_END_DATE,lease.getEnd_date());
+
+        long ins_result = db.insert(LEASE_TABLE_NAME,null,leaseDataSet);
+        return ins_result != -1;
+    }
+
+    public boolean leaseAvailability(int kitchenId, int vendorId){
+        String LEASE_SELECT_QUERY = "SELECT * FROM "+ LEASE_TABLE_NAME +
+                " WHERE "+ LEASE_KITCHEN_ID +" = "+ kitchenId +
+                " OR " + LEASE_VENDOR_ID +" = "+ vendorId;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor leaseMatch = db.rawQuery(LEASE_SELECT_QUERY,null);
+        if(leaseMatch.moveToFirst()){ //O una cocina ya esta arrendada o un vendedor ya tiene cocina
+            return false;
+        }
+        leaseMatch.close();
+        return true;
+    }
+
+
 }

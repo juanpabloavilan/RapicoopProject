@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
+
+import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class EditProfileActivity extends AppCompatActivity {
     TextInputEditText nombreCompleto;
