@@ -13,11 +13,11 @@ public class LeaseManager {
         db = RapicoopDataBaseHelper.getInstance(managerContext);
     }
 
-    public KitchenLease newLease(int id,int vendorId,int kitchenId, int ini_date, int end_date){
+    public KitchenLease newLease(int vendorId,int kitchenId, int ini_date, int end_date){
         if (!validLease(vendorId,kitchenId,ini_date,end_date)){
             return null;
         }
-        KitchenLease newLease = new KitchenLease(id,vendorId, kitchenId, ini_date, end_date);
+        KitchenLease newLease = new KitchenLease(vendorId, kitchenId, ini_date, end_date);
         db.insertLease(newLease);
         return newLease;
     }

@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void storeNewUser(User newUser){
-        String insertResultMsg = appDb.insertUser(newUser) ? "User created successfully" : "Error when adding user to the database";
+        String insertResultMsg = appDb.insertUser(newUser) != -1 ? "User created successfully" : "Error when adding user to the database";
         Toast.makeText(RegisterActivity.this,insertResultMsg,Toast.LENGTH_SHORT).show();
     }
 

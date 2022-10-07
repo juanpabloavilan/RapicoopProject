@@ -7,8 +7,7 @@ public class KitchenLease {
     private int ini_date;
     private int end_date;
 
-    public KitchenLease(int id,int vendor_id, int kitchen_id, int ini_date, int end_date) {
-        this.id = id;
+    public KitchenLease(int vendor_id, int kitchen_id, int ini_date, int end_date) {
         this.vendor_id = vendor_id;
         this.kitchen_id = kitchen_id;
         this.ini_date = ini_date;
@@ -17,6 +16,10 @@ public class KitchenLease {
 
     public int getId(){
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVendor_id() {

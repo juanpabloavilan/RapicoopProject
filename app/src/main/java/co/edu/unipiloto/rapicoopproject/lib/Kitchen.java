@@ -2,7 +2,9 @@ package co.edu.unipiloto.rapicoopproject.lib;
 
 import androidx.annotation.NonNull;
 
-public class Kitchen {
+import java.io.Serializable;
+
+public class Kitchen implements Serializable {
     private int id;
     private String name;
     private String address;

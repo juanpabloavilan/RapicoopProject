@@ -122,7 +122,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         onUpgrade(db,1,1);
     }
 
-    public boolean insertUser(User user){
+    public long insertUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues userDataSet = new ContentValues();
         userDataSet.put(USER_FULLNAME,user.getFullName());
@@ -133,7 +133,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         userDataSet.put(USER_TYPE,user.getType());
 
         long ins_result = db.insert(USERS_TABLE_NAME,null,userDataSet);
-        return ins_result != -1;
+        return ins_result;
     }
 
     public Cursor getUserData(int id){
@@ -221,7 +221,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         return kitchens.toArray(new Kitchen[0]);
     }
 
-    public boolean insertLease(KitchenLease lease){
+    public long insertLease(KitchenLease lease){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues leaseDataSet = new ContentValues();
         leaseDataSet.put(LEASE_VENDOR_ID,lease.getVendor_id());
@@ -229,8 +229,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         leaseDataSet.put(LEASE_INI_DATE,lease.getIni_date());
         leaseDataSet.put(LEASE_END_DATE,lease.getEnd_date());
 
-        long ins_result = db.insert(LEASE_TABLE_NAME,null,leaseDataSet);
-        return ins_result != -1;
+        return db.insert(LEASE_TABLE_NAME,null,leaseDataSet);
     }
 
     public boolean leaseAvailability(int kitchenId, int vendorId){

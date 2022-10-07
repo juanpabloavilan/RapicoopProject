@@ -19,6 +19,7 @@ public class MiCocinaActivity extends AppCompatActivity {
     private ListView kitchensView;
     private Button lookKitchens;
     private RapicoopDataBaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,13 @@ public class MiCocinaActivity extends AppCompatActivity {
                 populateKitchensView();
             }
         });
+
+        kitchensView.setOnItemClickListener((lista, viw, pos, id)->{
+            Intent intent = new Intent(MiCocinaActivity.this, KitchenLeaseActivity.class);
+            Kitchen selectedKitchen = (Kitchen) lista.getAdapter().getItem(pos);
+            intent.putExtra(KitchenLeaseActivity.EXTRA_KITCHEN, selectedKitchen);
+            startActivity(intent);
+        });
     }
 
     private void populateSpinner(){
@@ -41,6 +49,8 @@ public class MiCocinaActivity extends AppCompatActivity {
         ArrayAdapter<String> localityAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_dropdown_item, KITCHEN_LOCALITIES);
         localityShowDown.setAdapter(localityAdapter);
+
+
     }
 
     private void populateKitchensView(){
