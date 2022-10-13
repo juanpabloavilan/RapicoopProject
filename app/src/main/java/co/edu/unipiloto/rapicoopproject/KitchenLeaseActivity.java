@@ -10,10 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.Calendar;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.lib.Kitchen;
+import co.edu.unipiloto.rapicoopproject.lib.KitchenLease;
 import co.edu.unipiloto.rapicoopproject.lib.LeaseManager;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
@@ -41,7 +43,6 @@ public class KitchenLeaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kitchen_lease);
         selectedKitchen = (Kitchen) getIntent().getExtras().get(EXTRA_KITCHEN);
-        System.out.println(selectedKitchen);
 
         leaseManager = new LeaseManager(this);
         usuarioLoggeado = UserLoggedContext.getInstance().getUser();
@@ -53,10 +54,6 @@ public class KitchenLeaseActivity extends AppCompatActivity {
         txtViewCurrentKitchenAddress.setText(selectedKitchen.getAddress());
         txtViewCurrentKitchenLocality = findViewById(R.id.cocina_actual_localidad_value);
         txtViewCurrentKitchenLocality.setText(selectedKitchen.getLocality());
-
-
-
-
 
 
         eTextFechaInicio=(EditText) findViewById(R.id.edittext_fecha_inicio);
@@ -95,15 +92,25 @@ public class KitchenLeaseActivity extends AppCompatActivity {
             picker.show();
         });
 
-
-
-
-
-
+        btnAlquilarCocina = findViewById(R.id.alquilar_cocina_btn);
+        btnAlquilarCocina.setOnClickListener(view -> leaseKitchen());
     }
 
     private void leaseKitchen(){
          //leaseManager.newLease(usuarioLoggeado.getId(),selectedKitchen.getId(),  )
-
+        KitchenLease newLease = null;
+        System.out.println(usuarioLoggeado.getFullName());
+        try {
+            String fechaIniSt = eTextFechaInicio.getText().toString();
+            String fechaFinSt = eTextFechaFinal.getText().toString();
+            newLease = leaseManager.newLease(usuarioLoggeado.getId(),selectedKitchen.getId(),fechaIniSt,fechaFinSt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (newLease == null){
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Cocina alquilada exitosamente", Toast.LENGTH_SHORT).show();
+        }
     }
 }

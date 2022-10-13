@@ -1,56 +1,48 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class KitchenLease {
     private int id;
-    private int vendor_id;
-    private int kitchen_id;
-    private int ini_date;
-    private int end_date;
+    private int vendorId;
+    private int kitchenId;
+    private String iniDate;
+    private String endDate;
 
-    public KitchenLease(int vendor_id, int kitchen_id, int ini_date, int end_date) {
-        this.vendor_id = vendor_id;
-        this.kitchen_id = kitchen_id;
-        this.ini_date = ini_date;
-        this.end_date = end_date;
+    public KitchenLease(int vendor_id, int kitchenId, String iniDate, String endDate) {
+        this.vendorId = vendor_id;
+        this.kitchenId = kitchenId;
+        this.iniDate = iniDate;
+        this.endDate = endDate;
+    }
+
+    public KitchenLease(int id, int vendor_id, int kitchenId, String iniDate, String endDate) {
+        this.id = id;
+        this.vendorId = vendor_id;
+        this.kitchenId = kitchenId;
+        this.iniDate = iniDate;
+        this.endDate = endDate;
     }
 
     public int getId(){
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getVendorId() {
+        return vendorId;
     }
 
-    public int getVendor_id() {
-        return vendor_id;
+    public int getKitchenId() {
+        return kitchenId;
     }
 
-    public void setVendor_id(int vendor_id) {
-        this.vendor_id = vendor_id;
-    }
+    public String getIniDate() { return iniDate; }
 
-    public int getKitchen_id() {
-        return kitchen_id;
-    }
-
-    public void setKitchen_id(int kitchen_id) {
-        this.kitchen_id = kitchen_id;
-    }
-
-    public int getIni_date() {
-        return ini_date;
-    }
-
-    public void setIni_date(int ini_date) {
-        this.ini_date = ini_date;
-    }
-
-    public int getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(int end_date) {
-        this.end_date = end_date;
+    public String getEndDate() {
+        return endDate;
     }
 }

@@ -45,8 +45,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String LEASE_ID ="ID";
     public static final String LEASE_VENDOR_ID ="VENDOR_ID";
     public static final String LEASE_KITCHEN_ID ="KITCHEN_ID";
-    public static final String LEASE_INI_DATE = "INITIAL_DATE";
-    public static final String LEASE_END_DATE = "ENDING_DATE";
+    public static final String LEASE_INI_DATE = "INI_DATE";
+    public static final String LEASE_END_DATE = "END_DATE";
     
     /**
      * Constructor privado que crea la instancias de RapicoopDataBaseHelper.
@@ -87,8 +87,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         String CREATE_LEASE_TABLE = "CREATE TABLE " + LEASE_TABLE_NAME + "( ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "VENDOR_ID	INTEGER NOT NULL UNIQUE," +
                 "KITCHEN_ID	INTEGER NOT NULL UNIQUE," +
-                "INI_DATE	INTEGER NOT NULL," +
-                "END_DATE	INTEGER NOT NULL," +
+                "INI_DATE TEXT NOT NULL," +
+                "END_DATE TEXT NOT NULL," +
                 "FOREIGN KEY(VENDOR_ID) REFERENCES "+USERS_TABLE_NAME+"(id)," +
                 "FOREIGN KEY(KITCHEN_ID) REFERENCES "+KITCHENS_TABLE_NAME+"(id))";
 
@@ -224,10 +224,10 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public long insertLease(KitchenLease lease){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues leaseDataSet = new ContentValues();
-        leaseDataSet.put(LEASE_VENDOR_ID,lease.getVendor_id());
-        leaseDataSet.put(LEASE_KITCHEN_ID,lease.getKitchen_id());
-        leaseDataSet.put(LEASE_INI_DATE,lease.getIni_date());
-        leaseDataSet.put(LEASE_END_DATE,lease.getEnd_date());
+        leaseDataSet.put(LEASE_VENDOR_ID,lease.getVendorId());
+        leaseDataSet.put(LEASE_KITCHEN_ID,lease.getKitchenId());
+        leaseDataSet.put(LEASE_INI_DATE,lease.getIniDate());
+        leaseDataSet.put(LEASE_END_DATE,lease.getEndDate());
 
         return db.insert(LEASE_TABLE_NAME,null,leaseDataSet);
     }
