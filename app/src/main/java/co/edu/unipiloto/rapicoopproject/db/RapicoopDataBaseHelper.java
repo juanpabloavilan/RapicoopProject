@@ -16,7 +16,7 @@ import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
 
-    private  static  RapicoopDataBaseHelper instance;
+    private static RapicoopDataBaseHelper instance;
 
     //Database info
     public static final String DATABASE_NAME = "Rapicoop.db";
@@ -47,6 +47,16 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String LEASE_KITCHEN_ID ="KITCHEN_ID";
     public static final String LEASE_INI_DATE = "INI_DATE";
     public static final String LEASE_END_DATE = "END_DATE";
+
+    //Menu Dishes table
+    public static final String MENU_DISHES_TABLE_NAME = "menu_dishes_table";
+    public static final String MENU_DISH_ID ="ID";
+    public static final String MENU_DISH_NAME ="NAME";
+    public static final String MENU_DISH_VENDOR_ID ="VENDOR_ID";
+    public static final String MENU_DISH_DESCRIPTION="DESCRIPTION";
+    public static final String MENU_DISH_IMAGE = "IMAGE";
+    public static final String MENU_DISH_FOOD_CATEGORY = "FOOD_CATEGORY";
+
     
     /**
      * Constructor privado que crea la instancias de RapicoopDataBaseHelper.
@@ -92,9 +102,18 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(VENDOR_ID) REFERENCES "+USERS_TABLE_NAME+"(id)," +
                 "FOREIGN KEY(KITCHEN_ID) REFERENCES "+KITCHENS_TABLE_NAME+"(id))";
 
+        String CREATE_MENU_DISHES_TABLE = "CREATE TABLE " + MENU_DISHES_TABLE_NAME + "("+
+                MENU_DISH_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," +
+                MENU_DISH_NAME + " TEXT NOT NULL," +
+                MENU_DISH_DESCRIPTION+" TEXT NOT NULL," +
+                MENU_DISH_FOOD_CATEGORY+" TEXT NOT NULL," +
+                MENU_DISH_IMAGE + " BLOB," +
+                "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
+
         sqLiteDatabase.execSQL(CREATE_USERS_TABLE);
         sqLiteDatabase.execSQL(CREATE_KITCHENS_TABLE);
         sqLiteDatabase.execSQL(CREATE_LEASE_TABLE);
+        sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
     }
 
     public void populateKitchens(){
@@ -113,6 +132,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ USERS_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ KITCHENS_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ LEASE_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ MENU_DISHES_TABLE_NAME);
         onCreate(sqLiteDatabase);
         populateKitchens();
     }
