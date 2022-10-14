@@ -1,9 +1,13 @@
 package co.edu.unipiloto.rapicoopproject;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,6 +50,10 @@ public class MenuVendedorActivity extends AppCompatActivity {
         miMenuButton.setOnClickListener(this::onClickGoToMiMenu);
         misPedidosButton.setOnClickListener(this::onClickGoToMisPedidos);
         editarMiPerfilButton.setOnClickListener(this::onClickGoToEditarPerfil);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
     }
 
     public void onClickGoToEditarPerfil(View view) {
@@ -59,12 +67,32 @@ public class MenuVendedorActivity extends AppCompatActivity {
 
     public void onClickGoToMiMenu(View view) {
         Toast.makeText(this, "IR a mi menu", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MenuVendedorActivity.this, MiMenuActivity.class);
+        startActivity(intent);
     }
 
     public void onClickGoToMiCocina(View view) {
         Intent intent = new Intent(MenuVendedorActivity.this, MiCocinaActivity.class);
         startActivity(intent);
-        Toast.makeText(this, "IR a mi cocina", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "IR a mi cocina", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_vendedor, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_create_promotion:
+                //Boton crear orden:
+                Intent intent = new Intent(this, PromoActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

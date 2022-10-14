@@ -5,16 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MenuClienteActivity">
-        <TextView
-            android:id="@+id/greetingMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:text="Bienvenido, "
-            android:textColor="#FF5722"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/search_bar"
-            app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_main" />
+
+    <TextView
+        android:id="@+id/greetingMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Bienvenido, "
+        android:textColor="#FF5722"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/search_bar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <TextView
             android:id="@+id/extraGreetingMessage"
@@ -25,15 +30,14 @@
             app:layout_constraintStart_toStartOf="@+id/greetingMessage"
             app:layout_constraintTop_toBottomOf="@+id/greetingMessage" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="77dp"
-            android:layout_height="75dp"
-            android:src="@drawable/login_icon"
-            app:layout_constraintBottom_toBottomOf="@+id/extraGreetingMessage"
-            app:layout_constraintEnd_toEndOf="@+id/search_bar"
-            app:layout_constraintTop_toTopOf="@+id/greetingMessage"
-            app:layout_constraintVertical_bias="0.896" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="77dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/login_icon"
+        app:layout_constraintEnd_toEndOf="@+id/search_bar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <EditText
             android:id="@+id/search_bar"
