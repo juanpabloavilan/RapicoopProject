@@ -12,6 +12,7 @@ public class User implements Serializable {
     private String type;
 
     public User(int id, String fullName, String email, String cellphone, String password, String type, String gender){
+        this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.cellphone = cellphone;
@@ -44,5 +45,18 @@ public class User implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", cellphone='" + cellphone + '\'' +
+                ", password='" + password + '\'' +
+                ", gender='" + gender + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }

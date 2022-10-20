@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class LoginForm extends AppCompatActivity{
@@ -63,12 +64,12 @@ public class LoginForm extends AppCompatActivity{
 
     private User validateUser(String email, String password){
         //Validar en la tabla usuarios si existe un usuario con mismo email y password
-        RapicoopDataBaseHelper dbHelper = RapicoopDataBaseHelper.getInstance(LoginForm.this);
-        User userFound = dbHelper.getUserByEmail(email);
+        UserFacade userFacade = UserFacade.getInstance(LoginForm.this);
+        User userFound = userFacade.getUserByEmail(email);
         if (userFound == null || !password.equals(userFound.getPassword())){
             return null; //Si el login no es válido retornar null
         }
-        Log.i(TAG, userFound.getFullName());
+        Log.i(TAG, userFound.toString());
         return userFound;
     }
 

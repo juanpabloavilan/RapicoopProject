@@ -9,24 +9,22 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
-import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private RapicoopDataBaseHelper appDb;
     private EditText editFullName, editPhone, editEmail, editPassword;
     private RadioGroup rGroupGenders, rGroupType;
     private Button registerBtn;
+    private UserFacade userFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        appDb = RapicoopDataBaseHelper.getInstance(RegisterActivity.this);
+        userFacade = UserFacade.getInstance(RegisterActivity.this);
         editFullName= (EditText) findViewById(R.id.fullname);
         editEmail= (EditText) findViewById(R.id.email);
         editPhone= (EditText) findViewById(R.id.phone_number);
@@ -56,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         String flag = ""; //none
         if(unvalidTextFields(registerEditTexts) || unvalidRadioGroupIds(registerRadioGroups)){
             flag = "There are empty data fields";
-        } else if(appDb.getUserByEmail(editEmail.getText().toString()) != null){
+        } else if(userFacade.getUserByEmail(editEmail.getText().toString()) != null){
             flag = "This email is already taken";
         }
         if( !flag.equals("") ){
@@ -93,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void storeNewUser(User newUser){
-        String insertResultMsg = appDb.insertUser(newUser) != -1 ? "User created successfully" : "Error when adding user to the database";
+        String insertResultMsg = userFacade.insertUser(newUser) != -1 ? "User created successfully" : "Error when adding user to the database";
         Toast.makeText(RegisterActivity.this,insertResultMsg,Toast.LENGTH_SHORT).show();
     }
 
