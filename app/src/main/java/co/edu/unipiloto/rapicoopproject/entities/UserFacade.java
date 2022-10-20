@@ -96,8 +96,56 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
     }
 
     @Override
-    public User getUserById(int id) {
-        return null;
+    public User updateUser(User user) {
+        SQLiteDatabase db = RapicoopDataBaseHelper.getInstance(instance.context).getWritableDatabase();
+        ContentValues userData = new ContentValues();
+        userData.put(USER_FULLNAME,user.getFullName());
+        userData.put(USER_EMAIL,user.getEmail());
+        userData.put(USER_PHONE,user.getPhone());
+        userData.put(USER_PASSWORD,user.getPassword());
+        userData.put(USER_GENDER,user.getGender());
+        userData.put(USER_TYPE,user.getType());
+
+        try{
+         db.update(USERS_TABLE_NAME, userData, USER_ID + " = " + user.getId(), null );
+         return getUserById(user.getId());
+        }catch (Exception e){
+            Log.e(TAG, "Error al actualizar el usuario: " + user.toString());
+            return null;
+        }
+    }
+
+    @Override
+    public User getUserById(int idInput) {
+        String USER_SELECT_QUERY = "SELECT * FROM "+ USERS_TABLE_NAME + " " +
+                "WHERE "+ USER_ID +" = "+ idInput;
+        System.out.println(USER_SELECT_QUERY);
+        User user = null;
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
+        Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
+        try{
+            if(cursor.moveToFirst()){
+
+                @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
+                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
+                @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
+                @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+                @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
+                @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
+                @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                System.out.println("USER_ID "+ id);
+                user = new User(id, fullname, email, phone, password, type, gender);
+                Log.d(TAG, ""+user.toString());
+
+            }
+        }catch (Exception e){
+            Log.d(TAG, "Error al buscar por email");
+        }finally {
+            if (cursor!=null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        return user;
     }
 
     @Override
