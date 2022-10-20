@@ -21,6 +21,8 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
     public static final String USER_FULLNAME ="FULLNAME";
     public static final String USER_EMAIL ="EMAIL";
     public static final String USER_PHONE ="PHONE";
+    public static final String USER_BIRTHDATE ="BIRTHDATE";
+    public static final String USER_ADDRESS = "ADDRESS";
     public static final String USER_PASSWORD ="PASSWORD";
     public static final String USER_GENDER ="GENDER";
     public static final String USER_TYPE ="TYPE";
@@ -51,14 +53,17 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
 
     @Override
     public long insertUser(User user) {
-        SQLiteDatabase db =getDatabaseHelper(instance.context).getWritableDatabase();
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
         ContentValues userDataSet = new ContentValues();
         userDataSet.put(USER_FULLNAME,user.getFullName());
         userDataSet.put(USER_EMAIL,user.getEmail());
         userDataSet.put(USER_PHONE,user.getPhone());
+        userDataSet.put(USER_ADDRESS,user.getAddress());
+        userDataSet.put(USER_BIRTHDATE,user.getBirthdate());
         userDataSet.put(USER_PASSWORD,user.getPassword());
         userDataSet.put(USER_GENDER,user.getGender());
         userDataSet.put(USER_TYPE,user.getType());
+
         return db.insert(USERS_TABLE_NAME,null,userDataSet);
     }
 
@@ -66,9 +71,8 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
     public User getUserByEmail(String emailInput) {
         String USER_SELECT_QUERY = "SELECT * FROM "+ USERS_TABLE_NAME + " " +
                 "WHERE "+ USER_EMAIL +" = "+"'"+ emailInput+"'";
-        System.out.println(USER_SELECT_QUERY);
         User user = null;
-        SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
         Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
         try{
             if(cursor.moveToFirst()){
@@ -77,13 +81,12 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
                 @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+                @SuppressLint("Range") String birthdate = cursor.getString(cursor.getColumnIndex(USER_BIRTHDATE));
+                @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex(USER_ADDRESS));
                 @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
                 @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
                 @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
-                System.out.println("USER_ID "+ id);
-                user = new User(id, fullname, email, phone, password, type, gender);
-                Log.d(TAG, ""+user.toString());
-
+                user = new User(id, fullname, email, phone, address, birthdate, password, gender, type);
             }
         }catch (Exception e){
             Log.d(TAG, "Error al buscar por email");
@@ -125,18 +128,16 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
         Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
         try{
             if(cursor.moveToFirst()){
-
                 @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
                 @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
                 @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+                @SuppressLint("Range") String birthdate = cursor.getString(cursor.getColumnIndex(USER_BIRTHDATE));
+                @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex(USER_ADDRESS));
                 @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
                 @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
                 @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
-                System.out.println("USER_ID "+ id);
-                user = new User(id, fullname, email, phone, password, type, gender);
-                Log.d(TAG, ""+user.toString());
-
+                user = new User(id, fullname, email, phone, address, birthdate, password, gender, type);
             }
         }catch (Exception e){
             Log.d(TAG, "Error al buscar por email");

@@ -1,5 +1,7 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -10,8 +12,21 @@ public class User implements Serializable {
     private String password;
     private String gender;
     private String type;
+    private String birthdate;
+    private String address;
 
-    public User(int id, String fullName, String email, String cellphone, String password, String type, String gender){
+    public User(String fullName, String email, String cellphone, String address, String birthdate, String password, String gender, String type) {
+        this.fullName = fullName;
+        this.email = email;
+        this.cellphone = cellphone;
+        this.password = password;
+        this.gender = gender;
+        this.type = type;
+        this.birthdate = birthdate;
+        this.address = address;
+    }
+
+    public User(int id, String fullName, String email, String cellphone, String address, String birthdate, String password, String gender, String type) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -19,6 +34,12 @@ public class User implements Serializable {
         this.password = password;
         this.gender = gender;
         this.type = type;
+        this.birthdate = birthdate;
+        this.address = address;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -47,6 +68,35 @@ public class User implements Serializable {
         return id;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
@@ -57,6 +107,8 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", gender='" + gender + '\'' +
                 ", type='" + type + '\'' +
+                ", birthdate='" + birthdate + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

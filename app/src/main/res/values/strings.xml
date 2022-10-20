@@ -5,6 +5,14 @@
     <string name="full_name_hint">nombre completo</string>
     <string name="register_email_hint">e-mail</string>
     <string name="phone_hint">celular</string>
+    <string name="address_hint">direccion de residencia</string>
+    <string-array name="user_types">
+        <item name="default">Tipo de usuario</item>
+        <item name="deliver">Repartidor</item>
+        <item name="vendor">Vendedor</item>
+        <item name="client">Cliente</item>
+    </string-array>
+    <string name="birthdate_hint">fecha de nacimiento</string>
     <string name="register_password_hint">contraseña</string>
     <string name="type_label">Tipo de usuario</string>
     <string name="gender_label">Genero</string>

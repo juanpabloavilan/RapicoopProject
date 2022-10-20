@@ -69,7 +69,7 @@ public class LoginForm extends AppCompatActivity{
         if (userFound == null || !password.equals(userFound.getPassword())){
             return null; //Si el login no es válido retornar null
         }
-        Log.i(TAG, userFound.toString());
+        Log.i(TAG, userFound+"");
         return userFound;
     }
 
@@ -88,7 +88,7 @@ public class LoginForm extends AppCompatActivity{
                 startActivity(vendorIntent);
                 break;
             default:
-                Toast.makeText(this, "Bad request", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bad request (TYPE)", Toast.LENGTH_SHORT).show();
         }
     }
 

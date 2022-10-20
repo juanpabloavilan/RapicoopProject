@@ -86,12 +86,11 @@ public class KitchenLeaseActivity extends AppCompatActivity {
                     (view, ano, mes, dia)-> {
                         eTextFechaFinal.setText(dia + "/" + (mes + 1) + "/" + ano);
                     }, year, month, day);
-            String date =  "" + year + " / " + month + " / " + day;
 
             //Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
+            picker.getDatePicker().setMinDate(System.currentTimeMillis());
             picker.show();
         });
-
         btnAlquilarCocina = findViewById(R.id.alquilar_cocina_btn);
         btnAlquilarCocina.setOnClickListener(view -> leaseKitchen());
     }

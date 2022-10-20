@@ -63,7 +63,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String password = editTxtPassword.getText().toString();
 
         //Crear nuevo usuario a partir de la nueva información.
-        User newInfo = new User(userLogged.getId(),nombreCompleto, email, telefono, password, userLogged.getType(), userLogged.getGender());
+        User newInfo = new User(userLogged.getId(),nombreCompleto, email, telefono, userLogged.getAddress(), userLogged.getBirthdate(), password, userLogged.getGender(), userLogged.getType());
 
         User updatedUser = userFacade.updateUser(newInfo);
         if(updatedUser != null){

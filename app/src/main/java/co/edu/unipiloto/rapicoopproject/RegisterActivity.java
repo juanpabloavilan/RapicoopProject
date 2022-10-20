@@ -2,20 +2,38 @@ package co.edu.unipiloto.rapicoopproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText editFullName, editPhone, editEmail, editPassword;
+    private EditText textFullName, textPhone, textEmail, textPassword, textAddress, textBirthdate;
+    private DatePickerDialog birthdatePicker;
+    private Spinner userTypeSelector;
     private RadioGroup rGroupGenders, rGroupType;
     private Button registerBtn;
     private UserFacade userFacade;
@@ -25,14 +43,17 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         userFacade = UserFacade.getInstance(RegisterActivity.this);
-        editFullName= (EditText) findViewById(R.id.fullname);
-        editEmail= (EditText) findViewById(R.id.email);
-        editPhone= (EditText) findViewById(R.id.phone_number);
-        editPassword= (EditText) findViewById(R.id.password);
-        rGroupType = (RadioGroup) findViewById(R.id.type);
+        textFullName = (EditText) findViewById(R.id.fullname);
+        textEmail = (EditText) findViewById(R.id.email);
+        textPhone = (EditText) findViewById(R.id.phone_number);
+        textPassword = (EditText) findViewById(R.id.password);
+        textAddress = (EditText) findViewById(R.id.address);
+        textBirthdate = (EditText) findViewById(R.id.birthdate);
+        userTypeSelector = (Spinner) findViewById(R.id.user_type_spinner);
         rGroupGenders= (RadioGroup) findViewById(R.id.genders);
         registerBtn= (Button) findViewById(R.id.register_btn);
-
+        setBirthdateListener();
+        initializeTypeSelector();
         listenForNewUser();
     }
 
@@ -40,28 +61,66 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText[] registrationEditTexts = new EditText[]{editFullName, editEmail, editPhone, editPassword};
-                RadioGroup[] registrationRadioGroups = new RadioGroup[]{rGroupType, rGroupGenders};
-                if(!validateFields(registrationEditTexts, registrationRadioGroups)) return;
+                EditText[] registrationEditTexts = new EditText[]{textFullName, textEmail, textPhone, textAddress, textBirthdate, textPassword};
+                RadioGroup[] registrationRadioGroups = new RadioGroup[]{rGroupGenders};
+                try {
+                    if(!validateFields(registrationEditTexts, registrationRadioGroups)) return;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                textAddress.setText(coordsFromAddress(textAddress.getText().toString())); //format to lang,long string
                 User inputUser = newUserFromFields(registrationEditTexts, registrationRadioGroups);
+                System.out.println(inputUser);
                 storeNewUser(inputUser);
                 finish();
             }
         });
     }
 
-    private boolean validateFields(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
+    public void setBirthdateListener(){
+        textBirthdate.setInputType(InputType.TYPE_NULL);
+        textBirthdate.setOnClickListener(view -> {
+            final Calendar date = Calendar.getInstance();
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            int month = date.get(Calendar.MONTH);
+            int year = date.get(Calendar.YEAR);
+            birthdatePicker = new DatePickerDialog(this,
+                    (view1, year1, monthOfYear, dayOfMonth) -> textBirthdate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1), year, month, day);
+            birthdatePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
+            birthdatePicker.show();
+        });
+    }
+
+    private void initializeTypeSelector(){
+        String[] userTypes = getResources().getStringArray(R.array.user_types);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, userTypes);
+        userTypeSelector.setAdapter(typeAdapter);
+    }
+
+    private boolean validateFields(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups) throws ParseException {
         String flag = ""; //none
-        if(unvalidTextFields(registerEditTexts) || unvalidRadioGroupIds(registerRadioGroups)){
+        if(unvalidTextFields(registerEditTexts) || unvalidRadioGroupIds(registerRadioGroups) || userTypeSelector.getSelectedItemPosition() == 0){
             flag = "There are empty data fields";
-        } else if(userFacade.getUserByEmail(editEmail.getText().toString()) != null){
+        } else if(userFacade.getUserByEmail(textEmail.getText().toString()) != null){
             flag = "This email is already taken";
+        } else if(unvalidAgeForCommerce()){
+            flag = "Minors cannot be vendors or delivers";
         }
         if( !flag.equals("") ){
             Toast.makeText(RegisterActivity.this,flag,Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
+    }
+
+    private boolean unvalidAgeForCommerce() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es","CO"));
+        Calendar now = Calendar.getInstance();
+        Calendar birthdate  = Calendar.getInstance();
+        String birthdateSt = textBirthdate.getText().toString();
+        birthdate.setTime(Objects.requireNonNull(format.parse(birthdateSt)));
+        String userType = userTypeSelector.getSelectedItem().toString();
+        return now.get(Calendar.YEAR) - birthdate.get(Calendar.YEAR) < 18 && (userType.equals("Vendedor") || userType.equals("Repartidor"));
     }
 
     private boolean unvalidRadioGroupIds(RadioGroup[] radioGroups){
@@ -78,6 +137,19 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
+    private String coordsFromAddress(String strAddress){
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            Address inputLocation = address.get(0);
+            return ""+inputLocation.getLatitude()+","+inputLocation.getLongitude(); //coords
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return textAddress.getText().toString();
+    }
+
     private User newUserFromFields(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
         ArrayList<String> userData = new ArrayList<>();
         for (EditText textField: registerEditTexts) {
@@ -87,7 +159,8 @@ public class RegisterActivity extends AppCompatActivity {
             int checkedButtonInGroup = groupField.getCheckedRadioButtonId();
             userData.add( ( (RadioButton) findViewById(checkedButtonInGroup)).getText().toString() );
         }
-        return new User(-1,userData.get(0),userData.get(1),userData.get(2), userData.get(3), userData.get(4), userData.get(5));  //USER DATA IS ORDERED IN LIST AS IN USER PARAMS
+        userData.add(userTypeSelector.getSelectedItem().toString());
+        return new User(userData.get(0),userData.get(1),userData.get(2), userData.get(3), userData.get(4), userData.get(5), userData.get(6), userData.get(7));  //USER DATA IS ORDERED IN LIST AS IN USER PARAMS
     }
 
     private void storeNewUser(User newUser){

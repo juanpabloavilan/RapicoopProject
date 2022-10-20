@@ -20,7 +20,6 @@ public class LeaseManager {
     private static final float MAX_LEASE = 12f;
     private static final float MIN_LEASE = 1f;
     private final RapicoopDataBaseHelper db;
-    private static final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy", new Locale("es","CO"));
 
     public LeaseManager(Context managerContext) {
         db = RapicoopDataBaseHelper.getInstance(managerContext);
@@ -36,6 +35,7 @@ public class LeaseManager {
     }
 
     private boolean validLease(KitchenLease lease) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es","CO"));
         Calendar start = toCalendar(format.parse(lease.getIniDate()));
         Calendar end = toCalendar(format.parse(lease.getEndDate()));
         float diffMonths = Duration.between(start.toInstant(),end.toInstant()).toDays() / 30f;

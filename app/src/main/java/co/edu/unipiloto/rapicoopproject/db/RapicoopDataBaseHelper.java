@@ -29,6 +29,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String USER_FULLNAME ="FULLNAME";
     public static final String USER_EMAIL ="EMAIL";
     public static final String USER_PHONE ="PHONE";
+    public static final String USER_BIRTHDATE ="BIRTHDATE";
+    public static final String USER_ADDRESS = "ADDRESS";
     public static final String USER_PASSWORD ="PASSWORD";
     public static final String USER_GENDER ="GENDER";
     public static final String USER_TYPE ="TYPE";
@@ -84,6 +86,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 "FULLNAME TEXT NOT NULL," +
                 "EMAIL TEXT NOT NULL UNIQUE," +
                 "PHONE TEXT NOT NULL," +
+                "ADDRESS TEXT NOT NULL," +
+                "BIRTHDATE TEXT NOT NULL," +
                 "PASSWORD TEXT NOT NULL," +
                 "GENDER TEXT NOT NULL," +
                 "TYPE TEXT NOT NULL)";
@@ -113,7 +117,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_USERS_TABLE);
         sqLiteDatabase.execSQL(CREATE_KITCHENS_TABLE);
         sqLiteDatabase.execSQL(CREATE_LEASE_TABLE);
-        sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
+        //sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
     }
 
     public void populateKitchens(){
@@ -142,7 +146,64 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         onUpgrade(db,1,1);
     }
 
+    public Cursor getUserData(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor userData = db.rawQuery("SELECT * FROM "+ USERS_TABLE_NAME +"WHERE id="+id+"",null);
+        return userData;
+    }
 
+    public long insertUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues userDataSet = new ContentValues();
+        userDataSet.put(USER_FULLNAME,user.getFullName());
+        userDataSet.put(USER_EMAIL,user.getEmail());
+        userDataSet.put(USER_PHONE,user.getPhone());
+        userDataSet.put(USER_ADDRESS,user.getAddress());
+        userDataSet.put(USER_BIRTHDATE,user.getBirthdate());
+        userDataSet.put(USER_PASSWORD,user.getPassword());
+        userDataSet.put(USER_GENDER,user.getGender());
+        userDataSet.put(USER_TYPE,user.getType());
+
+        long ins_result = db.insert(USERS_TABLE_NAME,null,userDataSet);
+        return ins_result;
+    }
+
+    public Cursor getAllUserData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor allUsers = db.rawQuery("SELECT * FROM "+ USERS_TABLE_NAME,null);
+        return allUsers;
+    }
+
+
+    public User getUserByEmail(String emailInput) {
+        String USER_SELECT_QUERY = "SELECT * FROM "+ USERS_TABLE_NAME + " " +
+                                    "WHERE "+ USER_EMAIL +" = "+"'"+ emailInput+"'";
+        User user = null;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
+        try{
+            if(cursor.moveToFirst()){
+
+                @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
+                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
+                @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
+                @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+                @SuppressLint("Range") String birthdate = cursor.getString(cursor.getColumnIndex(USER_BIRTHDATE));
+                @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex(USER_ADDRESS));
+                @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
+                @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
+                @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
+                user = new User(id, fullname, email, phone, address, birthdate, password, gender, type);
+            }
+        }catch (Exception e){
+            Log.d(TAG, "Error al buscar por email");
+        }finally {
+            if (cursor!=null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        return user;
+    }
 
     /*public User updateUser(String emailInput, User user){
         SQLiteDatabase db = getWritableDatabase();
