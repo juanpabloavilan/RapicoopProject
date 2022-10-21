@@ -54,6 +54,7 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
     @Override
     public long insertUser(User user) {
         SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
+        getDatabaseHelper(instance.context).initDb();
         ContentValues userDataSet = new ContentValues();
         userDataSet.put(USER_FULLNAME,user.getFullName());
         userDataSet.put(USER_EMAIL,user.getEmail());

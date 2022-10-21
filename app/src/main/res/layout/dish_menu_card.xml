@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@drawable/shadow_card"
+    >
+
+    <TextView
+        android:id="@+id/nombre_plato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="Nombre del plato"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/descripcion"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Una breve descripción del plato"
+        app:layout_constraintStart_toStartOf="@+id/nombre_plato"
+        app:layout_constraintTop_toBottomOf="@+id/nombre_plato" />
+
+    <ImageView
+        android:id="@+id/image_food"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nombre_plato"
+        app:srcCompat="@drawable/hot_dog" />
+
+    <TextView
+        android:id="@+id/precio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:text="$9.999"
+        android:textColor="#50C878"
+        app:layout_constraintStart_toStartOf="@+id/descripcion"
+        app:layout_constraintTop_toBottomOf="@+id/descripcion" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
