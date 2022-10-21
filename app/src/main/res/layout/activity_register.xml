@@ -160,26 +160,24 @@
             android:id="@+id/register_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
             android:backgroundTint="@color/purple_700"
             android:text="@string/register_btn"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/genders"
-            app:layout_constraintTop_toBottomOf="@+id/genders" />
+            app:layout_constraintEnd_toEndOf="@+id/genders" />
 
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
             android:backgroundTint="@color/purple_700"
             android:onClick="onClickGoBack"
             android:text="@string/cancel_btn"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/genders"
-            app:layout_constraintTop_toBottomOf="@+id/genders" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/genders" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

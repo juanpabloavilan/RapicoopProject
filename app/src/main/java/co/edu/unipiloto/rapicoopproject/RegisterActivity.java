@@ -140,14 +140,17 @@ public class RegisterActivity extends AppCompatActivity {
     private String coordsFromAddress(String strAddress){
         Geocoder coder = new Geocoder(this);
         List<Address> address;
+        String location = textAddress.getText().toString();
         try {
-            address = coder.getFromLocationName(strAddress,5);
-            Address inputLocation = address.get(0);
-            return ""+inputLocation.getLatitude()+","+inputLocation.getLongitude(); //coords
+            address = coder.getFromLocationName(strAddress,1);
+            if(!address.isEmpty()){
+                Address inputLocation = address.get(0);
+                location = ""+inputLocation.getLatitude()+","+inputLocation.getLongitude(); //coords
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return textAddress.getText().toString();
+        return location;
     }
 
     private User newUserFromFields(EditText[] registerEditTexts, RadioGroup[] registerRadioGroups){
