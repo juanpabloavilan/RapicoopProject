@@ -99,8 +99,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 "DESCRIPTION TEXT)";
 
         String CREATE_LEASE_TABLE = "CREATE TABLE " + LEASE_TABLE_NAME + "( ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "VENDOR_ID	INTEGER NOT NULL UNIQUE," +
-                "KITCHEN_ID	INTEGER NOT NULL UNIQUE," +
+                "VENDOR_ID	INTEGER NOT NULL," +
+                "KITCHEN_ID	INTEGER NOT NULL," +
                 "INI_DATE TEXT NOT NULL," +
                 "END_DATE TEXT NOT NULL," +
                 "FOREIGN KEY(VENDOR_ID) REFERENCES "+USERS_TABLE_NAME+"(id)," +
@@ -112,17 +112,17 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 MENU_DISH_DESCRIPTION+" TEXT NOT NULL," +
                 MENU_DISH_FOOD_CATEGORY+" TEXT NOT NULL," +
                 MENU_DISH_IMAGE + " BLOB," +
+                MENU_DISH_VENDOR_ID + " INTEGER NOT NULL,"+
                 "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
         sqLiteDatabase.execSQL(CREATE_USERS_TABLE);
         sqLiteDatabase.execSQL(CREATE_KITCHENS_TABLE);
         sqLiteDatabase.execSQL(CREATE_LEASE_TABLE);
-        //sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
+        sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
     }
 
-    public void populateKitchens(){
-        String[] kitchenValues = {"Plaza Industrial,Calle 132-45C,Castilla","Villa Mendoza,Carrera 30,Castilla","Plazoleta Verde,Carrera 71A-10B,Chapinero",
-                "Centro Insular,CL 32 # 6B - 43,Usaquen","C.C. Abelidez,AK 7 # 74 - 26,Usaquen"};
+    private void populateKitchens(){
+        String[] kitchenValues= Faker.getKitchenValues();
         SQLiteDatabase db= getWritableDatabase();
         for (String value:kitchenValues) {
             String[] params = value.split(",");
@@ -130,6 +130,45 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                     " (" + KITCHEN_NAME + "," +KITCHEN_ADDRESS+","+KITCHEN_LOCALITY+ ") " + " VALUES " + "('"+params[0]+"','"+params[1]+"','"+params[2]+"')");
         }
     }
+
+    private void populateUsers(){
+        String [] usersValues = Faker.getUsersValues();
+        SQLiteDatabase db= getWritableDatabase();
+        ContentValues values = new ContentValues();
+        for (String user : usersValues){
+            String [] params = user.split(",");
+            values.put(USER_FULLNAME, params[0]);
+            values.put(USER_EMAIL, params[1]);
+            values.put(USER_PHONE, params[2]);
+            values.put(USER_ADDRESS, params[3] );
+            values.put(USER_BIRTHDATE, params[4]);
+            values.put(USER_PASSWORD, params[5]);
+            values.put(USER_GENDER, params[6]);
+            values.put(USER_TYPE, params[7]);
+
+            db.insert(USERS_TABLE_NAME, null, values);
+            values.clear();
+        }
+
+    }
+
+    private void populateMenus(){
+        String [] menuDishesValues = Faker.getMenuDishesValues();
+        SQLiteDatabase db= getWritableDatabase();
+        ContentValues values = new ContentValues();
+        for (String menuDishes : menuDishesValues) {
+            String[] params = menuDishes.split(",");
+            values.put(MENU_DISH_NAME, params[0]);
+            values.put(MENU_DISH_DESCRIPTION, params[1]);
+            values.put(MENU_DISH_FOOD_CATEGORY, params[2]);
+            values.put(MENU_DISH_VENDOR_ID, Integer.parseInt(params[3]));
+
+            db.insert(MENU_DISHES_TABLE_NAME, null, values);
+            values.clear();
+        }
+    }
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -139,6 +178,9 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ MENU_DISHES_TABLE_NAME);
         onCreate(sqLiteDatabase);
         populateKitchens();
+        populateUsers();
+        populateMenus();
+
     }
 
     public void initDb(){
@@ -146,77 +188,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         onUpgrade(db,1,1);
     }
 
-    public Cursor getUserData(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor userData = db.rawQuery("SELECT * FROM "+ USERS_TABLE_NAME +"WHERE id="+id+"",null);
-        return userData;
-    }
 
-    public long insertUser(User user){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues userDataSet = new ContentValues();
-        userDataSet.put(USER_FULLNAME,user.getFullName());
-        userDataSet.put(USER_EMAIL,user.getEmail());
-        userDataSet.put(USER_PHONE,user.getPhone());
-        userDataSet.put(USER_ADDRESS,user.getAddress());
-        userDataSet.put(USER_BIRTHDATE,user.getBirthdate());
-        userDataSet.put(USER_PASSWORD,user.getPassword());
-        userDataSet.put(USER_GENDER,user.getGender());
-        userDataSet.put(USER_TYPE,user.getType());
-
-        long ins_result = db.insert(USERS_TABLE_NAME,null,userDataSet);
-        return ins_result;
-    }
-
-    public Cursor getAllUserData(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor allUsers = db.rawQuery("SELECT * FROM "+ USERS_TABLE_NAME,null);
-        return allUsers;
-    }
-
-
-    public User getUserByEmail(String emailInput) {
-        String USER_SELECT_QUERY = "SELECT * FROM "+ USERS_TABLE_NAME + " " +
-                                    "WHERE "+ USER_EMAIL +" = "+"'"+ emailInput+"'";
-        User user = null;
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
-        try{
-            if(cursor.moveToFirst()){
-
-                @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
-                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
-                @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
-                @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
-                @SuppressLint("Range") String birthdate = cursor.getString(cursor.getColumnIndex(USER_BIRTHDATE));
-                @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex(USER_ADDRESS));
-                @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
-                @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
-                @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
-                user = new User(id, fullname, email, phone, address, birthdate, password, gender, type);
-            }
-        }catch (Exception e){
-            Log.d(TAG, "Error al buscar por email");
-        }finally {
-            if (cursor!=null && !cursor.isClosed()){
-                cursor.close();
-            }
-        }
-        return user;
-    }
-
-    /*public User updateUser(String emailInput, User user){
-        SQLiteDatabase db = getWritableDatabase();
-        long userId = -1;
-
-        db.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-            values.put(USER_ID, user.getId());
-            values
-        }
-        String USER_UPDATE_QUERY = "SELECT"
-    }*/
     public String[] getAllKitchenLocalities(){
         String LOCALITY_SELECT_QUERY = "SELECT DISTINCT " + KITCHEN_LOCALITY + " FROM " + KITCHENS_TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
