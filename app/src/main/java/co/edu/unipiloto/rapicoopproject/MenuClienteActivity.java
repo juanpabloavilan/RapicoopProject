@@ -29,6 +29,15 @@ public class MenuClienteActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        restaurantBtn = findViewById(R.id.restaurant_btn);
+        restaurantBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuClienteActivity.this,RestaurantsActivity.class);
+                startActivity(intent);
+            }
+        });
+        //actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

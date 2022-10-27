@@ -12,13 +12,12 @@ import java.util.List;
 import co.edu.unipiloto.rapicoopproject.ui_components.MenuAdapter;
 import co.edu.unipiloto.rapicoopproject.ui_components.MenuDishCard;
 
-public class MiMenuActivity extends AppCompatActivity {
+public class ClientRestaurantMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mi_menu);
-
+        setContentView(R.layout.activity_client_restaurant_menu);
         RecyclerView recyclerView = findViewById(R.id.rv_menu_dishes_list);
         List<MenuDishCard> listaPlatos = new ArrayList<>();
 
@@ -32,6 +31,5 @@ public class MiMenuActivity extends AppCompatActivity {
         MenuAdapter menuAdapter = new MenuAdapter(this, listaPlatos);
         recyclerView.setAdapter(menuAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 }

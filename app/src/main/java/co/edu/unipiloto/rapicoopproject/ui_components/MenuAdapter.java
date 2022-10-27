@@ -14,11 +14,11 @@ import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.R;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.CardViewHolder> {
-    private Context context;
-    private List<MenuDishCard> data;
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.CardViewHolder> {
+    private final Context context;
+    private final List<MenuDishCard> data;
 
-    public Adapter(Context context, List<MenuDishCard> data) {
+    public MenuAdapter(Context context, List<MenuDishCard> data) {
         this.context = context;
         this.data = data;
     }
@@ -45,10 +45,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardViewHolder> {
         return data.size();
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder{
+    public static class CardViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView ivImageFood;
-        private TextView tvNombrePlato, tvDescripcion, tvPrecio;
+        private final ImageView ivImageFood;
+        private final TextView tvNombrePlato, tvDescripcion, tvPrecio;
 
         public CardViewHolder(View view){
             super(view);
