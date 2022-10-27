@@ -189,59 +189,5 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public String[] getAllKitchenLocalities(){
-        String LOCALITY_SELECT_QUERY = "SELECT DISTINCT " + KITCHEN_LOCALITY + " FROM " + KITCHENS_TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor localitiesCursor = db.rawQuery(LOCALITY_SELECT_QUERY,null);
-        ArrayList<String> localities = new ArrayList<String>();
-        while(localitiesCursor.moveToNext()) {
-            @SuppressLint("Range") String locality = localitiesCursor.getString(localitiesCursor.getColumnIndex(KITCHEN_LOCALITY));
-            localities.add(locality);
-        }
-        localitiesCursor.close();
-        return localities.toArray(new String[0]);
-    }
-
-    public Kitchen[] getAllKitchensByLocality(String targetLocality){
-        String KITCHEN_SELECT_QUERY = "SELECT * FROM " + KITCHENS_TABLE_NAME +
-                " WHERE " + KITCHEN_LOCALITY + " = '" + targetLocality + "'";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor kitchensCursor = db.rawQuery(KITCHEN_SELECT_QUERY,null);
-        ArrayList<Kitchen> kitchens = new ArrayList<Kitchen>();
-        while(kitchensCursor.moveToNext()){
-            @SuppressLint("Range") int id = Integer.parseInt(kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_ID)));
-            @SuppressLint("Range") String name = kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_NAME));
-            @SuppressLint("Range") String address = kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_ADDRESS));
-            @SuppressLint("Range") String locality = kitchensCursor.getString(kitchensCursor.getColumnIndex(KITCHEN_LOCALITY));
-            kitchens.add(new Kitchen(id, name, address, locality));
-        }
-        kitchensCursor.close();
-        return kitchens.toArray(new Kitchen[0]);
-    }
-
-    public long insertLease(KitchenLease lease){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues leaseDataSet = new ContentValues();
-        leaseDataSet.put(LEASE_VENDOR_ID,lease.getVendorId());
-        leaseDataSet.put(LEASE_KITCHEN_ID,lease.getKitchenId());
-        leaseDataSet.put(LEASE_INI_DATE,lease.getIniDate());
-        leaseDataSet.put(LEASE_END_DATE,lease.getEndDate());
-
-        return db.insert(LEASE_TABLE_NAME,null,leaseDataSet);
-    }
-
-    public boolean leaseAvailability(int kitchenId, int vendorId){
-        String LEASE_SELECT_QUERY = "SELECT * FROM "+ LEASE_TABLE_NAME +
-                " WHERE "+ LEASE_KITCHEN_ID +" = "+ kitchenId +
-                " OR " + LEASE_VENDOR_ID +" = "+ vendorId;
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor leaseMatch = db.rawQuery(LEASE_SELECT_QUERY,null);
-        if(leaseMatch.moveToFirst()){ //O una cocina ya esta arrendada o un vendedor ya tiene cocina
-            return false;
-        }
-        leaseMatch.close();
-        return true;
-    }
-
 
 }

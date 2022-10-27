@@ -12,19 +12,20 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.entities.LeaseFacade;
 import co.edu.unipiloto.rapicoopproject.lib.Kitchen;
 
 public class MiCocinaActivity extends AppCompatActivity {
     private Spinner localityShowDown;
     private ListView kitchensView;
     private Button lookKitchens;
-    private RapicoopDataBaseHelper db;
+    private LeaseFacade leaseFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_cocina);
-        db = RapicoopDataBaseHelper.getInstance(MiCocinaActivity.this);
+        leaseFacade = LeaseFacade.getInstance(this);
         localityShowDown = (Spinner) findViewById(R.id.localities_list);
         populateSpinner();
         lookKitchens = (Button) findViewById(R.id.buscar_cocina_btn);
@@ -45,7 +46,7 @@ public class MiCocinaActivity extends AppCompatActivity {
     }
 
     private void populateSpinner(){
-        final String[] KITCHEN_LOCALITIES = db.getAllKitchenLocalities();
+        final String[] KITCHEN_LOCALITIES = leaseFacade.getAllKitchenLocalities();
         ArrayAdapter<String> localityAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_dropdown_item, KITCHEN_LOCALITIES);
         localityShowDown.setAdapter(localityAdapter);
@@ -55,7 +56,7 @@ public class MiCocinaActivity extends AppCompatActivity {
 
     private void populateKitchensView(){
         String desiredLocality = String.valueOf(localityShowDown.getSelectedItem());
-        final Kitchen[] KITCHENS = db.getAllKitchensByLocality(desiredLocality);
+        final Kitchen[] KITCHENS = leaseFacade.getAllKitchensByLocality(desiredLocality);
         ArrayAdapter<Kitchen> kitchenAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,KITCHENS);
         kitchensView.setAdapter(kitchenAdapter);
     }

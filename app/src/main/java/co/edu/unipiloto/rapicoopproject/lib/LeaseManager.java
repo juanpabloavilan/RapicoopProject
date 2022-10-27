@@ -15,14 +15,15 @@ import java.util.Date;
 import java.util.Locale;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.entities.LeaseFacade;
 
 public class LeaseManager {
     private static final float MAX_LEASE = 12f;
     private static final float MIN_LEASE = 1f;
-    private final RapicoopDataBaseHelper db;
+    private LeaseFacade leaseFacade;
 
     public LeaseManager(Context managerContext) {
-        db = RapicoopDataBaseHelper.getInstance(managerContext);
+        leaseFacade = LeaseFacade.getInstance(managerContext);
     }
 
     public KitchenLease newLease(int vendorId, int kitchenId, String ini_date, String end_date) throws ParseException {
@@ -30,7 +31,7 @@ public class LeaseManager {
         if (!validLease(newLease)){
             return null;
         }
-        db.insertLease(newLease);
+        leaseFacade.insertLease(newLease);
         return newLease;
     }
 
@@ -40,7 +41,7 @@ public class LeaseManager {
         Calendar end = toCalendar(format.parse(lease.getEndDate()));
         float diffMonths = Duration.between(start.toInstant(),end.toInstant()).toDays() / 30f;
         boolean validPeriod = (diffMonths >= MIN_LEASE && diffMonths <= MAX_LEASE);
-        return db.leaseAvailability(lease.getKitchenId(),lease.getVendorId()) && validPeriod;
+        return leaseFacade.leaseAvailability(lease.getKitchenId(),lease.getVendorId()) && validPeriod;
     }
 
     private Calendar toCalendar(Date date){
