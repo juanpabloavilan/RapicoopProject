@@ -57,6 +57,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String MENU_DISH_VENDOR_ID ="VENDOR_ID";
     public static final String MENU_DISH_DESCRIPTION="DESCRIPTION";
     public static final String MENU_DISH_IMAGE = "IMAGE";
+    public static final String MENU_DISH_PRICE = "PRICE";
     public static final String MENU_DISH_FOOD_CATEGORY = "FOOD_CATEGORY";
 
     
@@ -112,6 +113,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 MENU_DISH_DESCRIPTION+" TEXT NOT NULL," +
                 MENU_DISH_FOOD_CATEGORY+" TEXT NOT NULL," +
                 MENU_DISH_IMAGE + " INTEGER," +
+                MENU_DISH_PRICE + "INTEGER, "+
                 MENU_DISH_VENDOR_ID + " INTEGER NOT NULL,"+
                 "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
