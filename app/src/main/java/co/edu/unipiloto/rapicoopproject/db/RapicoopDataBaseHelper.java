@@ -111,7 +111,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 MENU_DISH_NAME + " TEXT NOT NULL," +
                 MENU_DISH_DESCRIPTION+" TEXT NOT NULL," +
                 MENU_DISH_FOOD_CATEGORY+" TEXT NOT NULL," +
-                MENU_DISH_IMAGE + " BLOB," +
+                MENU_DISH_IMAGE + " INTEGER," +
                 MENU_DISH_VENDOR_ID + " INTEGER NOT NULL,"+
                 "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
