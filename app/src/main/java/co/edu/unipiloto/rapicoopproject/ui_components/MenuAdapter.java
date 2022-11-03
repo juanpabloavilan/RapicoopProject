@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.R;
+import co.edu.unipiloto.rapicoopproject.lib.MenuDish;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.CardViewHolder> {
     private final Context context;
-    private final List<MenuDishCard> data;
+    private final List<MenuDish> data;
 
-    public MenuAdapter(Context context, List<MenuDishCard> data) {
+    public MenuAdapter(Context context, List<MenuDish> data) {
         this.context = context;
         this.data = data;
     }
@@ -33,7 +34,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        holder.ivImageFood.setImageResource(data.get(position).getPicture());
+        holder.ivImageFood.setImageResource(data.get(position).getImage());
         holder.tvPrecio.setText(data.get(position).getPrecio());
         holder.tvNombrePlato.setText(data.get(position).getNombre());
         holder.tvDescripcion.setText(data.get(position).getDescripcion());
