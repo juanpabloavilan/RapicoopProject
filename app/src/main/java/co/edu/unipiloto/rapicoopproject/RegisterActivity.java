@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -43,15 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         userFacade = UserFacade.getInstance(RegisterActivity.this);
-        textFullName = (EditText) findViewById(R.id.fullname);
-        textEmail = (EditText) findViewById(R.id.email);
+        textFullName = (EditText) findViewById(R.id.name_et);
+        textEmail = (EditText) findViewById(R.id.type_et);
         textPhone = (EditText) findViewById(R.id.phone_number);
         textPassword = (EditText) findViewById(R.id.password);
         textAddress = (EditText) findViewById(R.id.address);
         textBirthdate = (EditText) findViewById(R.id.birthdate);
         userTypeSelector = (Spinner) findViewById(R.id.user_type_spinner);
         rGroupGenders= (RadioGroup) findViewById(R.id.genders);
-        registerBtn= (Button) findViewById(R.id.register_btn);
+        registerBtn= (Button) findViewById(R.id.cancelar_btn);
         setBirthdateListener();
         initializeTypeSelector();
         listenForNewUser();

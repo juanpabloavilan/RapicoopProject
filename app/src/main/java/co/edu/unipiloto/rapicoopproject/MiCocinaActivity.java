@@ -50,8 +50,6 @@ public class MiCocinaActivity extends AppCompatActivity {
         ArrayAdapter<String> localityAdapter = new ArrayAdapter<>
                 (this, android.R.layout.simple_spinner_dropdown_item, KITCHEN_LOCALITIES);
         localityShowDown.setAdapter(localityAdapter);
-
-
     }
 
     private void populateKitchensView(){

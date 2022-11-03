@@ -21,6 +21,24 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".CrearRestauranteActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.login.CrearRestauranteActivity"
+            android:exported="false"
+            android:label="@string/title_activity_crear_restaurante" />
+        <activity
+            android:name=".MiRestauranteActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ClientRestaurantMenu"
             android:exported="false">
             <meta-data

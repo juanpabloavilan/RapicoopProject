@@ -1,7 +1,5 @@
 package co.edu.unipiloto.rapicoopproject.interfaces;
 
-import android.content.Context;
-
 import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.lib.User;

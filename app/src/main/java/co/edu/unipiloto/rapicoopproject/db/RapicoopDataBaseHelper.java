@@ -50,6 +50,13 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String LEASE_INI_DATE = "INI_DATE";
     public static final String LEASE_END_DATE = "END_DATE";
 
+    //Restaurant table
+    public static final String RESTAURANT_TABLE_NAME = "restaurant_table";
+    public static final String RESTAURANT_ID = "ID";
+    public static final String RESTAURANT_NAME = "NAME";
+    public static final String RESTAURANT_TYPE = "TYPE";
+    public static final String RESTAURANT_OWNER_ID = "OWNER_ID";
+
     //Menu Dishes table
     public static final String MENU_DISHES_TABLE_NAME = "menu_dishes_table";
     public static final String MENU_DISH_ID ="ID";
@@ -117,10 +124,18 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 MENU_DISH_VENDOR_ID + " INTEGER NOT NULL,"+
                 "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
+        String CREATE_RESTAURANTS_TABLE = "CREATE TABLE " + RESTAURANT_TABLE_NAME + "("+
+                RESTAURANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                RESTAURANT_NAME + " TEXT NOT NULL UNIQUE," +
+                RESTAURANT_TYPE + " TEXT NOT NULL UNIQUE," +
+                RESTAURANT_OWNER_ID + " INTEGER NOT NULL," +
+                "FOREIGN KEY ("+RESTAURANT_OWNER_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
+
         sqLiteDatabase.execSQL(CREATE_USERS_TABLE);
         sqLiteDatabase.execSQL(CREATE_KITCHENS_TABLE);
         sqLiteDatabase.execSQL(CREATE_LEASE_TABLE);
         sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
+        sqLiteDatabase.execSQL(CREATE_RESTAURANTS_TABLE);
     }
 
     private void populateKitchens(){
@@ -170,11 +185,16 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void populateRestaurants(){
+
+    }
+
 
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ USERS_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ RESTAURANT_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ KITCHENS_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ LEASE_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ MENU_DISHES_TABLE_NAME);

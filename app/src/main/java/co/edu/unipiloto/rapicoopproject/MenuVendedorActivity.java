@@ -19,7 +19,7 @@ import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class MenuVendedorActivity extends AppCompatActivity {
     TextView welcomeMessageTextView;
-    Button miCocinaButton;
+    Button miRestauranteButton;
     Button miMenuButton;
     Button misPedidosButton;
     Button editarMiPerfilButton;
@@ -40,13 +40,13 @@ public class MenuVendedorActivity extends AppCompatActivity {
         welcomeMessageTextView.setText("Hola " + userLogged.getFullName());
 
 
-        miCocinaButton = findViewById(R.id.mi_cocina_btn);
+        miRestauranteButton = findViewById(R.id.mi_restaurante_btn);
         miMenuButton = findViewById(R.id.mi_menu_btn);
         misPedidosButton = findViewById(R.id.mis_pedidos_btn);
         editarMiPerfilButton = findViewById(R.id.editar_perfil_btn);
 
         //Añadiendo Click event Handlers
-        miCocinaButton.setOnClickListener(this::onClickGoToMiCocina);
+        miRestauranteButton.setOnClickListener(this::onClickGoToMiRestaurante);
         miMenuButton.setOnClickListener(this::onClickGoToMiMenu);
         misPedidosButton.setOnClickListener(this::onClickGoToMisPedidos);
         editarMiPerfilButton.setOnClickListener(this::onClickGoToEditarPerfil);
@@ -71,8 +71,8 @@ public class MenuVendedorActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickGoToMiCocina(View view) {
-        Intent intent = new Intent(MenuVendedorActivity.this, MiCocinaActivity.class);
+    public void onClickGoToMiRestaurante(View view) {
+        Intent intent = new Intent(MenuVendedorActivity.this, MiRestauranteActivity.class);
         startActivity(intent);
         //Toast.makeText(this, "IR a mi cocina", Toast.LENGTH_SHORT).show();
     }

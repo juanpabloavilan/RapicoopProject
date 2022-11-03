@@ -18,21 +18,18 @@ import co.edu.unipiloto.rapicoopproject.lib.User;
 public class MenuClienteActivity extends AppCompatActivity {
 
     public static final String LOGGED_USER = "USER_PAYLOAD_KEY";
-    private TextView greeting;
-    private User userLogged;
-    private Button restaurantBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_cliente);
-        greeting = (TextView) findViewById(R.id.greetingMessage);
-        userLogged = UserLoggedContext.getInstance().getUser();
+        TextView greeting = (TextView) findViewById(R.id.greetingMessage);
+        User userLogged = UserLoggedContext.getInstance().getUser();
         greeting.setText(greeting.getText() + userLogged.getFullName());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        restaurantBtn = findViewById(R.id.restaurant_btn);
+        Button restaurantBtn = findViewById(R.id.restaurant_btn);
         restaurantBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

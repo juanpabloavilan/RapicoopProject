@@ -20,6 +20,16 @@
     <string name="cancel_btn">cancelar</string>
     <string name="search_hint"><i>¿Qué pedirás hoy?</i></string>
     <string name="menu_icons_size">55dp</string>
+    <string name="cree_un_restaurante"><u>Cree uno</u></string>
+    <string name="title_activity_crear_restaurante">CrearRestauranteActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
     <string name="a_ade_un_plato_a_tu_oferta_gastron_mica">Añade un plato a tu oferta gastronómica</string>
     <string name="nombre_del_plato">Nombre del plato</string>
     <string name="precio">Precio</string>
