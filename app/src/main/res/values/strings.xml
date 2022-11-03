@@ -20,4 +20,10 @@
     <string name="cancel_btn">cancelar</string>
     <string name="search_hint"><i>¿Qué pedirás hoy?</i></string>
     <string name="menu_icons_size">55dp</string>
+    <string name="a_ade_un_plato_a_tu_oferta_gastron_mica">Añade un plato a tu oferta gastronómica</string>
+    <string name="nombre_del_plato">Nombre del plato</string>
+    <string name="precio">Precio</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="categoria_de_comida">Categoria de comida</string>
+    <string name="agregar_plato">Agregar plato</string>
 </resources>
