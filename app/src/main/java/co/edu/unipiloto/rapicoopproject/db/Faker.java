@@ -17,10 +17,10 @@ public class Faker {
     };
 
     private static final String[] menuDishesValues = {
-            "Sopa de tomate,Tiene tomates y viene acompañada de nachos y quesadillas,Sopa,1",
-            "Perros calientes,Tiene salchicha de cerdo y viene acompañada de nachos y salsas,Comida rapida,4",
-            "Ajiaco Santafereño,Tiene pollo y viene acompañada de arroz y aguacate,Sopa,4",
-            "La Hamburguesota,Hamburguesa con todos los juguetes,Comida rapida,1",
+            "Sopa de tomate,Tiene tomates y viene acompañada de nachos y quesadillas,Sopa,1,1000",
+            "Perros calientes,Tiene salchicha de cerdo y viene acompañada de nachos y salsas,Comida rapida,4,40000",
+            "Ajiaco Santafereño,Tiene pollo y viene acompañada de arroz y aguacate,Sopa,4,69900",
+            "La Hamburguesota,Hamburguesa con todos los juguetes,Comida rapida,1,123432",
     };
 
     public static String[] getKitchenValues() {

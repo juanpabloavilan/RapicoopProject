@@ -29,7 +29,7 @@ public class RestaurantsActivity extends AppCompatActivity {
         RecyclerView recommendedRv = findViewById(R.id.recommendedRecyclerView);
 
         List<RestaurantCard> restaurantList = new ArrayList<>();
-
+        /*
         restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
         restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
         restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
@@ -40,5 +40,7 @@ public class RestaurantsActivity extends AppCompatActivity {
         restaurantsRv.setLayoutManager(new LinearLayoutManager(this));
         recommendedRv.setAdapter(adapter);
         recommendedRv.setLayoutManager(new LinearLayoutManager(this));
+        */
+
     }
 }

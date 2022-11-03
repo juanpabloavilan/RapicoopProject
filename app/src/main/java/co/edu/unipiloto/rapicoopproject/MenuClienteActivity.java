@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
@@ -18,6 +20,7 @@ public class MenuClienteActivity extends AppCompatActivity {
     public static final String LOGGED_USER = "USER_PAYLOAD_KEY";
     private TextView greeting;
     private User userLogged;
+    private Button restaurantBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import co.edu.unipiloto.rapicoopproject.R;
 import co.edu.unipiloto.rapicoopproject.lib.MenuDish;
@@ -34,10 +36,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        holder.ivImageFood.setImageResource(data.get(position).getImage());
-        holder.tvPrecio.setText(data.get(position).getPrecio());
-        holder.tvNombrePlato.setText(data.get(position).getNombre());
-        holder.tvDescripcion.setText(data.get(position).getDescripcion());
+        String nombre = data.get(position).getNombre();
+        String descripcion = data.get(position).getDescripcion();
+        Integer precioRaw = data.get(position).getPrecio();
+        String precioFormattedAsCurrency = NumberFormat.getCurrencyInstance(new Locale("es", "CO")).format(precioRaw);
+        holder.ivImageFood.setImageResource(R.drawable.hot_dog);
+        holder.tvPrecio.setText(precioFormattedAsCurrency);
+        holder.tvNombrePlato.setText(nombre);
+        holder.tvDescripcion.setText(descripcion);
 
     }
 

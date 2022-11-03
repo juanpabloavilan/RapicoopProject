@@ -113,7 +113,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 MENU_DISH_DESCRIPTION+" TEXT NOT NULL," +
                 MENU_DISH_FOOD_CATEGORY+" TEXT NOT NULL," +
                 MENU_DISH_IMAGE + " INTEGER," +
-                MENU_DISH_PRICE + "INTEGER, "+
+                MENU_DISH_PRICE + " INTEGER, "+
                 MENU_DISH_VENDOR_ID + " INTEGER NOT NULL,"+
                 "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
@@ -164,7 +164,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
             values.put(MENU_DISH_DESCRIPTION, params[1]);
             values.put(MENU_DISH_FOOD_CATEGORY, params[2]);
             values.put(MENU_DISH_VENDOR_ID, Integer.parseInt(params[3]));
-
+            values.put(MENU_DISH_PRICE, Integer.parseInt(params[4]));
             db.insert(MENU_DISHES_TABLE_NAME, null, values);
             values.clear();
         }

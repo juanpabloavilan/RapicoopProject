@@ -1,5 +1,7 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
+import androidx.annotation.NonNull;
+
 public class MenuDish {
     private int id;
     private String descripcion;
@@ -79,5 +81,17 @@ public class MenuDish {
         this.image= image;
     }
 
-
+    @NonNull
+    @Override
+    public String toString() {
+        return "MenuDish{" +
+                "id=" + id +
+                ", descripcion='" + descripcion + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                ", image=" + image +
+                ", foodCategory='" + foodCategory + '\'' +
+                ", vendorId=" + vendorId +
+                '}';
+    }
 }
