@@ -43,7 +43,6 @@ public class MiRestauranteActivity extends AppCompatActivity {
     }
 
     private void onClickViewKitchens(View view){
-        System.out.println(activeRestaurant());
         if (!activeRestaurant()){
             Toast.makeText(this,"No puedes acceder aqui sin crear un restaurante",Toast.LENGTH_SHORT).show();
             return;

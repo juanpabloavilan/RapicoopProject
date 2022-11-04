@@ -37,7 +37,7 @@ public class MenuVendedorActivity extends AppCompatActivity {
         welcomeMessageTextView = findViewById(R.id.user_logged_welcome_message);
 
         //Actualizar View con los datos del usuario loggeado
-        welcomeMessageTextView.setText("Hola " + userLogged.getFullName());
+        welcomeMessageTextView.setText(welcomeMessageTextView.getText().toString() + ", " + userLogged.getFullName());
 
 
         miRestauranteButton = findViewById(R.id.mi_restaurante_btn);

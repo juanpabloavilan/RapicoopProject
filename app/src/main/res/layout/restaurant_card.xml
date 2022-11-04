@@ -64,19 +64,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="4dp"
+            android:textSize="20sp"
             android:text="Restaurant Name"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/restaurant_locality"
+            app:layout_constraintBottom_toBottomOf="@+id/restaurant_logo"
             app:layout_constraintStart_toEndOf="@+id/restaurant_logo" />
 
-        <TextView
-            android:id="@+id/restaurant_locality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Locality"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/restaurant_logo"
-            app:layout_constraintStart_toStartOf="@+id/restaurant_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

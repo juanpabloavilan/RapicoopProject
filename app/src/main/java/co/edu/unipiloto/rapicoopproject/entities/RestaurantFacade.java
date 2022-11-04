@@ -1,10 +1,14 @@
 package co.edu.unipiloto.rapicoopproject.entities;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.interfaces.IRestaurantFacade;
@@ -53,6 +57,24 @@ public class RestaurantFacade extends AbstractFacade implements IRestaurantFacad
         String RESTAURANT_QUERY = "SELECT * FROM " + RESTAURANT_TABLE_NAME + " WHERE OWNER_ID = " + possibleOwnerId;
         SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
         Cursor cursor = db.rawQuery(RESTAURANT_QUERY, null);
-        return cursor.moveToFirst();
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
+
+    public List<Restaurant> getRestaurants(){
+        String ALL_RESTAURANTS_QUERY = " SELECT * FROM " + RESTAURANT_TABLE_NAME;
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(ALL_RESTAURANTS_QUERY, null);
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
+        while(cursor.moveToNext()){
+            @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(RESTAURANT_ID));
+            @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(RESTAURANT_NAME));
+            @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(RESTAURANT_TYPE));
+            @SuppressLint("Range") String ownerId = cursor.getString(cursor.getColumnIndex(RESTAURANT_OWNER_ID));
+            restaurants.add(new Restaurant(Integer.parseInt(id),name,type,Integer.parseInt(ownerId)));
+        }
+        cursor.close();
+        return restaurants;
     }
 }

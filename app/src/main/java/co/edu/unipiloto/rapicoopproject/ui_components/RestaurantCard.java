@@ -1,20 +1,20 @@
 package co.edu.unipiloto.rapicoopproject.ui_components;
 
 public class RestaurantCard {
-    String restaurantName;
+    String name;
     String restaurantLocality;
     int restaurantLogo;
     int background;
 
     public RestaurantCard(String restaurantName, String restaurantLocality, int restaurantLogo, int background) {
-        this.restaurantName = restaurantName;
+        this.name = restaurantName;
         this.restaurantLocality = restaurantLocality;
         this.restaurantLogo = restaurantLogo;
         this.background = background;
     }
 
-    public String getRestaurantName() {
-        return restaurantName;
+    public String getName() {
+        return name;
     }
 
     public String getRestaurantLocality() {
@@ -29,8 +29,8 @@ public class RestaurantCard {
         return background;
     }
 
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setRestaurantLocality(String restaurantLocality) {

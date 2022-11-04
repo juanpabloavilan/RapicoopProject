@@ -16,14 +16,14 @@ import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.ClientRestaurantMenu;
 import co.edu.unipiloto.rapicoopproject.R;
-import co.edu.unipiloto.rapicoopproject.RestaurantsActivity;
+import co.edu.unipiloto.rapicoopproject.lib.Restaurant;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.restaurantViewHolder> {
 
     Context context;
-    List<RestaurantCard> restaurantsData;
+    List<Restaurant> restaurantsData;
 
-    public RestaurantsAdapter(Context context, List<RestaurantCard> data) {
+    public RestaurantsAdapter(Context context, List<Restaurant> data) {
         this.context = context;
         this.restaurantsData = data;
     }
@@ -39,10 +39,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull restaurantViewHolder holder, int position) {
-        holder.background_img.setImageResource(restaurantsData.get(position).getBackground());
-        holder.logo_img.setImageResource(restaurantsData.get(position).getRestaurantLogo());
-        holder.tv_name.setText(restaurantsData.get(position).getRestaurantName());
-        holder.tv_locality.setText(restaurantsData.get(position).getRestaurantLocality());
+        holder.background_img.setImageResource(restaurantsData.get(position).getBackgroundImg());
+        holder.logo_img.setImageResource(restaurantsData.get(position).getLogoImg());
+        holder.tv_name.setText(restaurantsData.get(position).getName());
         holder.go_btn.setOnClickListener(v -> {
                 Intent restaurantMenu = new Intent(context, ClientRestaurantMenu.class);
                 context.startActivity(restaurantMenu);
@@ -61,7 +60,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
     public static class restaurantViewHolder extends RecyclerView.ViewHolder {
 
         ImageView background_img, logo_img;
-        TextView tv_name, tv_locality;
+        TextView tv_name;
         Button go_btn;
 
         public restaurantViewHolder(@NonNull View itemView) {
@@ -69,7 +68,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
             background_img = itemView.findViewById(R.id.restaurant_background);
             logo_img = itemView.findViewById(R.id.restaurant_logo);
             tv_name = itemView.findViewById(R.id.restaurant_name);
-            tv_locality = itemView.findViewById(R.id.restaurant_locality);
             go_btn = itemView.findViewById(R.id.menu_btn);
         }
     }

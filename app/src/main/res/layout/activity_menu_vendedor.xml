@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="32dp"
-                    android:text=" "
+                    android:text="Hola!"
                     android:textColor="#dd3d00"
                     android:textSize="20sp"
                     android:textStyle="bold"

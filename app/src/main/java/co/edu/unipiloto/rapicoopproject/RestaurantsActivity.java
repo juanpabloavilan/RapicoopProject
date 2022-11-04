@@ -12,10 +12,13 @@ import android.widget.Adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.unipiloto.rapicoopproject.entities.RestaurantFacade;
+import co.edu.unipiloto.rapicoopproject.lib.Restaurant;
 import co.edu.unipiloto.rapicoopproject.ui_components.RestaurantCard;
 import co.edu.unipiloto.rapicoopproject.ui_components.RestaurantsAdapter;
 
 public class RestaurantsActivity extends AppCompatActivity {
+    RestaurantFacade restaurantFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +31,13 @@ public class RestaurantsActivity extends AppCompatActivity {
         RecyclerView restaurantsRv = findViewById(R.id.restaurantRecyclerView);
         RecyclerView recommendedRv = findViewById(R.id.recommendedRecyclerView);
 
-        List<RestaurantCard> restaurantList = new ArrayList<>();
-        /*
-        restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
-        restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
-        restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
-        restaurantList.add(new RestaurantCard("El corral", "Chapinero", R.drawable.corral_logo, R.drawable.corral_background));
+        restaurantFacade = RestaurantFacade.getInstance(this);
+        List<Restaurant> restaurantList = restaurantFacade.getRestaurants();
 
         RestaurantsAdapter adapter = new RestaurantsAdapter(this,restaurantList);
         restaurantsRv.setAdapter(adapter);
         restaurantsRv.setLayoutManager(new LinearLayoutManager(this));
         recommendedRv.setAdapter(adapter);
         recommendedRv.setLayoutManager(new LinearLayoutManager(this));
-        */
-
     }
 }

@@ -186,7 +186,17 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     }
 
     private void populateRestaurants(){
-
+        String [] restaurantValues = Faker.getRestaurantValues();
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        for(String restaurantData : restaurantValues){
+            String[] params = restaurantData.split(",");
+            values.put(RESTAURANT_NAME, params[0]);
+            values.put(RESTAURANT_TYPE, params[1]);
+            values.put(RESTAURANT_OWNER_ID, Integer.parseInt(params[2]));
+            db.insert(RESTAURANT_TABLE_NAME,null,values);
+            values.clear();
+        }
     }
 
 
@@ -202,7 +212,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         populateKitchens();
         populateUsers();
         populateMenus();
-
+        populateRestaurants();
     }
 
     public void initDb(){

@@ -20,7 +20,14 @@ public class Faker {
             "Sopa de tomate,Tiene tomates y viene acompañada de nachos y quesadillas,Sopa,1,1000",
             "Perros calientes,Tiene salchicha de cerdo y viene acompañada de nachos y salsas,Comida rapida,4,40000",
             "Ajiaco Santafereño,Tiene pollo y viene acompañada de arroz y aguacate,Sopa,4,69900",
-            "La Hamburguesota,Hamburguesa con todos los juguetes,Comida rapida,1,123432",
+            "La Hamburguesota,Hamburguesa con todos los juguetes,Comida rapida,1,123432"
+    };
+
+    private static final String[] restaurantValues = {
+            "La hamburgueseria,Comida Rapida,-2",
+            "Andres Carne de Res,Grill,-3",
+            "El Carnal,Mexicana,-4",
+            "Ceviche,Comida de mar,-5"
     };
 
     public static String[] getKitchenValues() {
@@ -34,4 +41,6 @@ public class Faker {
     public static String[] getMenuDishesValues() {
         return menuDishesValues;
     }
+
+    public static String[] getRestaurantValues() { return restaurantValues; }
 }
