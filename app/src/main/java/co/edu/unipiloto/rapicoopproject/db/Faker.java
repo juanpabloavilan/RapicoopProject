@@ -13,7 +13,8 @@ public class Faker {
             "Skywalker,skywalker@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,hola,Hombre,Vendedor", //2
             "Spiderman,spiderman@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,hola,Hombre, Cliente", //3
             "Juan,juan@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,hola,Hombre,Vendedor", //4
-            "Mateo,mateo@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,hola,Hombre,Vendedor" //5
+            "Mateo,mateo@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,hola,Hombre,Vendedor",//5
+            "Pablo,pablo@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,hola,Hombre,Domiciliario" //6
     };
 
     private static final String[] menuDishesValues = {

@@ -61,7 +61,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.CardViewHolder
             super(view);
             ivImageFood = view.findViewById(R.id.image_food);
             tvNombrePlato = view.findViewById(R.id.nombre_plato);
-            tvDescripcion = view.findViewById(R.id.descripcion);
+            tvDescripcion = view.findViewById(R.id.origen);
             tvPrecio = view.findViewById(R.id.precio);
 
         }

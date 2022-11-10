@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/descripcion"
+        android:id="@+id/origen"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -47,8 +47,8 @@
         android:textStyle="bold"
         android:text="$9.999"
         android:textColor="#50C878"
-        app:layout_constraintStart_toStartOf="@+id/descripcion"
-        app:layout_constraintTop_toBottomOf="@+id/descripcion" />
+        app:layout_constraintStart_toStartOf="@+id/origen"
+        app:layout_constraintTop_toBottomOf="@+id/origen" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

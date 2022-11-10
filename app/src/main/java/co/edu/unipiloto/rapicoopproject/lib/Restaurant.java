@@ -8,8 +8,8 @@ public class Restaurant {
     private int id;
     private String name;
     private String type;
-    private int backgroundImg = R.drawable.default_background_glass;
-    private int logoImg = R.drawable.restaurant_logo;
+    private int backgroundImg= R.drawable.green_light_banner; //= R.drawable.default_background_glass;
+    private int logoImg = R.drawable.corral_logo; //= R.drawable.restaurant_logo;
     final private int ownerId;
 
     public Restaurant(String name, String type, int ownerId){

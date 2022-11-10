@@ -90,10 +90,10 @@ public class LoginForm extends AppCompatActivity{
                 startActivity(vendorIntent);
                 break;
             case "Domiciliario":
-                //Intent deliverIntent = new Intent(LoginForm.this, MenuDeliverActivity.class);
+                Intent deliveryManIntent = new Intent(LoginForm.this, MenuDomiciliarioActivity.class);
                 //vendorIntent.putExtra(USER_PAYLOAD_KEY, (Serializable) validUser);
-                //UserLoggedContext.getInstance().setUser(validUser);
-                //startActivity(deliverIntent);
+                UserLoggedContext.getInstance().setUser(validUser);
+                startActivity(deliveryManIntent);
                 break;
             default:
                 Toast.makeText(this, "Bad request (TYPE)", Toast.LENGTH_SHORT).show();
