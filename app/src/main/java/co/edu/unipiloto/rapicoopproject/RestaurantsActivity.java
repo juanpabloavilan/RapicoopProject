@@ -7,14 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.entities.RestaurantFacade;
 import co.edu.unipiloto.rapicoopproject.lib.Restaurant;
-import co.edu.unipiloto.rapicoopproject.ui_components.RestaurantCard;
 import co.edu.unipiloto.rapicoopproject.ui_components.RestaurantsAdapter;
 
 public class RestaurantsActivity extends AppCompatActivity {

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:backgroundTintMode="add">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,14 +39,16 @@
             app:layout_constraintStart_toStartOf="@+id/restaurant_background"
             app:srcCompat="@drawable/dark_gradient" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/menu_btn"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/circle"
-            android:text="GO"
+            android:backgroundTint="#3D87E1"
+            android:text="IR"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -64,9 +67,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textSize="20sp"
             android:text="Restaurant Name"
             android:textColor="@color/white"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/restaurant_logo"
             app:layout_constraintStart_toEndOf="@+id/restaurant_logo" />
 

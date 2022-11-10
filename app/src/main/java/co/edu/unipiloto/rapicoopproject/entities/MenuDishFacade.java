@@ -12,9 +12,7 @@ import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.interfaces.IMenuDishFacade;
-import co.edu.unipiloto.rapicoopproject.interfaces.IUserFacade;
 import co.edu.unipiloto.rapicoopproject.lib.MenuDish;
-import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class MenuDishFacade extends  AbstractFacade implements IMenuDishFacade {
     private static final String TAG = "MENU_DISH_FACADE";
@@ -60,7 +58,7 @@ public class MenuDishFacade extends  AbstractFacade implements IMenuDishFacade {
         menuDishDataSet.put(MENU_DISH_PRICE, menuDish.getPrecio());
         menuDishDataSet.put(MENU_DISH_IMAGE, menuDish.getImage());
         menuDishDataSet.put(MENU_DISH_FOOD_CATEGORY, menuDish.getFoodCategory());
-        menuDishDataSet.put(MENU_DISH_VENDOR_ID, menuDish.getVendorId());
+        menuDishDataSet.put(MENU_DISH_VENDOR_ID, menuDish.getRestaurantId());
 
         try{
             return db.insert(MENU_DISHES_TABLE_NAME,null,menuDishDataSet);
@@ -80,7 +78,7 @@ public class MenuDishFacade extends  AbstractFacade implements IMenuDishFacade {
         menuDishDataSet.put(MENU_DISH_PRICE, menuDish.getPrecio());
         menuDishDataSet.put(MENU_DISH_IMAGE, menuDish.getImage());
         menuDishDataSet.put(MENU_DISH_FOOD_CATEGORY, menuDish.getFoodCategory());
-        menuDishDataSet.put(MENU_DISH_VENDOR_ID, menuDish.getVendorId());
+        menuDishDataSet.put(MENU_DISH_VENDOR_ID, menuDish.getRestaurantId());
 
         try{
             db.update(MENU_DISHES_TABLE_NAME, menuDishDataSet, MENU_DISH_ID + " = " + menuDish.getId(), null );
@@ -111,7 +109,7 @@ public class MenuDishFacade extends  AbstractFacade implements IMenuDishFacade {
                 @SuppressLint("Range") int price = cursor.getInt(cursor.getColumnIndex(MENU_DISH_PRICE));
                 @SuppressLint("Range") int vendorID = cursor.getInt(cursor.getColumnIndex(MENU_DISH_VENDOR_ID));
                 currentMenuDish = new MenuDish(id, description, name, price, image);
-                currentMenuDish.setVendorId(vendorID);
+                currentMenuDish.setRestaurantId(vendorID);
                 currentMenuDish.setFoodCategory(foodCategory);
                 menuDishes.add(currentMenuDish);
             }while (cursor.moveToNext());
@@ -145,7 +143,7 @@ public class MenuDishFacade extends  AbstractFacade implements IMenuDishFacade {
                 @SuppressLint("Range") int price = cursor.getInt(cursor.getColumnIndex(MENU_DISH_PRICE));
                 @SuppressLint("Range") int vendorID = cursor.getInt(cursor.getColumnIndex(MENU_DISH_VENDOR_ID));
                 menuDish = new MenuDish(id, description, name, price, image);
-                menuDish.setVendorId(vendorID);
+                menuDish.setRestaurantId(vendorID);
                 menuDish.setFoodCategory(foodCategory);
             }
         }catch (Exception e){

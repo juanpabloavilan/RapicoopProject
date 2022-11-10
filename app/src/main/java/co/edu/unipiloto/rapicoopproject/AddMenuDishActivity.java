@@ -59,7 +59,7 @@ public class AddMenuDishActivity extends AppCompatActivity {
         if(areFieldsValid){
             MenuDish menuDish = new MenuDish(descripcion, nombreDelPlato,precio, R.drawable.add_menu_icon);
             menuDish.setFoodCategory(foodCategory);
-            menuDish.setVendorId(vendorID);
+            menuDish.setRestaurantId(vendorID);
             long id = menuDishFacade.insertMenuDish(menuDish);
             menuDish.setId((int) id);
             Toast.makeText(this, "Plato agregado al menú correctamente con id "+ id, Toast.LENGTH_SHORT).show();

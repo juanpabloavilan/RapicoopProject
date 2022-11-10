@@ -89,6 +89,12 @@ public class LoginForm extends AppCompatActivity{
                 UserLoggedContext.getInstance().setUser(validUser);
                 startActivity(vendorIntent);
                 break;
+            case "Domiciliario":
+                //Intent deliverIntent = new Intent(LoginForm.this, MenuDeliverActivity.class);
+                //vendorIntent.putExtra(USER_PAYLOAD_KEY, (Serializable) validUser);
+                //UserLoggedContext.getInstance().setUser(validUser);
+                //startActivity(deliverIntent);
+                break;
             default:
                 Toast.makeText(this, "Bad request (TYPE)", Toast.LENGTH_SHORT).show();
         }

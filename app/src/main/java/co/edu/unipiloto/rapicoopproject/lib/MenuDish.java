@@ -9,7 +9,7 @@ public class MenuDish {
     private Integer precio;
     private int image;
     private String foodCategory;
-    private int vendorId;
+    private int restaurantId;
 
     public MenuDish(String descripcion, String nombre, int precio, int image) {
         this.descripcion = descripcion;
@@ -41,12 +41,12 @@ public class MenuDish {
         this.foodCategory = foodCategory;
     }
 
-    public int getVendorId() {
-        return vendorId;
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setVendorId(int vendorId) {
-        this.vendorId = vendorId;
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public String getDescripcion() {
@@ -91,7 +91,7 @@ public class MenuDish {
                 ", precio=" + precio +
                 ", image=" + image +
                 ", foodCategory='" + foodCategory + '\'' +
-                ", vendorId=" + vendorId +
+                ", vendorId=" + restaurantId +
                 '}';
     }
 }
