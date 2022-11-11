@@ -10,14 +10,13 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.unipiloto.rapicoopproject.lib.Order;
 import co.edu.unipiloto.rapicoopproject.lib.User;
-import co.edu.unipiloto.rapicoopproject.ui_components.OrderDeliveryCardAdapter;
+import co.edu.unipiloto.rapicoopproject.ui_components.DeliveryCardAdapter;
 
 public class DomiciliosPendientesActivity extends AppCompatActivity {
     RecyclerView rvListaOrdenesPendientes;
     User userLogged;
-    OrderDeliveryCardAdapter orderAdapter;
+    DeliveryCardAdapter orderAdapter;
 
 
     @Override
@@ -38,13 +37,13 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
     }
 
     private void loadOrdenesPendientes(){
-        List<Order> listaOrdenes = new ArrayList<>();
-        listaOrdenes.add(new Order("100001", "Cra 111c # 88-17", "Cl 7 #3-12", 4));
-        listaOrdenes.add(new Order("100002", "Cra 1c # 10-17", "Cl 72 #3-12", 15));
-        listaOrdenes.add(new Order("100003", "Cra 11c # 2-17", "Cl 7 #2-11", 22));
-        listaOrdenes.add(new Order("100004", "Cra 11c # 99-7", "Cra 7 #3-12", 32));
+        List<Delivery> listaOrdenes = new ArrayList<>();
+        listaOrdenes.add(new Delivery("100001", "Cra 111c # 88-17", "Cl 7 #3-12", 4));
+        listaOrdenes.add(new Delivery("100002", "Cra 1c # 10-17", "Cl 72 #3-12", 15));
+        listaOrdenes.add(new Delivery("100003", "Cra 11c # 2-17", "Cl 7 #2-11", 22));
+        listaOrdenes.add(new Delivery("100004", "Cra 11c # 99-7", "Cra 7 #3-12", 32));
         System.out.println("Size lista ordenes:   "+ listaOrdenes.size());
-        orderAdapter = new OrderDeliveryCardAdapter(this, listaOrdenes);
+        orderAdapter = new DeliveryCardAdapter(this, listaOrdenes);
         rvListaOrdenesPendientes.setAdapter(orderAdapter);
         rvListaOrdenesPendientes.setLayoutManager(new LinearLayoutManager(this));
         orderAdapter.setOnItemClickListener(position -> {

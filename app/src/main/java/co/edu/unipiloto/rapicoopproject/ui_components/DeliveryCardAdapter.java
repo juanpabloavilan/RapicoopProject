@@ -7,20 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.R;
-import co.edu.unipiloto.rapicoopproject.lib.Order;
 
-public class OrderDeliveryCardAdapter extends RecyclerView.Adapter<OrderDeliveryCardAdapter.OrderDeliveryCardViewHolder>{
+public class DeliveryCardAdapter extends RecyclerView.Adapter<DeliveryCardAdapter.DeliveryCardViewHolder>{
     private final Context context;
-    private final List<Order> data;
+    private final List<Delivery> data;
     private OnItemClickListener mListener;
 
-    public OrderDeliveryCardAdapter(Context context, List<Order> data){
+    public DeliveryCardAdapter(Context context, List<Delivery> data){
         this.context = context;
         this.data = data;
     }
@@ -35,14 +33,14 @@ public class OrderDeliveryCardAdapter extends RecyclerView.Adapter<OrderDelivery
 
     @NonNull
     @Override
-    public OrderDeliveryCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeliveryCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.order_card, parent, false);
-        return new OrderDeliveryCardViewHolder(view, mListener);
+        return new DeliveryCardViewHolder(view, mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderDeliveryCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DeliveryCardViewHolder holder, int position) {
 
         holder.orderNumber.setText(data.get(position).getOrderNumber());
         holder.destination.setText(data.get(position).getDestination());
@@ -56,9 +54,9 @@ public class OrderDeliveryCardAdapter extends RecyclerView.Adapter<OrderDelivery
         return data.size();
     }
 
-    public static class  OrderDeliveryCardViewHolder extends RecyclerView.ViewHolder{
+    public static class DeliveryCardViewHolder extends RecyclerView.ViewHolder{
         private final TextView orderNumber, origin, destination, distance;
-        public OrderDeliveryCardViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public DeliveryCardViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             orderNumber=itemView.findViewById(R.id.numero_orden);
             origin=itemView.findViewById(R.id.origen);

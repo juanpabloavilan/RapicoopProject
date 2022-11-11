@@ -52,7 +52,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         tvDireccion = findViewById(R.id.direccion);
         tvOrderNumberSelected = findViewById(R.id.order_selected);
 
-        tvOrderNumberSelected.setText(String.format("Order number %s", orderNumber));
+        tvOrderNumberSelected.setText(String.format("Delivery number %s", orderNumber));
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         btnLocate.setOnClickListener((v) -> {

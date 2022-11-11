@@ -22,7 +22,6 @@ public class RestaurantFacade extends AbstractFacade implements IRestaurantFacad
     public static String RESTAURANT_TYPE = "TYPE";
     public static String RESTAURANT_OWNER_ID = "OWNER_ID";
 
-    private RapicoopDataBaseHelper dataBaseHelper;
     private Context context;
 
     private static RestaurantFacade instance;
