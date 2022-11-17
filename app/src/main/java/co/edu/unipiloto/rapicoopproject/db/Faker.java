@@ -1,5 +1,9 @@
 package co.edu.unipiloto.rapicoopproject.db;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Faker {
     private static final String idVendedor = "1";
     private static final String idDomiciliario = "2";
@@ -40,8 +44,20 @@ public class Faker {
     };
 
     private static final String[] orderValues = {
-            "1," + idCliente + "," + idDomiciliario + ",234332,0,4.732963, -74.067114,4.746336, -74.043067,0"
+            "1," + idCliente + ",234332,0,Iniciada"
     };
+
+    private static final Map<String,String> deliveryValues;
+
+    static {
+        deliveryValues = new HashMap<>();
+        deliveryValues.put("ID","1");
+        deliveryValues.put("ORDER_ID","1");
+        deliveryValues.put("DELIVERY_ID", idDomiciliario);
+        deliveryValues.put("SOURCE", "4.732963, -74.067114");
+        deliveryValues.put("DESTINATION", "4.746336, -74.043067");
+        deliveryValues.put("ENDED","0");
+    }
 
     public static String[] getKitchenValues() {
         return kitchenValues;
@@ -60,4 +76,8 @@ public class Faker {
     public static String[] getOrderValues() { return orderValues; }
 
     public static String[] getItemOrderValues() { return itemOrderValues; }
+
+    public static Map<String,String> getDeliveryValues() { return deliveryValues; }
+
 }
+
