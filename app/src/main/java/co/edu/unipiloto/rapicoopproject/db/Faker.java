@@ -1,6 +1,5 @@
 package co.edu.unipiloto.rapicoopproject.db;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,19 +42,25 @@ public class Faker {
             "3,4,1"  //Hamburguesa en orden 1
     };
 
-    private static final String[] orderValues = {
-            "1," + idCliente + ",234332,0,Iniciada"
-    };
+    private static final Map<String,String> orderValues;
 
     private static final Map<String,String> deliveryValues;
 
     static {
+        //ORDER TEST VALUES
+        orderValues = new HashMap<>();
+        orderValues.put("ID","1");
+        orderValues.put("RESTAURANT_ID","1");
+        orderValues.put("CLIENT_ID",idCliente);
+        orderValues.put("DESTINATION","4.746336, -74.043067");
+        orderValues.put("TOTAL","234500");
+        orderValues.put("DATE","0");
+        //DELIVERY TEST VALUES
         deliveryValues = new HashMap<>();
         deliveryValues.put("ID","1");
         deliveryValues.put("ORDER_ID","1");
         deliveryValues.put("DELIVERY_ID", idDomiciliario);
         deliveryValues.put("SOURCE", "4.732963, -74.067114");
-        deliveryValues.put("DESTINATION", "4.746336, -74.043067");
         deliveryValues.put("ENDED","0");
     }
 
@@ -73,7 +78,7 @@ public class Faker {
 
     public static String[] getRestaurantValues() { return restaurantValues; }
 
-    public static String[] getOrderValues() { return orderValues; }
+    public static Map<String, String> getOrderValues() { return orderValues; }
 
     public static String[] getItemOrderValues() { return itemOrderValues; }
 

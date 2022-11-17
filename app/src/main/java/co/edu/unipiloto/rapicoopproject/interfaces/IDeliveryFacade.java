@@ -1,5 +1,7 @@
 package co.edu.unipiloto.rapicoopproject.interfaces;
 
+import co.edu.unipiloto.rapicoopproject.lib.Delivery;
+
 public interface IDeliveryFacade {
-    public double[] getDeliveryTarget(int idDeliver);
+    int getOrderIdByDeliver(int deliveryId);
 }

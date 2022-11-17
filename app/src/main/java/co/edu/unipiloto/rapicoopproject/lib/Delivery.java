@@ -1,27 +1,25 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
 public class Delivery {
-    private String id;
+    private int id;
     private String orderNumber;
     private String deliverId;
+    private String destination;  //Only for card purposes
     private String origin;
-    private String destination;
     private int distance;
     private boolean ended;
 
-    public Delivery(String id, String orderNumber, String deliverId, String source, String destination) {
-        this.id = id;
+    public Delivery(String orderNumber, String deliverId, String source) {
         this.orderNumber = orderNumber;
         this.deliverId = deliverId;
         this.origin = source;
-        this.destination = destination;
         this.ended = false;
     }
 
     public Delivery(String orderNumber, String source, String destination, int distance) {  //Card constructor
         this.orderNumber = orderNumber;
-        this.origin = source;
         this.destination = destination;
+        this.origin = source;
         this.distance = distance;
     }
 
@@ -49,14 +47,6 @@ public class Delivery {
         this.origin = origin;
     }
 
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
     public int getDistance() {
         return distance;
     }
@@ -71,6 +61,14 @@ public class Delivery {
 
     public void setEnded(boolean ended) {
         this.ended = ended;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 }
 

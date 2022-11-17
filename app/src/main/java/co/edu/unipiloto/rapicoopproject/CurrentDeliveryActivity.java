@@ -31,8 +31,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import co.edu.unipiloto.rapicoopproject.entities.DeliveryFacade;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
+import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
+import co.edu.unipiloto.rapicoopproject.lib.Delivery;
 import co.edu.unipiloto.rapicoopproject.lib.User;
+import co.edu.unipiloto.rapicoopproject.services.DeliveryNotificationService;
 import co.edu.unipiloto.rapicoopproject.services.OdometerService;
 
 
@@ -56,9 +60,11 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
     private TextView tvDistanciaRecorrida;
     private String orderNumber;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    DeliveryFacade deliveryFacade;
 
     private OdometerService odometro;
     private boolean enlazado = false;
+    private double[] deliverLocation = null;
 
     //Declarando objeto conexión al Servicio odometro
     private ServiceConnection connection = new ServiceConnection() {
@@ -97,6 +103,8 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
 
         tvOrderNumberSelected.setText(String.format("Order number %s", orderNumber));
 
+        //Facade Domicilios
+        deliveryFacade = DeliveryFacade.getInstance(this);
         //Obteniendo location Services
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -106,9 +114,13 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             //Obtener la ubicación actual
             getCurrentLocationProcess(); //Este metodo verifica los permisos de ubicación y llama al método getLocation
             //Crear entidad domicilio (Mateo)
-
+            double[] targetOrderLocation = getOrderTargetLocation();
+            Delivery confirmation = new Delivery(orderNumber,
+                    String.valueOf(userLoggedIn.getId()), //Delivery guy id
+                    deliverLocation[0] + "," + deliverLocation[1]
+            );
             //Notificar cliente y restaurante (STARTED SERVICE)
-
+            notify(OrderStatus.ACEPTADA);
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
             showDistance();
             //Hacer visible el boton de Recoger pedido en el restaurante.
@@ -170,6 +182,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         Location location = task.getResult();
                         if (location != null) {
+                            deliverLocation = new double[] { location.getLatitude(), location.getLongitude() };
                             Geocoder geocoder = new Geocoder(CurrentDeliveryActivity.this,
                                     Locale.getDefault());
 
@@ -220,5 +233,24 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+    public double[] getOrderTargetLocation(){
+        //TODO: return String location from order Facade;
+        double latitude = Double.parseDouble("4.746336");
+        double longitude = Double.parseDouble("-74.043067");
+        return new double[] { latitude,longitude };
+    }
+
+    public void notify(OrderStatus status){
+        Intent notification = new Intent(CurrentDeliveryActivity.this, DeliveryNotificationService.class);
+        switch(status){
+            case ACEPTADA:
+                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "ACEPTADA");
+                break;
+            case RECOGIDA:
+                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "RECOGIDA");
+        }
+        startService(notification);
     }
 }

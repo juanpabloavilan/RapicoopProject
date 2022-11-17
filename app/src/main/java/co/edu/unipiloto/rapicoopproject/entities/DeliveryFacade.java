@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.interfaces.IDeliveryFacade;
+import co.edu.unipiloto.rapicoopproject.lib.Delivery;
+import co.edu.unipiloto.rapicoopproject.lib.Order;
 
 public class DeliveryFacade extends AbstractFacade implements IDeliveryFacade {
     private final String TAG = "DELIVERY_FACADE";
@@ -16,7 +18,6 @@ public class DeliveryFacade extends AbstractFacade implements IDeliveryFacade {
     public static final String DELIVERY_ORDER_ID = "ORDER_ID";
     public static final String DELIVERY_GUY_ID = "DELIVERY_ID";
     public static final String DELIVERY_SOURCE = "SOURCE";
-    public static final String DELIVERY_DESTINATION = "DESTINATION";
     public static final String DELIVERY_ENDED = "ENDED";
 
 
@@ -42,16 +43,28 @@ public class DeliveryFacade extends AbstractFacade implements IDeliveryFacade {
         return RapicoopDataBaseHelper.getInstance(context);
     }
 
-    public double[] getDeliveryTarget(int idDeliver){
-        String ORDER_QUERY = " SELECT * FROM " + DELIVERY_TABLE_NAME + " WHERE " + DELIVERY_GUY_ID + " = " + idDeliver;
+    public long insertDelivery(Delivery newDelivery){
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
+        ContentValues deliveryDataSet = new ContentValues();
+        deliveryDataSet.put(DELIVERY_ORDER_ID,newDelivery.getOrderNumber());
+        deliveryDataSet.put(DELIVERY_GUY_ID,newDelivery.getDeliverId());
+        deliveryDataSet.put(DELIVERY_SOURCE,newDelivery.getOrigin());
+        deliveryDataSet.put(DELIVERY_SOURCE,newDelivery.getDestination());
+        return db.insert(DELIVERY_TABLE_NAME, null, deliveryDataSet);
+    }
+
+    public int getOrderIdByDeliver(int deliveryId){
+        String ORDER_QUERY = " SELECT " + DELIVERY_ORDER_ID + " FROM " + DELIVERY_TABLE_NAME +
+                " WHERE " + DELIVERY_GUY_ID + " = " + deliveryId;
+        ContentValues orderDataSet = new ContentValues();
         SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
         Cursor cursor = db.rawQuery(ORDER_QUERY, null);
-        double[] indications = null;
+        int orderId = -1;
         if(cursor.moveToFirst()){
-            @SuppressLint("Range") String destination = cursor.getString(cursor.getColumnIndex(DELIVERY_DESTINATION));
-            String[] arrDestination = destination.split(",");
-            indications = new double[] {Double.parseDouble(arrDestination[0]),Double.parseDouble(arrDestination[1])};
+            @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(DELIVERY_ORDER_ID));
+            orderId = Integer.parseInt(id);
         }
-        return indications;
+        cursor.close();
+        return orderId;
     }
 }
