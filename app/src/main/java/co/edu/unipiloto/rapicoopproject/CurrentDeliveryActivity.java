@@ -82,7 +82,6 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_delivery);
         orderNumber = getIntent().getStringExtra(ORDER_NUMBER_SELECTED);
-        orderFacade = new OrderFacade();
 
         //Assigning layout components
         btnStartDelivery = findViewById(R.id.btn_start_delivery);
@@ -106,8 +105,8 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         btnStartDelivery.setOnClickListener((v) -> {
             //Obtener la ubicación actual
             getCurrentLocationProcess(); //Este metodo verifica los permisos de ubicación y llama al método getLocation
-            //Cambiar el estado de la entrega a ACEPTADO
-            orderFacade.acceptOrderDelivery();
+            //Crear entidad domicilio (Mateo)
+
             //Notificar cliente y restaurante (STARTED SERVICE)
 
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
@@ -117,6 +116,13 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             findViewById(R.id.info_aceptar_pedido).setVisibility(View.GONE);
             btnPickUpDelivery.setVisibility(View.VISIBLE);
             findViewById(R.id.info_recoger_pedido).setVisibility(View.VISIBLE);
+        });
+
+        btnPickUpDelivery.setOnClickListener((v)->{
+            btnPickUpDelivery.setVisibility(View.GONE);
+            findViewById(R.id.info_recoger_pedido).setVisibility(View.GONE);
+            btnDeliverOrder.setVisibility(View.VISIBLE);
+            findViewById(R.id.info_entregar_pedido).setVisibility(View.VISIBLE);
         });
 
 

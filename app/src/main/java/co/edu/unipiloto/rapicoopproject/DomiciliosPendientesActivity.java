@@ -10,6 +10,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.unipiloto.rapicoopproject.lib.Delivery;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 import co.edu.unipiloto.rapicoopproject.ui_components.DeliveryCardAdapter;
 

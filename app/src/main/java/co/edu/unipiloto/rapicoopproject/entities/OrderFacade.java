@@ -12,7 +12,7 @@ import co.edu.unipiloto.rapicoopproject.lib.Order;
 
 public class OrderFacade extends AbstractFacade implements IOrderFacade {
     private final String TAG = "ORDER_FACADE";
-    public static final String ORDER_TABLE_NAME = "orders_table_name";
+    public static final String ORDER_TABLE_NAME = "orders_table";
     public static final String ORDER_ID ="ID";
     public static final String ORDER_CLIENT_ID ="CLIENT_ID";
     public static final String ORDER_DELIVER_ID ="DELIVER_ID";
