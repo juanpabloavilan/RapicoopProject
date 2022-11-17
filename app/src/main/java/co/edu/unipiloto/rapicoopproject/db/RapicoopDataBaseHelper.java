@@ -1,5 +1,7 @@
 package co.edu.unipiloto.rapicoopproject.db;
 
+import static java.lang.System.exit;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,8 +10,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import co.edu.unipiloto.rapicoopproject.lib.Kitchen;
 import co.edu.unipiloto.rapicoopproject.lib.KitchenLease;
@@ -78,12 +83,18 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String ORDER_TABLE_NAME = "orders_table";
     public static final String ORDER_ID ="ID";
     public static final String ORDER_CLIENT_ID ="CLIENT_ID";
-    public static final String ORDER_DELIVER_ID ="DELIVER_ID";
     public static final String ORDER_TOTAL ="TOTAL";
     public static final String ORDER_DATE ="DATE";
-    public static final String ORDER_DESTINATION ="DESTINATION";
-    public static final String ORDER_SOURCE ="SOURCE";
-    public static final String ORDER_ENDED ="ENDED";
+    public static final String ORDER_STATUS = "STATUS";
+
+    //Deliveries Table
+    public static final String DELIVERY_TABLE_NAME = "deliveries_table";
+    public static final String DELIVERY_ID ="ID";
+    public static final String DELIVERY_ORDER_ID = "ORDER_ID";
+    public static final String DELIVERY_GUY_ID = "DELIVERY_ID";
+    public static final String DELIVERY_SOURCE = "SOURCE";
+    public static final String DELIVERY_DESTINATION = "DESTINATION";
+    public static final String DELIVERY_ENDED = "ENDED";
 
     
     /**
@@ -159,14 +170,20 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         String CREATE_ORDERS_TABLE = "CREATE TABLE " + ORDER_TABLE_NAME + "("+
                 ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ORDER_CLIENT_ID + " INTEGER NOT NULL," +  //CLIENTE
-                ORDER_DELIVER_ID + " INTEGER," +
-                ORDER_SOURCE + " TEXT," +
-                ORDER_DESTINATION + " TEXT," +
-                ORDER_TOTAL + " TEXT NOT NULL," +   //
-                ORDER_DATE + " INTEGER NOT NULL, " +   //
-                ORDER_ENDED + " INTEGER, " +
-                "FOREIGN KEY ("+ORDER_CLIENT_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+")," +
-                "FOREIGN KEY ("+ORDER_DELIVER_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
+                ORDER_TOTAL + " INTEGER NOT NULL," +   //
+                ORDER_DATE + " INTEGER NOT NULL, " +
+                ORDER_STATUS + " TEXT, " +//
+                "FOREIGN KEY ("+ORDER_CLIENT_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
+
+        String CREATE_DELIVERIES_TABLE = "CREATE TABLE " + DELIVERY_TABLE_NAME + "("+
+                DELIVERY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                DELIVERY_GUY_ID + " INTEGER NOT NULL," +  //REPARTIDOR
+                DELIVERY_ORDER_ID + " INTEGER NOT NULL," +
+                DELIVERY_SOURCE + " TEXT," +
+                DELIVERY_DESTINATION + " TEXT," +//
+                DELIVERY_ENDED + " INTEGER DEFAULT 0, " +
+                "FOREIGN KEY ("+DELIVERY_ORDER_ID+") REFERENCES "+ ORDER_TABLE_NAME +"("+ORDER_ID+")," +
+                "FOREIGN KEY ("+DELIVERY_GUY_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
         sqLiteDatabase.execSQL(CREATE_USERS_TABLE);
         sqLiteDatabase.execSQL(CREATE_KITCHENS_TABLE);
@@ -175,6 +192,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_RESTAURANTS_TABLE);
         sqLiteDatabase.execSQL(CREATE_ORDER_ITEMS_TABLE);
         sqLiteDatabase.execSQL(CREATE_ORDERS_TABLE);
+        sqLiteDatabase.execSQL(CREATE_DELIVERIES_TABLE);
     }
 
     private void populateKitchens(){
@@ -255,15 +273,26 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
             String[] params = orderData.split(",");
             values.put(ORDER_ID, params[0]);
             values.put(ORDER_CLIENT_ID, params[1]);
-            values.put(ORDER_DELIVER_ID, params[2]);
-            values.put(ORDER_TOTAL, params[3]);
-            values.put(ORDER_DATE, params[4]);
-            values.put(ORDER_SOURCE, params[5] + "," + params[6]);
-            values.put(ORDER_DESTINATION, params[7] + "," + params[8]);
-            values.put(ORDER_ENDED, params[9]);
+            values.put(ORDER_TOTAL, params[2]);
+            values.put(ORDER_DATE, params[3]);
             db.insert(ORDER_TABLE_NAME,null,values);
             values.clear();
         }
+    }
+
+    private void populateDeliveries(){
+        Map<String,String> deliveryValues = Faker.getDeliveryValues();
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        Log.v("deliveries",deliveryValues.toString());
+        Log.v("values",deliveryValues.get(DELIVERY_ID));
+        values.put(DELIVERY_ID, deliveryValues.get(DELIVERY_ID));
+        values.put(DELIVERY_ORDER_ID, deliveryValues.get(DELIVERY_ORDER_ID));
+        values.put(DELIVERY_GUY_ID, deliveryValues.get(DELIVERY_GUY_ID));
+        values.put(DELIVERY_SOURCE, deliveryValues.get(DELIVERY_SOURCE));
+        values.put(DELIVERY_DESTINATION, deliveryValues.get(DELIVERY_DESTINATION));
+        db.insert(DELIVERY_TABLE_NAME,null,values);
+        values.clear();
     }
 
     private void populateOrderItems(){
@@ -291,6 +320,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ MENU_DISHES_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ ORDER_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ ORDER_ITEM_TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ DELIVERY_TABLE_NAME);
         onCreate(sqLiteDatabase);
         populateKitchens();
         populateUsers();
@@ -298,6 +328,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         populateRestaurants();
         populateOrders();
         populateOrderItems();
+        populateDeliveries();
     }
 
     public void initDb(){

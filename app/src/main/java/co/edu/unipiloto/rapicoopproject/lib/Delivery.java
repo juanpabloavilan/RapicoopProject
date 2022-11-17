@@ -9,13 +9,12 @@ public class Delivery {
     private int distance;
     private boolean ended;
 
-    public Delivery(String id, String orderNumber, String deliverId, String source, String destination, int distance) {
+    public Delivery(String id, String orderNumber, String deliverId, String source, String destination) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.deliverId = deliverId;
         this.origin = source;
         this.destination = destination;
-        this.distance = distance;
         this.ended = false;
     }
 
