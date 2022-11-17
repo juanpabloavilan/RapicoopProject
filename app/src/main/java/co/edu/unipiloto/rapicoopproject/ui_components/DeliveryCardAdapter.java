@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.R;
+import co.edu.unipiloto.rapicoopproject.lib.Delivery;
 
 public class DeliveryCardAdapter extends RecyclerView.Adapter<DeliveryCardAdapter.DeliveryCardViewHolder>{
     private final Context context;
