@@ -26,6 +26,7 @@ public class DeliveryNotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.d("sdsa","Im here");
         assert intent != null;
         String deliveryStatus = intent.getStringExtra(EXTRA_STATUS);
         notifyUsers(deliveryStatus);

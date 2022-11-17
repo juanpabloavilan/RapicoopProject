@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.entities.DeliveryFacade;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
 import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
@@ -100,6 +101,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         tvLocalidad = findViewById(R.id.localidad);
         tvDireccion = findViewById(R.id.direccion);
         tvOrderNumberSelected = findViewById(R.id.order_selected);
+        userLoggedIn = UserLoggedContext.getInstance().getUser();
 
         tvOrderNumberSelected.setText(String.format("Order number %s", orderNumber));
 
@@ -114,12 +116,13 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             //Obtener la ubicación actual
             getCurrentLocationProcess(); //Este metodo verifica los permisos de ubicación y llama al método getLocation
             //Crear entidad domicilio (Mateo)
-            double[] targetOrderLocation = getOrderTargetLocation();
+            double[] deliverLocation = getOrderTargetLocation();
             Delivery confirmation = new Delivery(orderNumber,
                     String.valueOf(userLoggedIn.getId()), //Delivery guy id
                     deliverLocation[0] + "," + deliverLocation[1]
             );
             //Notificar cliente y restaurante (STARTED SERVICE)
+            Log.d("THIS","THIS SHOULD WORK");
             notify(OrderStatus.ACEPTADA);
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
             showDistance();
