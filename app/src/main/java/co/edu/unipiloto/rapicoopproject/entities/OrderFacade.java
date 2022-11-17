@@ -19,8 +19,6 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
     public static final String ORDER_TOTAL ="TOTAL";
     public static final String ORDER_DATE ="DATE";
     public static final String ORDER_DESTINATION ="DESTINATION";
-    public static final String ORDER_SOURCE ="SOURCE";
-    public static final String ORDER_ENDED ="ENDED";
 
     private RapicoopDataBaseHelper dataBaseHelper;
     private Context context;
