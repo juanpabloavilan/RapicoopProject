@@ -10,6 +10,17 @@
     android:layout_gravity="center_horizontal">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Solicitud de pedido"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:layout_marginTop="4dp"
         android:id="@+id/order_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,37 +29,85 @@
         android:id="@+id/latitud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="latitud"/>
+        android:text="Latitud"/>
     <TextView
         android:id="@+id/longitud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="longitud"/>
+        android:text="Longitud"/>
     <TextView
         android:id="@+id/country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="pais"/>
+        android:text="Pais"/>
 
     <TextView
         android:id="@+id/localidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="localidad"/>
+        android:text="Localidad"/>
 
     <TextView
         android:id="@+id/direccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="direccion"/>
+        android:text="Direccion"/>
+
+    <TextView
+        android:id="@+id/distancia_recorrida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distancia recorrida" />
 
 
     <Button
-        android:id="@+id/btn_current_location"
+        android:id="@+id/btn_start_delivery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="Ubicacion" />
+        android:text="Aceptar Solicitud Pedido" />
+
+    <TextView
+        android:id="@+id/info_aceptar_pedido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Al aceptar la solicitud de pedido tu ubicación será compartida con el restaurante y con el cliente."
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btn_pickup_delivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:text="Recoger Pedido" />
+
+    <TextView
+        android:id="@+id/info_recoger_pedido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Oprime recoger el pedido cuando ya te encuentres en el restaurante, esto le notificará al cliente y al vendedor que ya llegaste al restaurante"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btn_deliver_food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:text="Entregar Pedido" />
+
+
+    <TextView
+        android:id="@+id/info_entregar_pedido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Oprime entregar el pedido cuando ya hayas entregado el pedido al cliente, esto le notificará al cliente y al vendedor que ya entregaste la orden"
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>

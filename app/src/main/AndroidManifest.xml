@@ -18,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RapicoopProject"
         tools:targetApi="31">
+        <service
+            android:name=".services.OdometerService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".CurrentDeliveryActivity"
             android:exported="false">

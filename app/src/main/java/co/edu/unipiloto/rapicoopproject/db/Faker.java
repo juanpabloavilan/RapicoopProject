@@ -25,10 +25,10 @@ public class Faker {
     };
 
     private static final String[] restaurantValues = {
-            "La hamburgueseria,Comida Rapida,-2",
-            "Andres Carne de Res,Grill,-3",
-            "El Carnal,Mexicana,-4",
-            "Ceviche,Comida de mar,-5"
+            "La hamburgueseria,Comida Rapida,1",
+            "Andres Carne de Res,Grill,2",
+            "El Carnal,Mexicana,3",
+            "Ceviche,Comida de mar,4"
     };
 
     public static String[] getKitchenValues() {
