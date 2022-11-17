@@ -1,47 +1,58 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
 public class Order {
-    private String orderNumber;
+    private String id;
+    private String clientId;
+    private String deliverId;
+    private String source;
     private String destination;
-    private String origin;
-    private int distance;
+    private boolean ended;
+    private String orderTotal;
+    private String orderDate;
 
-    public Order(String orderNumber, String destination, String origin, int distance) {
-        this.orderNumber = orderNumber;
+    public Order(String id, String clientId, String deliverId, String source, String destination, String ended, String orderTotal, String orderDate) {
+        this.id = id;
+        this.clientId = clientId;
+        this.deliverId = deliverId;
+        this.source = source;
         this.destination = destination;
-        this.origin = origin;
-        this.distance = distance;
+        this.ended = ended.equals("1");
+        this.orderTotal = orderTotal;
+        this.orderDate = orderDate;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public Order(String clientId, String orderTotal, String orderDate) {
+        this.id = id;
+        this.clientId = clientId;
+        this.orderTotal = orderTotal;
+        this.orderDate = orderDate;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public String getId() {
+        return id;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
-    public String getOrigin() {
-        return origin;
+    public String getOrderTotal() {
+        return orderTotal;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setOrderTotal(String orderTotal) {
+        this.orderTotal = orderTotal;
     }
 
-    public int getDistance() {
-        return distance;
+    public String getOrderDate() {
+        return orderDate;
     }
 
-    public void setDistance(int distance) {
-        this.distance = distance;
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }

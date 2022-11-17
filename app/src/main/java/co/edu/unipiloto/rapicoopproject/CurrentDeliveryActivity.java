@@ -95,6 +95,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         tvLocalidad = findViewById(R.id.localidad);
         tvDireccion = findViewById(R.id.direccion);
         tvOrderNumberSelected = findViewById(R.id.order_selected);
+
         tvOrderNumberSelected.setText(String.format("Order number %s", orderNumber));
 
         //Obteniendo location Services
@@ -145,6 +146,13 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
      */
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             Log.e(TAG, "Location Permissions have been declined");
             ActivityCompat.requestPermissions(CurrentDeliveryActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
