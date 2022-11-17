@@ -83,8 +83,10 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String ORDER_TABLE_NAME = "orders_table";
     public static final String ORDER_ID ="ID";
     public static final String ORDER_CLIENT_ID ="CLIENT_ID";
+    public static final String ORDER_RESTAURANT_ID = "RESTAURANT_ID";
     public static final String ORDER_TOTAL ="TOTAL";
     public static final String ORDER_DATE ="DATE";
+    public static final String ORDER_DESTINATION = "DESTINATION";
     public static final String ORDER_STATUS = "STATUS";
 
     //Deliveries Table
@@ -93,7 +95,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String DELIVERY_ORDER_ID = "ORDER_ID";
     public static final String DELIVERY_GUY_ID = "DELIVERY_ID";
     public static final String DELIVERY_SOURCE = "SOURCE";
-    public static final String DELIVERY_DESTINATION = "DESTINATION";
     public static final String DELIVERY_ENDED = "ENDED";
 
     
@@ -173,14 +174,16 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 ORDER_TOTAL + " INTEGER NOT NULL," +   //
                 ORDER_DATE + " INTEGER NOT NULL, " +
                 ORDER_STATUS + " TEXT, " +//
-                "FOREIGN KEY ("+ORDER_CLIENT_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
+                ORDER_RESTAURANT_ID + " INTEGER NOT NULL, " +
+                ORDER_DESTINATION + " TEXT NOT NULL, " +
+                "FOREIGN KEY ("+ORDER_CLIENT_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"),"+
+                "FOREIGN KEY ("+ORDER_RESTAURANT_ID+") REFERENCES "+ RESTAURANT_TABLE_NAME +"("+RESTAURANT_ID+"))";
 
         String CREATE_DELIVERIES_TABLE = "CREATE TABLE " + DELIVERY_TABLE_NAME + "("+
                 DELIVERY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 DELIVERY_GUY_ID + " INTEGER NOT NULL," +  //REPARTIDOR
                 DELIVERY_ORDER_ID + " INTEGER NOT NULL," +
                 DELIVERY_SOURCE + " TEXT," +
-                DELIVERY_DESTINATION + " TEXT," +//
                 DELIVERY_ENDED + " INTEGER DEFAULT 0, " +
                 "FOREIGN KEY ("+DELIVERY_ORDER_ID+") REFERENCES "+ ORDER_TABLE_NAME +"("+ORDER_ID+")," +
                 "FOREIGN KEY ("+DELIVERY_GUY_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
@@ -266,31 +269,28 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     }
 
     private void populateOrders(){
-        String [] orderValues = Faker.getOrderValues();
+        Map<String,String> orderValues = Faker.getOrderValues();
+        Log.d("valuesOrder",orderValues.get("ID"));
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        for(String orderData : orderValues){
-            String[] params = orderData.split(",");
-            values.put(ORDER_ID, params[0]);
-            values.put(ORDER_CLIENT_ID, params[1]);
-            values.put(ORDER_TOTAL, params[2]);
-            values.put(ORDER_DATE, params[3]);
+            values.put(ORDER_ID, orderValues.get(ORDER_ID));
+            values.put(ORDER_CLIENT_ID, orderValues.get(ORDER_CLIENT_ID));
+            values.put(ORDER_RESTAURANT_ID, orderValues.get(ORDER_RESTAURANT_ID));
+            values.put(ORDER_DESTINATION,orderValues.get(ORDER_DESTINATION));
+            values.put(ORDER_TOTAL, orderValues.get(ORDER_TOTAL));
+            values.put(ORDER_DATE, orderValues.get(ORDER_DATE));
             db.insert(ORDER_TABLE_NAME,null,values);
             values.clear();
-        }
     }
 
     private void populateDeliveries(){
         Map<String,String> deliveryValues = Faker.getDeliveryValues();
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        Log.v("deliveries",deliveryValues.toString());
-        Log.v("values",deliveryValues.get(DELIVERY_ID));
         values.put(DELIVERY_ID, deliveryValues.get(DELIVERY_ID));
         values.put(DELIVERY_ORDER_ID, deliveryValues.get(DELIVERY_ORDER_ID));
         values.put(DELIVERY_GUY_ID, deliveryValues.get(DELIVERY_GUY_ID));
         values.put(DELIVERY_SOURCE, deliveryValues.get(DELIVERY_SOURCE));
-        values.put(DELIVERY_DESTINATION, deliveryValues.get(DELIVERY_DESTINATION));
         db.insert(DELIVERY_TABLE_NAME,null,values);
         values.clear();
     }

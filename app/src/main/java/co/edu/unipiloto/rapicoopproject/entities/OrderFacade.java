@@ -15,10 +15,11 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
     public static final String ORDER_TABLE_NAME = "orders_table";
     public static final String ORDER_ID ="ID";
     public static final String ORDER_CLIENT_ID ="CLIENT_ID";
-    public static final String ORDER_DELIVER_ID ="DELIVER_ID";
+    public static final String ORDER_RESTAURANT_ID = "RESTAURANT_ID";
     public static final String ORDER_TOTAL ="TOTAL";
     public static final String ORDER_DATE ="DATE";
-    public static final String ORDER_DESTINATION ="DESTINATION";
+    public static final String ORDER_DESTINATION = "DESTINATION";
+    public static final String ORDER_STATUS = "STATUS";
 
     private RapicoopDataBaseHelper dataBaseHelper;
     private Context context;
@@ -51,8 +52,8 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
         return db.insert(ORDER_TABLE_NAME, null, orderDataSet);
     }
 
-    public double[] getDeliveryTarget(int idDeliver){
-        String ORDER_QUERY = " SELECT * FROM " + ORDER_TABLE_NAME + " WHERE " + ORDER_DELIVER_ID + " = " + idDeliver;
+    public double[] getOrderTarget(int id){
+        String ORDER_QUERY = " SELECT " + ORDER_DESTINATION +" FROM " + ORDER_TABLE_NAME + " WHERE " + ORDER_ID + " = " + id;
         ContentValues orderDataSet = new ContentValues();
         SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
         Cursor cursor = db.rawQuery(ORDER_QUERY, null);
@@ -62,6 +63,7 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
             String[] arrDestination = destination.split(",");
             indications = new double[] {Double.parseDouble(arrDestination[0]),Double.parseDouble(arrDestination[1])};
         }
+        cursor.close();
         return indications;
     }
 }

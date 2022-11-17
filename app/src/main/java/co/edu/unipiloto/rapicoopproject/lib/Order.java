@@ -1,23 +1,26 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
-import co.edu.unipiloto.rapicoopproject.formats.OrderStatus;
+import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
 
 public class Order {
-    private String id;
+    private int id;
     private final String clientId;
     private String orderTotal;
     private final String orderDate;
+    private final String destination;
     private OrderStatus status;
+    private String restaurantId;
 
-    public Order(String clientId, String orderTotal, String orderDate) {
-        this.id = id;
+    public Order(String clientId, String orderTotal, String orderDate, String destination, String restaurantId) {
         this.clientId = clientId;
         this.orderTotal = orderTotal;
         this.orderDate = orderDate;
+        this.destination = destination;
         status = OrderStatus.INICIADA;
+        this.restaurantId = restaurantId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -39,6 +42,10 @@ public class Order {
 
     public OrderStatus getStatus() {
         return status;
+    }
+
+    public String getDestination() {
+        return destination;
     }
 
     public void setStatus(OrderStatus status) {
