@@ -1,31 +1,20 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
+import co.edu.unipiloto.rapicoopproject.formats.OrderStatus;
+
 public class Order {
     private String id;
-    private String clientId;
-    private String deliverId;
-    private String source;
-    private String destination;
-    private boolean ended;
+    private final String clientId;
     private String orderTotal;
-    private String orderDate;
-
-    public Order(String id, String clientId, String deliverId, String source, String destination, String ended, String orderTotal, String orderDate) {
-        this.id = id;
-        this.clientId = clientId;
-        this.deliverId = deliverId;
-        this.source = source;
-        this.destination = destination;
-        this.ended = ended.equals("1");
-        this.orderTotal = orderTotal;
-        this.orderDate = orderDate;
-    }
+    private final String orderDate;
+    private OrderStatus status;
 
     public Order(String clientId, String orderTotal, String orderDate) {
         this.id = id;
         this.clientId = clientId;
         this.orderTotal = orderTotal;
         this.orderDate = orderDate;
+        status = OrderStatus.INICIADA;
     }
 
     public String getId() {
@@ -34,10 +23,6 @@ public class Order {
 
     public String getClientId() {
         return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
     }
 
     public String getOrderTotal() {
@@ -52,7 +37,11 @@ public class Order {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }
