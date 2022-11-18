@@ -258,7 +258,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
                 notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, userLoggedIn.getFullName() + ", ha aceptado el pedido, acerquese al restaurante");
                 break;
             case EN_CAMINO:
-                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "Ha recogido la entrega, dirijase a la direccion indicada para realizar la entrega");
+                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "Dirijase a la direccion indicada para realizar la entrega");
         }
         startService(notification);
     }
