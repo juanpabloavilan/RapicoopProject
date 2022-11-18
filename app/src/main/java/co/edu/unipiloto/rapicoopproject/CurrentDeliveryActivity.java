@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +49,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
 
     private OrderFacade orderFacade;
     private User userLoggedIn;
+    public static final String DELIVERY_NOTIFICATIONS_CHANNEL = "deliveryChannel";
 
     private Button btnStartDelivery;
     private Button btnPickUpDelivery;
@@ -88,6 +91,8 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_delivery);
+        createNotificationsChannel();
+
         orderNumber = getIntent().getStringExtra(ORDER_NUMBER_SELECTED);
 
         //Assigning layout components
@@ -138,6 +143,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             findViewById(R.id.info_recoger_pedido).setVisibility(View.GONE);
             btnDeliverOrder.setVisibility(View.VISIBLE);
             findViewById(R.id.info_entregar_pedido).setVisibility(View.VISIBLE);
+            notify(OrderStatus.EN_CAMINO);
         });
 
 
@@ -249,11 +255,15 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         Intent notification = new Intent(CurrentDeliveryActivity.this, DeliveryNotificationService.class);
         switch(status){
             case ACEPTADA:
-                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "ACEPTADA");
+                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, userLoggedIn.getFullName() + ", ha aceptado el pedido, acerquese al restaurante");
                 break;
-            case RECOGIDA:
-                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "RECOGIDA");
+            case EN_CAMINO:
+                notification.putExtra(DeliveryNotificationService.EXTRA_STATUS, "Ha recogido la entrega, dirijase a la direccion indicada para realizar la entrega");
         }
         startService(notification);
+    }
+
+    private void createNotificationsChannel() {
+
     }
 }
