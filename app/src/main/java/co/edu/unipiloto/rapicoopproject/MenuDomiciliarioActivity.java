@@ -2,6 +2,7 @@ package co.edu.unipiloto.rapicoopproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -42,6 +43,7 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
     Button misPedidosRealizadosButton;
     Button editarMiPerfilButton;
     Button miRutaActivaBtn;
+    View verRuta;
     User userLogged;
     OrderFacade orderFacade;
     DeliveryFacade deliveryFacade;
@@ -68,6 +70,12 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
         misPedidosRealizadosButton = findViewById(R.id.mis_pedidos_entregados_btn);
         editarMiPerfilButton = findViewById(R.id.editar_perfil_btn);
         miRutaActivaBtn = findViewById(R.id.ver_ruta_btn);
+        verRuta = findViewById(R.id.constraint_ver_ruta);
+
+        //SI NO TIENE PEDIDOS ACTIVOS NO PODRA VER INDICACIONES
+        if(deliveryFacade.getDeliveryByDeliver(userLogged.getId()) == null){
+            verRuta.setVisibility(View.GONE);
+        }
 
         //Añadiendo Click event Handlers
         misPedidosPendientesButton.setOnClickListener(this::onClickGoToMisPedidosPendientes);

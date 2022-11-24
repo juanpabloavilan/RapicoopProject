@@ -148,7 +148,7 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
     }
 
     public double[] getUserCoordinates(int clientId,Context deliverContext){
-        String USER_SELECT_QUERY = "SELECT USER_ADDRESS FROM "+ USERS_TABLE_NAME +
+        String USER_SELECT_QUERY = "SELECT * FROM "+ USERS_TABLE_NAME +
                 " WHERE "+ USER_ID +" = "+ clientId;
         System.out.println(USER_SELECT_QUERY);
         SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();

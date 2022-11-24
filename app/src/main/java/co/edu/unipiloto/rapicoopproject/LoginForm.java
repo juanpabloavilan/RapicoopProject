@@ -60,8 +60,8 @@ public class LoginForm extends AppCompatActivity{
                 startActivity(registerIntent);
             }
         });
-        //RapicoopDataBaseHelper db = RapicoopDataBaseHelper.getInstance(this);
-        //db.initDb();
+        RapicoopDataBaseHelper db = RapicoopDataBaseHelper.getInstance(this);
+        db.initDb();
     }
 
     private User validateUser(String email, String password){

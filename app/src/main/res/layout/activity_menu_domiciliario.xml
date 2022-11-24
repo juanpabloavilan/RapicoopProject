@@ -124,7 +124,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/div3"
+                    android:id="@+id/constraint_ver_ruta"
                     android:layout_width="match_parent"
                     android:layout_height="100sp"
                     android:layout_margin="32sp"
