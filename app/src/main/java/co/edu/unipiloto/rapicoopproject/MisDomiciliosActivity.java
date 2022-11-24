@@ -12,6 +12,7 @@ import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.CurrentLocationContext;
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
+import co.edu.unipiloto.rapicoopproject.entities.DeliveryFacade;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
 import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
 import co.edu.unipiloto.rapicoopproject.lib.Delivery;
@@ -19,10 +20,11 @@ import co.edu.unipiloto.rapicoopproject.lib.Order;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 import co.edu.unipiloto.rapicoopproject.ui_components.DeliveryCardAdapter;
 
-public class DomiciliosPendientesActivity extends AppCompatActivity {
+public class MisDomiciliosActivity extends AppCompatActivity {
     RecyclerView rvListaOrdenesPendientes;
     User userLogged;
     OrderFacade orderFacade;
+    DeliveryFacade deliveryFacade;
     UserFacade userFacade;
     DeliveryCardAdapter orderAdapter;
 
@@ -33,9 +35,10 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_domicilios_pendientes);
         rvListaOrdenesPendientes = findViewById(R.id.rv_pending_order_list);
         orderFacade = OrderFacade.getInstance(this);
+        deliveryFacade = DeliveryFacade.getInstance(this);
         userFacade = UserFacade.getInstance(this);
         userLogged = UserLoggedContext.getInstance().getUser();
-        loadOrdenesPendientes();
+        loadDomicilios();
     }
 
     @Override
@@ -47,12 +50,16 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    private void loadOrdenesPendientes(){
-        List<Delivery> domiciliosPendientes = getDomiciliosPendientes();
-        if(domiciliosPendientes == null) return;
-        if(domiciliosPendientes.size() == 0) return;
-        System.out.println("Size lista ordenes:   "+ domiciliosPendientes.size());
-        orderAdapter = new DeliveryCardAdapter(this, domiciliosPendientes);
+    private void loadDomicilios(){
+        boolean hasActiveDelivery = deliveryFacade.hasActiveDelivery(userLogged.getId());
+        List<Delivery> domicilios;
+        if(hasActiveDelivery){
+            domicilios = new ArrayList<>();
+            domicilios.add(deliveryFacade.getDeliveryByDeliver(userLogged.getId()));
+        } else {
+            domicilios = getDomiciliosPendientes();
+        }
+        orderAdapter = new DeliveryCardAdapter(this, domicilios);
         rvListaOrdenesPendientes.setAdapter(orderAdapter);
         rvListaOrdenesPendientes.setLayoutManager(new LinearLayoutManager(this));
         orderAdapter.setOnItemClickListener(position -> {

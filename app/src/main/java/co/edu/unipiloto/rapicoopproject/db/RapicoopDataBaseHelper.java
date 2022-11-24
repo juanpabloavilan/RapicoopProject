@@ -299,7 +299,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         populateMenus();
         populateRestaurants();
         populateOrders();
-        populateDeliveries();
+        //populateDeliveries();
     }
 
     public void initDb(){

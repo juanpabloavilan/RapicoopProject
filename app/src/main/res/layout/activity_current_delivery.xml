@@ -93,6 +93,15 @@
         android:layout_marginTop="8dp" />
 
     <Button
+        android:id="@+id/btn_entregar_pedido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:text="Entregar pedido" />
+
+    <Button
         android:id="@+id/btn_deliver_food"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,13 +110,21 @@
         android:visibility="gone"
         android:text="Entregar Pedido" />
 
-
     <TextView
         android:id="@+id/info_entregar_pedido"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:text="Oprime entregar el pedido cuando ya hayas entregado el pedido al cliente, esto le notificará al cliente y al vendedor que ya entregaste la orden"
+        android:layout_marginTop="8dp" />
+
+
+    <TextView
+        android:id="@+id/info_pedido_entregado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Pedido entregado, Excelente trabajo! Te agradecemos por ser parte del equipo Rapicoop"
         android:layout_marginTop="8dp" />
 
 </LinearLayout>

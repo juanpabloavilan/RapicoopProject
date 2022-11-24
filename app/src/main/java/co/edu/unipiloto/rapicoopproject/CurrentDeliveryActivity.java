@@ -39,6 +39,7 @@ import co.edu.unipiloto.rapicoopproject.entities.DeliveryFacade;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
 import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
 import co.edu.unipiloto.rapicoopproject.lib.Delivery;
+import co.edu.unipiloto.rapicoopproject.lib.Order;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 import co.edu.unipiloto.rapicoopproject.services.DeliveryNotificationService;
 import co.edu.unipiloto.rapicoopproject.services.OdometerService;
@@ -49,7 +50,6 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
     public static final String ORDER_DESTINATION = "ORDER_DESTINATION";
     private final String TAG = "CURRENT_DELIVERY_ACTIVITY";
 
-    private OrderFacade orderFacade;
     private User userLoggedIn;
     public static final String DELIVERY_NOTIFICATIONS_CHANNEL = "deliveryChannel";
 
@@ -66,7 +66,15 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
     private TextView tvDistanciaRecorrida;
     private String orderNumber;
 
+    private TextView tvAceptarPedido;
+    private TextView tvRecogerPedido;
+    private TextView tvEntregaPedido;
+    private TextView tvFinalizar;
+
+    //FACADES
     DeliveryFacade deliveryFacade;
+    private OrderFacade orderFacade;
+    Delivery thisDelivery;
 
     private OdometerService odometro;
     private boolean enlazado = false;
@@ -117,14 +125,19 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         tvDireccion = findViewById(R.id.direccion);
         tvDireccion.setText(String.format("Direccion: %s", locationContext.getAddress()));
         tvOrderNumberSelected = findViewById(R.id.order_selected);
+        tvAceptarPedido = findViewById(R.id.info_aceptar_pedido);
+        tvRecogerPedido = findViewById(R.id.info_recoger_pedido);
+        tvEntregaPedido = findViewById(R.id.info_entregar_pedido);
+        tvFinalizar = findViewById(R.id.info_pedido_entregado);
 
 
         tvOrderNumberSelected.setText(String.format("Order number %s", orderNumber));
 
         //Facade Domicilios
         deliveryFacade = DeliveryFacade.getInstance(this);
+        orderFacade = OrderFacade.getInstance(this);
 
-
+        setStatusViewsVisibility();
         //Agregando listeners a los botones
         //****Al aceptar solicitud de pedido
         btnStartDelivery.setOnClickListener((v) -> {
@@ -140,6 +153,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             );
             deliveryFacade.insertDelivery(confirmation);
             //UPDATE ORDER STATUS
+            orderFacade.updateOrderStatus(orderNumber,OrderStatus.ACEPTADA);
             //Notificar cliente y restaurante (STARTED SERVICE)
             notify(OrderStatus.ACEPTADA);
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
@@ -153,13 +167,51 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
 
         btnPickUpDelivery.setOnClickListener((v)->{
             btnPickUpDelivery.setVisibility(View.GONE);
-            findViewById(R.id.info_recoger_pedido).setVisibility(View.GONE);
+            tvRecogerPedido.setVisibility(View.GONE);
             btnDeliverOrder.setVisibility(View.VISIBLE);
-            findViewById(R.id.info_entregar_pedido).setVisibility(View.VISIBLE);
-            notify(OrderStatus.EN_CAMINO);
+            tvEntregaPedido.setVisibility(View.VISIBLE);
+            OrderStatus estado = OrderStatus.EN_CAMINO;
+            orderFacade.updateOrderStatus(orderNumber,estado);
+            notify(estado);
         });
 
+        btnDeliverOrder.setOnClickListener((v)->{
+            btnDeliverOrder.setVisibility(View.GONE);
+            tvEntregaPedido.setVisibility(View.GONE);
+            findViewById(R.id.info_pedido_entregado).setVisibility(View.VISIBLE);
+            OrderStatus estado = OrderStatus.FINALIZADA;
+            orderFacade.updateOrderStatus(orderNumber,estado);
+            deliveryFacade.updateDeliveryEnded(userLoggedIn.getId());
+            notify(estado);
+        });
+    }
 
+    public void setStatusViewsVisibility(){
+        Delivery thisDelivery = deliveryFacade.getDeliveryByDeliver(userLoggedIn.getId());
+        if(thisDelivery != null){
+            Order deliveryOrder = orderFacade.getOrderById(Integer.parseInt(orderNumber));
+            View[] views = new View[] {btnStartDelivery,btnPickUpDelivery,btnDeliverOrder, tvAceptarPedido, tvRecogerPedido, tvEntregaPedido, tvFinalizar};
+            for (View v:views) {v.setVisibility(View.GONE);} //hide all first
+            switch (deliveryOrder.getStatus()){
+                case INICIADA:
+                    btnStartDelivery.setVisibility(View.VISIBLE);
+                    tvAceptarPedido.setVisibility(View.VISIBLE);
+                    break;
+                case ACEPTADA:
+                    btnPickUpDelivery.setVisibility(View.VISIBLE);
+                    tvRecogerPedido.setVisibility(View.VISIBLE);
+                    break;
+                case EN_CAMINO:
+                    btnDeliverOrder.setVisibility(View.VISIBLE);
+                    tvEntregaPedido.setVisibility(View.VISIBLE);
+                    break;
+                case FINALIZADA:
+                    tvFinalizar.setVisibility(View.VISIBLE);
+            }
+        } else {
+            btnStartDelivery.setVisibility(View.VISIBLE);
+            tvAceptarPedido.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

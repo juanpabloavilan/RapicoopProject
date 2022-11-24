@@ -83,5 +83,9 @@ public class Delivery {
     public void setDestination(String destination) {
         this.destination = destination;
     }
+
+    public int getId() {
+        return id;
+    }
 }
 

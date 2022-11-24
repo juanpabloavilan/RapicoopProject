@@ -5,8 +5,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
 import co.edu.unipiloto.rapicoopproject.interfaces.IDeliveryFacade;
 import co.edu.unipiloto.rapicoopproject.lib.Delivery;
 
@@ -71,6 +73,27 @@ public class DeliveryFacade extends AbstractFacade implements IDeliveryFacade {
         }
         cursor.close();
         return null;
+    }
+
+    public boolean hasActiveDelivery(int deliverId){
+        String DELIVERY_QUERY = "SELECT * FROM "+ DELIVERY_TABLE_NAME + " " +
+                "WHERE "+ DELIVERY_ENDED +" = "+ 0;
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(DELIVERY_QUERY, null);
+        boolean hasOne = cursor.moveToFirst();
+        cursor.close();
+        return hasOne;
+    }
+
+    public void updateDeliveryEnded(int deliveryGuyId) {
+        SQLiteDatabase db = RapicoopDataBaseHelper.getInstance(instance.context).getWritableDatabase();
+        ContentValues orderData = new ContentValues();
+        orderData.put(DELIVERY_ENDED,1);
+        try{
+            db.update(DELIVERY_TABLE_NAME,orderData,DELIVERY_GUY_ID+" = ?", new String[]{ String.valueOf(deliveryGuyId) });
+        }catch (Exception e){
+            Log.e(TAG, "Error al actualizar el pedido: " + deliveryGuyId);
+        }
     }
 
     public int getOrderIdByDeliver(int deliveryId){
