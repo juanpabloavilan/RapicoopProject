@@ -39,7 +39,13 @@ public class MenuClienteActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Button shoppingCartBtn = findViewById(R.id.shopping_card_btn);
+        shoppingCartBtn.setOnClickListener(v->{
+            Intent intent = new Intent(this, ShoppingCartActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override

@@ -67,7 +67,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String MENU_DISHES_TABLE_NAME = "menu_dishes_table";
     public static final String MENU_DISH_ID ="ID";
     public static final String MENU_DISH_NAME ="NAME";
-    public static final String MENU_DISH_VENDOR_ID ="VENDOR_ID";
+    public static final String MENU_DISH_RESTAURANT_ID ="RESTAURANT_ID";
     public static final String MENU_DISH_DESCRIPTION="DESCRIPTION";
     public static final String MENU_DISH_IMAGE = "IMAGE";
     public static final String MENU_DISH_PRICE = "PRICE";
@@ -146,8 +146,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 MENU_DISH_FOOD_CATEGORY+" TEXT NOT NULL," +
                 MENU_DISH_IMAGE + " INTEGER," +
                 MENU_DISH_PRICE + " INTEGER, "+
-                MENU_DISH_VENDOR_ID + " INTEGER NOT NULL,"+
-                "FOREIGN KEY ("+MENU_DISH_VENDOR_ID + ") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
+                MENU_DISH_RESTAURANT_ID + " INTEGER NOT NULL,"+
+                "FOREIGN KEY ("+MENU_DISH_RESTAURANT_ID + ") REFERENCES "+ RESTAURANT_TABLE_NAME +"("+RESTAURANT_ID+"))";
 
         String CREATE_RESTAURANTS_TABLE = "CREATE TABLE " + RESTAURANT_TABLE_NAME + "("+
                 RESTAURANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -233,7 +233,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
             values.put(MENU_DISH_NAME, params[1]);
             values.put(MENU_DISH_DESCRIPTION, params[2]);
             values.put(MENU_DISH_FOOD_CATEGORY, params[3]);
-            values.put(MENU_DISH_VENDOR_ID, Integer.parseInt(params[4]));
+            values.put(MENU_DISH_RESTAURANT_ID, Integer.parseInt(params[4]));
             values.put(MENU_DISH_PRICE, Integer.parseInt(params[5]));
             db.insert(MENU_DISHES_TABLE_NAME, null, values);
             values.clear();

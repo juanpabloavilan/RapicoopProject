@@ -26,16 +26,13 @@ public class Faker {
 
     private static final String[] menuDishesValues = {
             "1,Sopa de tomate,Tiene tomates y viene acompañada de nachos y quesadillas,Sopa,1,1000",
-            "2,Perros calientes,Tiene salchicha de cerdo y viene acompañada de nachos y salsas,Comida rapida,4,40000",
-            "3,Ajiaco Santafereño,Tiene pollo y viene acompañada de arroz y aguacate,Sopa,4,69900",
+            "2,Perros calientes,Tiene salchicha de cerdo y viene acompañada de nachos y salsas,Comida rapida,1,40000",
+            "3,Ajiaco Santafereño,Tiene pollo y viene acompañada de arroz y aguacate,Sopa,1,69900",
             "4,La Hamburguesota,Hamburguesa con todos los juguetes,Comida rapida,1,123432"
     };
 
     private static final String[] restaurantValues = {
-            "1,La hamburgueseria,Comida Rapida,-2",
-            "2,Andres Carne de Res,Grill,-3",
-            "3,El Carnal,Mexicana,-4",
-            "4,Ceviche,Comida de mar,-5"
+            "1,La hamburgueseria,Comida Rapida,1",
     };
 
     private static final String[] itemOrderValues = {

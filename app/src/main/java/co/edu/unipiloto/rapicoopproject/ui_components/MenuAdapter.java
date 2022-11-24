@@ -68,6 +68,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.CardViewHolder
         private TextView tvCantidad;
         private Button btnIncrease, btnDecrease;
 
+
         public CardViewHolder(@NonNull View view, OnItemClickListener listener){
             super(view);
             ivImageFood = view.findViewById(R.id.image_food);
