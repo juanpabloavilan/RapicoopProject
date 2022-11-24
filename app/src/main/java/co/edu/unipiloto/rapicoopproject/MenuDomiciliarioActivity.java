@@ -92,7 +92,7 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
     }
 
     private void onClickGoToMisPedidosPendientes(View view){
-        Intent intent = new Intent(MenuDomiciliarioActivity.this, DomiciliosPendientesActivity.class);
+        Intent intent = new Intent(MenuDomiciliarioActivity.this, MisDomiciliosActivity.class);
         startActivity(intent);
     }
 
