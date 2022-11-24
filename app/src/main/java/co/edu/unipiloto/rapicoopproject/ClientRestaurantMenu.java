@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.ShoppingCartContext;
+import co.edu.unipiloto.rapicoopproject.entities.MenuDishFacade;
 import co.edu.unipiloto.rapicoopproject.lib.MenuDish;
 import co.edu.unipiloto.rapicoopproject.lib.ShoppingCart;
 import co.edu.unipiloto.rapicoopproject.lib.User;
@@ -22,6 +23,7 @@ public class ClientRestaurantMenu extends AppCompatActivity {
     User userLogged;
     MenuAdapter menuAdapter;
     ShoppingCart shoppingCart;
+    MenuDishFacade menuDishFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +31,21 @@ public class ClientRestaurantMenu extends AppCompatActivity {
         setContentView(R.layout.activity_client_restaurant_menu);
         rvListaPlatosMenu = findViewById(R.id.rv_menu_dishes_list);
         shoppingCart = ShoppingCartContext.getInstance().getShoppingCart();
+        menuDishFacade = MenuDishFacade.getInstance(this);
         loadMenuRestaurante();
     }
 
     private void  loadMenuRestaurante(){
-        List<MenuDish> listaPlatos = new ArrayList<>(); //Platos Facade
+        List<MenuDish> listaPlatos = menuDishFacade.getMenuDishesByVendorID(1); //Platos Facade
 
-        listaPlatos.add(new MenuDish(1,"Unos deliciosos perros calientes", "Super perro", 9999, R.drawable.hot_dog));
-        listaPlatos.add(new MenuDish(2,"Hamburguesa con todo", "Hamburquesa", 9999, R.drawable.hot_dog));
+        /*listaPlatos.add(new MenuDish(1,"Unos deliciosos perros calientes", "Super perro", 9999, R.drawable.hot_dog));
+        listaPlatos.add(new MenuDish(2,"Hamburguesa con to do", "Hamburquesa", 9999, R.drawable.hot_dog));
         listaPlatos.add(new MenuDish(3,"Sandwich de pavo", "Sandwich", 9999, R.drawable.hot_dog));
         listaPlatos.add(new MenuDish(4,"Pollo frito", "Pollo", 9999, R.drawable.hot_dog));
         listaPlatos.add(new MenuDish(5,"Helado Sundae", "Helado", 222222, R.drawable.hot_dog));
-        listaPlatos.add(new MenuDish(6,"Waffles con helado", "Waffles", 1221212, R.drawable.hot_dog));
+        listaPlatos.add(new MenuDish(6,"Waffles con helado", "Waffles", 1221212, R.drawable.hot_dog));*/
 
         MenuAdapter menuAdapter = new MenuAdapter(this, listaPlatos);
-        rvListaPlatosMenu.setAdapter(menuAdapter);
-        rvListaPlatosMenu.setLayoutManager(new LinearLayoutManager(this));
-
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
             public void onItemClickDecrease(int position) {
@@ -72,5 +72,9 @@ public class ClientRestaurantMenu extends AppCompatActivity {
 
             }
         });
+        rvListaPlatosMenu.setAdapter(menuAdapter);
+        rvListaPlatosMenu.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 }

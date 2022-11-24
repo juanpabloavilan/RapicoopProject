@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.interfaces.IMenuDishFacade;
@@ -154,6 +155,16 @@ public class MenuDishFacade extends  AbstractFacade implements IMenuDishFacade {
             }
         }
         return menuDish;
+    }
+
+    @Override
+    public List<MenuDish> getMenuDishesByListOfIDs(Set<Integer> listaIds) {
+        List<MenuDish> listaPlatos = new ArrayList<>();
+        for (Integer idMenuDish: listaIds  ) {
+            MenuDish currentMenuDish = getMenuDishByID(idMenuDish);
+            listaPlatos.add(currentMenuDish);
+        }
+        return listaPlatos;
     }
 
 

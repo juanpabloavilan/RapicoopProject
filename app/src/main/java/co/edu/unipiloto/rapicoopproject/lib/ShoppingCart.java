@@ -19,6 +19,15 @@ public class ShoppingCart {
             productos.put(idProducto, 1);
         }
     }
+
+    public int size(){
+        return this.productos.size();
+    }
+
+    public Map<Integer, Integer> getProductos() {
+        return productos;
+    }
+
     public void removeOrDecreaseProduct(int idProducto ){
         if(!productos.containsKey(idProducto)) return;
         int currentCantidad = productos.get(idProducto);

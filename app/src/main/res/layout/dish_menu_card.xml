@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/shadow_card">
 
     <TextView
         android:id="@+id/nombre_plato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Nombre del plato"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -33,7 +33,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/nombre_plato"
         app:srcCompat="@drawable/hot_dog" />
@@ -53,7 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/precio"
         app:layout_constraintTop_toBottomOf="@+id/precio">
 
@@ -63,15 +65,13 @@
             android:layout_height="40dp"
             android:layout_marginRight="5dp"
             android:background="@drawable/rounded_button"
-            android:text="-"
-             />
+            android:text="-" />
 
         <TextView
             android:id="@+id/cantidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            />
+            android:text="0" />
 
         <Button
             android:id="@+id/btn_increase"
@@ -79,8 +79,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:background="@drawable/rounded_button"
-            android:text="+"
-             />
+            android:text="+" />
     </LinearLayout>
 
 
