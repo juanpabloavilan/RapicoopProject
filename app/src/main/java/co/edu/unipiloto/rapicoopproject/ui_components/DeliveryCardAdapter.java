@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import co.edu.unipiloto.rapicoopproject.CurrentDeliveryActivity;
 import co.edu.unipiloto.rapicoopproject.R;
 import co.edu.unipiloto.rapicoopproject.lib.Delivery;
 
@@ -44,8 +45,8 @@ public class DeliveryCardAdapter extends RecyclerView.Adapter<DeliveryCardAdapte
     public void onBindViewHolder(@NonNull DeliveryCardViewHolder holder, int position) {
 
         holder.orderNumber.setText(data.get(position).getOrderNumber());
-        holder.destination.setText(data.get(position).getDestinationStringCoords());
-        holder.origin.setText(data.get(position).getOriginStringCoords());
+        holder.destination.setText(data.get(position).getDestinationAddress(context));
+        holder.origin.setText(data.get(position).getOriginAddress(context));
         holder.distance.setText(String.format("%.2f", data.get(position).getDistance()));
 
     }

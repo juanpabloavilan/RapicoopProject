@@ -45,6 +45,7 @@ import co.edu.unipiloto.rapicoopproject.services.OdometerService;
 
 public class CurrentDeliveryActivity extends AppCompatActivity {
     public static final String ORDER_NUMBER_SELECTED = "ORDER_NUMBER_SELECTED";
+    public static final String ORDER_DESTINATION = "ORDER_DESTINATION";
     private final String TAG = "CURRENT_DELIVERY_ACTIVITY";
 
     private OrderFacade orderFacade;
@@ -94,6 +95,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         createNotificationsChannel();
 
         orderNumber = getIntent().getStringExtra(ORDER_NUMBER_SELECTED);
+        String[] destination = getIntent().getStringArrayExtra(ORDER_DESTINATION);
 
         //Assigning layout components
         btnStartDelivery = findViewById(R.id.btn_start_delivery);
@@ -121,7 +123,7 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             //Obtener la ubicación actual
             getCurrentLocationProcess(); //Este metodo verifica los permisos de ubicación y llama al método getLocation
             //Crear entidad domicilio (Mateo)
-            double[] deliverLocation = getOrderTargetLocation();
+            ///////double[] deliverLocation = getOrderTargetLocation();
             //Delivery confirmation = new Delivery(orderNumber,
             //        String.valueOf(userLoggedIn.getId()), //Delivery guy id
             //        deliverLocation[0] + "," + deliverLocation[1]
@@ -244,10 +246,9 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         });
     }
 
-    public double[] getOrderTargetLocation(){
-        //TODO: return String location from order Facade;
-        double latitude = Double.parseDouble("4.746336");
-        double longitude = Double.parseDouble("-74.043067");
+    public double[] getOrderTargetLocation(String[] coordsString){
+        double latitude = Double.parseDouble(coordsString[0]);
+        double longitude = Double.parseDouble(coordsString[1]);
         return new double[] { latitude,longitude };
     }
 

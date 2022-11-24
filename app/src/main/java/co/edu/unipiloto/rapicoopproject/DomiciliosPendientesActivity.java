@@ -54,8 +54,10 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
         rvListaOrdenesPendientes.setLayoutManager(new LinearLayoutManager(this));
         orderAdapter.setOnItemClickListener(position -> {
             String orderNumberSelected = domiciliosPendientes.get(position).getOrderNumber();
+            String destination = domiciliosPendientes.get(position).getDestinationStringCoords();
             Intent intent = new Intent(DomiciliosPendientesActivity.this, CurrentDeliveryActivity.class);
             intent.putExtra(CurrentDeliveryActivity.ORDER_NUMBER_SELECTED, orderNumberSelected );
+            intent.putExtra(CurrentDeliveryActivity.ORDER_NUMBER_SELECTED, destination);
             startActivity(intent);
         });
     }
@@ -63,7 +65,7 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
     public List<Delivery> getDomiciliosPendientes(){
         List<Order> unassignedOrders = orderFacade.getPendingOrders();
         ArrayList<Delivery> pendingDeliveries = new ArrayList<>();
-        double[] coords = new double[] {0.0, 0.0};//Get user location
+        double[] coords = new double[] {4.5981956,-74.0750252};//Get user location
         for (Order pendingOrder: unassignedOrders) {
             double[] targetCoords = userFacade
                     .getUserById(orderFacade.getOrderClientId(pendingOrder.getId()))

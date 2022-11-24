@@ -1,9 +1,13 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
 import java.util.Arrays;
+
+import co.edu.unipiloto.rapicoopproject.util.LocationHelper;
+import kotlin.text.UStringsKt;
 
 public class Delivery {
     private int id;
@@ -13,6 +17,7 @@ public class Delivery {
     private String origin;
     private float distance;
     private boolean ended;
+    LocationHelper locationHelper = new LocationHelper();
 
     public Delivery(String orderNumber, String deliverId, String source, String destination) {
         this.orderNumber = orderNumber;
@@ -41,40 +46,39 @@ public class Delivery {
         return deliverId;
     }
 
-    public String getOriginStringCoords() {
+    public String getOriginAddress() {
         return origin;
     }
 
     public double[] getOriginCoords() {
-        return doubleArrFromStringCoords(origin);
+        return locationHelper.doubleArrFromStringCoords(origin);
     }
 
     public float getDistance() {
-        String totalCoords = origin +"," + destination;
-        double[] coords = doubleArrFromStringCoords(totalCoords);
-        float[] results = new float[1];
-        Location.distanceBetween(coords[0],coords[1],coords[2],coords[3],results);
-        return results[0];
+        return locationHelper.getDistanceBetweenCoords(origin,destination);
     }
 
     public void setDistance(int distance) {
         this.distance = distance;
     }
 
+    public String getOriginStringCoords() { return origin; }
+
     public String getDestinationStringCoords() { return destination; }
 
     public double[] getDestinationCoords() {
-        return doubleArrFromStringCoords(destination);
+        return locationHelper.doubleArrFromStringCoords(destination);
     }
 
-    public double[] doubleArrFromStringCoords(String coordsString) {
-        String[] stringCoords = coordsString.split(",");
-        double[] coordinates = new double[stringCoords.length];
-        for (int i = 0; i<coordinates.length; i++){
-            coordinates[i] = Double.parseDouble(stringCoords[i]);
-        }
-        return coordinates;
+    public String getOriginAddress(Context context){
+        return locationHelper.getAddressFromCoords(getOriginCoords(),context);
     }
+
+    public String getDestinationAddress(Context context){
+        return locationHelper.getAddressFromCoords(getDestinationCoords(),context);
+    }
+
+
 
     public void setDestination(String destination) {
         this.destination = destination;
