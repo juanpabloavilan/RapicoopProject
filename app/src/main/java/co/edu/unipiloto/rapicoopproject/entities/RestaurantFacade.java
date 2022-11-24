@@ -61,6 +61,19 @@ public class RestaurantFacade extends AbstractFacade implements IRestaurantFacad
         return exists;
     }
 
+    @SuppressLint("Range")
+    public int getRestaurantIdByUserId(int userId) {
+        String RESTAURANT_QUERY = "SELECT * FROM " + RESTAURANT_TABLE_NAME + " WHERE OWNER_ID = " + userId;
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(RESTAURANT_QUERY, null);
+        @SuppressLint("Range") int id = 0;
+        if (cursor.moveToFirst()) {
+            id = cursor.getInt(cursor.getColumnIndex(RESTAURANT_ID));
+        }
+        cursor.close();
+        return id;
+    }
+
     public List<Restaurant> getRestaurants(){
         String ALL_RESTAURANTS_QUERY = " SELECT * FROM " + RESTAURANT_TABLE_NAME;
         SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();

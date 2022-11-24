@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.entities.MenuDishFacade;
+import co.edu.unipiloto.rapicoopproject.entities.RestaurantFacade;
 import co.edu.unipiloto.rapicoopproject.lib.MenuDish;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
@@ -21,6 +22,7 @@ public class AddMenuDishActivity extends AppCompatActivity {
 
     private User userLogged;
     private MenuDishFacade menuDishFacade;
+    private RestaurantFacade restaurantFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class AddMenuDishActivity extends AppCompatActivity {
 
         userLogged = UserLoggedContext.getInstance().getUser();
         menuDishFacade = MenuDishFacade.getInstance(this);
+        restaurantFacade = RestaurantFacade.getInstance(this);
 
         btnAddMenuDish.setOnClickListener((v)->{
             addMenuDish();
@@ -49,7 +52,7 @@ public class AddMenuDishActivity extends AppCompatActivity {
         String descripcion = eTxtDescripcion.getText().toString();
         Integer precio = Integer.parseInt(eTxtPrecio.getText().toString());
         String foodCategory = eTxtFoodCategory.getText().toString();
-        Integer vendorID = userLogged.getId();
+        Integer vendorID = restaurantFacade.getRestaurantIdByUserId(userLogged.getId());
 
         boolean areFieldsValid = !nombreDelPlato.equals("") &&
                 !descripcion.equals("") &&

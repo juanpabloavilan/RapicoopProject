@@ -49,6 +49,8 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
 
     private void loadOrdenesPendientes(){
         List<Delivery> domiciliosPendientes = getDomiciliosPendientes();
+        if(domiciliosPendientes == null) return;
+        if(domiciliosPendientes.size() == 0) return;
         System.out.println("Size lista ordenes:   "+ domiciliosPendientes.size());
         orderAdapter = new DeliveryCardAdapter(this, domiciliosPendientes);
         rvListaOrdenesPendientes.setAdapter(orderAdapter);
