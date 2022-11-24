@@ -59,10 +59,10 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
             @SuppressLint("Range") String restaurantId = cursor.getString(cursor.getColumnIndex(ORDER_RESTAURANT_ID));
             @SuppressLint("Range") String total = cursor.getString(cursor.getColumnIndex(ORDER_TOTAL));
             @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex(ORDER_DATE));
-            cursor.close();
             int id = Integer.parseInt(idString);
             pendingOrders.add(new Order(id,clientId,total,date,OrderStatus.INICIADA,restaurantId));
         }
+        cursor.close();
         return pendingOrders;
     }
 
@@ -94,6 +94,7 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
         orderDataSet.put(ORDER_TOTAL,newOrder.getOrderTotal());
         orderDataSet.put(ORDER_DATE,newOrder.getOrderDate());
         orderDataSet.put(ORDER_RESTAURANT_ID,newOrder.getRestaurantId());
+        orderDataSet.put(ORDER_STATUS,newOrder.getStatus().toString());
         return db.insert(ORDER_TABLE_NAME, null, orderDataSet);
     }
 

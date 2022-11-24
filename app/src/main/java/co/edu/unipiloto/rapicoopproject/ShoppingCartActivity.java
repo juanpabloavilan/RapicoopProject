@@ -64,11 +64,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         btnCrearOrden.setOnClickListener(v->{
             crearOrden();
         });
-
-    }
-
-    private String calcularPrecioTotal(){
-        return "";
     }
 
     private void crearOrden(){
@@ -81,7 +76,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
             restaurantId = shoppingCart.getRestauranteId(id);
         }
         Order newOrder = new Order(String.valueOf(userLogged.getId()),
-                calcularPrecioTotal(),
+                String.valueOf(totalPrice),
                 nowStr,
                 String.valueOf(restaurantId));
         orderFacade.insertOrder(newOrder);
@@ -127,7 +122,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
             int precioProductoUnidad = plato.getPrecio();
             int cantidad = shoppingCart.getCantidadProducto(platoId);
             totalPrice += (precioProductoUnidad * cantidad);
-
         }
         String precioTotalFormattedAsCurrency = NumberFormat.getCurrencyInstance(new Locale("es","CO")).format(totalPrice);
         tvTotalPrice.setText(String.format("Precio total: %s", precioTotalFormattedAsCurrency));
