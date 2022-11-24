@@ -42,13 +42,11 @@ public class MenuVendedorActivity extends AppCompatActivity {
 
         miRestauranteButton = findViewById(R.id.mi_restaurante_btn);
         miMenuButton = findViewById(R.id.mi_menu_btn);
-        misPedidosButton = findViewById(R.id.mis_pedidos_btn);
         editarMiPerfilButton = findViewById(R.id.editar_perfil_btn);
 
         //Añadiendo Click event Handlers
         miRestauranteButton.setOnClickListener(this::onClickGoToMiRestaurante);
         miMenuButton.setOnClickListener(this::onClickGoToMiMenu);
-        misPedidosButton.setOnClickListener(this::onClickGoToMisPedidos);
         editarMiPerfilButton.setOnClickListener(this::onClickGoToEditarPerfil);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,11 +59,6 @@ public class MenuVendedorActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickGoToMisPedidos(View view) {
-        Intent intent = new Intent(MenuVendedorActivity.this, ListaPedidosVendedor.class);
-        Toast.makeText(this, "IR a mis pedidos", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
-    }
 
     public void onClickGoToMiMenu(View view) {
         Toast.makeText(this, "IR a mi menu", Toast.LENGTH_SHORT).show();
