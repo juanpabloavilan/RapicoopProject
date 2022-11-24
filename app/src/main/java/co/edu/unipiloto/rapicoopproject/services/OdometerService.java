@@ -84,7 +84,6 @@ public class OdometerService extends Service {
                 return;
             }
             locationManager.requestLocationUpdates(proveedor, 3000, 2, listener);
-            Log.v("ODOMETER_SERVICE", locationManager.getLastKnownLocation(proveedor).toString());
         }
     }
 

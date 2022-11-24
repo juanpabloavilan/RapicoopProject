@@ -55,8 +55,10 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
         rvListaOrdenesPendientes.setLayoutManager(new LinearLayoutManager(this));
         orderAdapter.setOnItemClickListener(position -> {
             String orderNumberSelected = domiciliosPendientes.get(position).getOrderNumber();
+            String destination = domiciliosPendientes.get(position).getDestinationStringCoords();
             Intent intent = new Intent(DomiciliosPendientesActivity.this, CurrentDeliveryActivity.class);
             intent.putExtra(CurrentDeliveryActivity.ORDER_NUMBER_SELECTED, orderNumberSelected );
+            intent.putExtra(CurrentDeliveryActivity.ORDER_DESTINATION, destination);
             startActivity(intent);
         });
     }

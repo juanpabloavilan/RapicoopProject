@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class User implements Serializable {
@@ -97,6 +98,7 @@ public class User implements Serializable {
                 coordinates[0] = addressList.get(0).getLatitude();
                 coordinates[1] = addressList.get(0).getLongitude();
             }
+            System.out.println(Arrays.toString(coordinates));
         } catch(Exception err) {
             err.printStackTrace();
         }

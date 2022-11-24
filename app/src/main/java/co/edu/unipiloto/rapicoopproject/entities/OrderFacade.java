@@ -24,7 +24,6 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
     public static final String ORDER_DATE ="DATE";
     public static final String ORDER_STATUS = "STATUS";
 
-    private RapicoopDataBaseHelper dataBaseHelper;
     private Context context;
 
     private static OrderFacade instance;

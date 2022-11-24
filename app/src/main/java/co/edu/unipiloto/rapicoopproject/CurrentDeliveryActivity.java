@@ -46,6 +46,7 @@ import co.edu.unipiloto.rapicoopproject.services.OdometerService;
 
 public class CurrentDeliveryActivity extends AppCompatActivity {
     public static final String ORDER_NUMBER_SELECTED = "ORDER_NUMBER_SELECTED";
+    public static final String ORDER_DESTINATION = "ORDER_DESTINATION";
     private final String TAG = "CURRENT_DELIVERY_ACTIVITY";
 
     private OrderFacade orderFacade;
@@ -129,12 +130,16 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         btnStartDelivery.setOnClickListener((v) -> {
 
             //Crear entidad domicilio (Mateo)
-            double[] deliverLocation = getOrderTargetLocation();
-            //Delivery confirmation = new Delivery(orderNumber,
-            //        String.valueOf(userLoggedIn.getId()), //Delivery guy id
-            //        deliverLocation[0] + "," + deliverLocation[1]
-            //);
-
+            String deliverCoords = CurrentLocationContext.getInstance().getLatitude() + "," +
+                    CurrentLocationContext.getInstance().getLongitude();
+            String destinationCoords = getIntent().getStringExtra(ORDER_DESTINATION);
+            Delivery confirmation = new Delivery(orderNumber,
+                    String.valueOf(userLoggedIn.getId()), //Delivery guy id
+                    deliverCoords,
+                    destinationCoords
+            );
+            deliveryFacade.insertDelivery(confirmation);
+            //UPDATE ORDER STATUS
             //Notificar cliente y restaurante (STARTED SERVICE)
             notify(OrderStatus.ACEPTADA);
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
@@ -193,13 +198,6 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
             }
         });
-    }
-
-    public double[] getOrderTargetLocation(){
-        //TODO: return String location from order Facade;
-        double latitude = Double.parseDouble("4.746336");
-        double longitude = Double.parseDouble("-74.043067");
-        return new double[] { latitude,longitude };
     }
 
     public void notify(OrderStatus status){
