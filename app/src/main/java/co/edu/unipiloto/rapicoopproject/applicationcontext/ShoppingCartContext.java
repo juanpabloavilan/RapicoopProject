@@ -7,7 +7,7 @@ public class ShoppingCartContext {
     private static ShoppingCartContext instance;
     private ShoppingCart shoppingCart;
     private  ShoppingCartContext(){
-
+        shoppingCart = new ShoppingCart();
     }
     public static synchronized ShoppingCartContext getInstance(){
         if(instance == null){
