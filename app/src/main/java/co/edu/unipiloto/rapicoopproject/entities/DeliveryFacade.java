@@ -49,7 +49,7 @@ public class DeliveryFacade extends AbstractFacade implements IDeliveryFacade {
         deliveryDataSet.put(DELIVERY_ORDER_ID,newDelivery.getOrderNumber());
         deliveryDataSet.put(DELIVERY_GUY_ID,newDelivery.getDeliverId());
         deliveryDataSet.put(DELIVERY_SOURCE,newDelivery.getOriginStringCoords());
-        deliveryDataSet.put(DELIVERY_SOURCE,newDelivery.getDestinationStringCoords());
+        deliveryDataSet.put(DELIVERY_DESTINATION,newDelivery.getDestinationStringCoords());
         return db.insert(DELIVERY_TABLE_NAME, null, deliveryDataSet);
     }
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.CurrentLocationContext;
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
 import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
@@ -57,7 +58,7 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
             String destination = domiciliosPendientes.get(position).getDestinationStringCoords();
             Intent intent = new Intent(DomiciliosPendientesActivity.this, CurrentDeliveryActivity.class);
             intent.putExtra(CurrentDeliveryActivity.ORDER_NUMBER_SELECTED, orderNumberSelected );
-            intent.putExtra(CurrentDeliveryActivity.ORDER_NUMBER_SELECTED, destination);
+            intent.putExtra(CurrentDeliveryActivity.ORDER_DESTINATION, destination);
             startActivity(intent);
         });
     }

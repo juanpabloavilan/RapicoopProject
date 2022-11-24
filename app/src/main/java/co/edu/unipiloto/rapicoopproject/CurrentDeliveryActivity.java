@@ -100,7 +100,6 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         locationContext = CurrentLocationContext.getInstance();
 
         orderNumber = getIntent().getStringExtra(ORDER_NUMBER_SELECTED);
-        String[] destination = getIntent().getStringArrayExtra(ORDER_DESTINATION);
 
         //Assigning layout components
         btnStartDelivery = findViewById(R.id.btn_start_delivery);
@@ -131,12 +130,16 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
         btnStartDelivery.setOnClickListener((v) -> {
 
             //Crear entidad domicilio (Mateo)
-            ///////double[] deliverLocation = getOrderTargetLocation();
-            //Delivery confirmation = new Delivery(orderNumber,
-            //        String.valueOf(userLoggedIn.getId()), //Delivery guy id
-            //        deliverLocation[0] + "," + deliverLocation[1]
-            //);
-
+            String deliverCoords = CurrentLocationContext.getInstance().getLatitude() + "," +
+                    CurrentLocationContext.getInstance().getLongitude();
+            String destinationCoords = getIntent().getStringExtra(ORDER_DESTINATION);
+            Delivery confirmation = new Delivery(orderNumber,
+                    String.valueOf(userLoggedIn.getId()), //Delivery guy id
+                    deliverCoords,
+                    destinationCoords
+            );
+            deliveryFacade.insertDelivery(confirmation);
+            //UPDATE ORDER STATUS
             //Notificar cliente y restaurante (STARTED SERVICE)
             notify(OrderStatus.ACEPTADA);
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
@@ -195,12 +198,6 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
             }
         });
-    }
-
-    public double[] getOrderTargetLocation(String[] coordsString){
-        double latitude = Double.parseDouble(coordsString[0]);
-        double longitude = Double.parseDouble(coordsString[1]);
-        return new double[] { latitude,longitude };
     }
 
     public void notify(OrderStatus status){
