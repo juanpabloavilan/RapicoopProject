@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
 import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
 import co.edu.unipiloto.rapicoopproject.interfaces.IDeliveryFacade;
@@ -73,6 +75,25 @@ public class DeliveryFacade extends AbstractFacade implements IDeliveryFacade {
         }
         cursor.close();
         return null;
+    }
+
+    public ArrayList<Delivery> getUserDeliveries(int userId){
+        String DELIVERY_QUERY = "SELECT * FROM "+ DELIVERY_TABLE_NAME + " " +
+                "WHERE "+ DELIVERY_GUY_ID +" = "+ userId;
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(DELIVERY_QUERY, null);
+        ArrayList<Delivery> deliveries = new ArrayList<>();
+        while(cursor.moveToNext()){
+            @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DELIVERY_ID)));
+            @SuppressLint("Range") String orderId = cursor.getString(cursor.getColumnIndex(DELIVERY_ORDER_ID));
+            @SuppressLint("Range") String deliverId = cursor.getString(cursor.getColumnIndex(DELIVERY_GUY_ID));
+            @SuppressLint("Range") String origin = cursor.getString(cursor.getColumnIndex(DELIVERY_SOURCE));
+            @SuppressLint("Range") String destination = cursor.getString(cursor.getColumnIndex(DELIVERY_DESTINATION));
+            @SuppressLint("Range") String ended_string = cursor.getString(cursor.getColumnIndex(DELIVERY_ENDED));
+            deliveries.add(new Delivery(id,orderId,deliverId,origin,destination,ended_string.equals("1")));
+        }
+        cursor.close();
+        return deliveries;
     }
 
     public boolean hasActiveDelivery(int deliverId){

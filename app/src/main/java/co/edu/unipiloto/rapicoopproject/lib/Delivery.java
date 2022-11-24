@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 
 import co.edu.unipiloto.rapicoopproject.util.LocationHelper;
@@ -86,6 +88,15 @@ public class Delivery {
 
     public int getId() {
         return id;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Pedido " + id + "\n" +
+                "numero de orden: " + orderNumber + "\n" +
+                "origen: " + origin + "\n" +
+                "destino: " + destination;
     }
 }
 
