@@ -3,6 +3,8 @@ package co.edu.unipiloto.rapicoopproject.db;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
+
 public class Faker {
     private static final String idVendedor = "1";
     private static final String idDomiciliario = "2";
@@ -18,8 +20,8 @@ public class Faker {
 
     private static final String[] usersValues = {
             idVendedor + ",Juan,vendedor@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,venta,Hombre,Vendedor",
-            idDomiciliario +",Sofia,domiciliario@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,domicilio,Hombre,Domiciliario",
-            idCliente +",Mateo,cliente@gmail.com,123434343,Cra 1 #18a-12,16-03-1999,compra,Hombre,Cliente",
+            idDomiciliario +",Sofia,domiciliario@gmail.com,123434343,Cra 72A #11B-72 Bogotá Colombia,16-03-1999,domicilio,Hombre,Domiciliario",
+            idCliente +",Mateo,cliente@gmail.com,123434343,Cra 1 #18a-12 Bogotá Colombia,16-03-1999,compra,Hombre,Cliente",
     };
 
     private static final String[] menuDishesValues = {
@@ -52,15 +54,16 @@ public class Faker {
         orderValues.put("ID","1");
         orderValues.put("RESTAURANT_ID","1");
         orderValues.put("CLIENT_ID",idCliente);
-        orderValues.put("DESTINATION","4.746336, -74.043067");
         orderValues.put("TOTAL","234500");
         orderValues.put("DATE","0");
+        orderValues.put("STATUS", OrderStatus.INICIADA.toString());
         //DELIVERY TEST VALUES
         deliveryValues = new HashMap<>();
         deliveryValues.put("ID","1");
         deliveryValues.put("ORDER_ID","1");
         deliveryValues.put("DELIVERY_ID", idDomiciliario);
         deliveryValues.put("SOURCE", "4.732963, -74.067114");
+        deliveryValues.put("DESTINATION","4.746336, -74.043067");
         deliveryValues.put("ENDED","0");
     }
 

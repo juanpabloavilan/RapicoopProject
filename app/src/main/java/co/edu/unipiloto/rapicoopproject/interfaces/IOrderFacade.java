@@ -3,5 +3,5 @@ package co.edu.unipiloto.rapicoopproject.interfaces;
 import co.edu.unipiloto.rapicoopproject.lib.Order;
 
 public interface IOrderFacade {
-    double[] getOrderTarget(int id);
+    int getOrderClientId(int orderId);
 }

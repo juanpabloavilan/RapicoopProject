@@ -10,13 +10,19 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
+import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
+import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
 import co.edu.unipiloto.rapicoopproject.lib.Delivery;
+import co.edu.unipiloto.rapicoopproject.lib.Order;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 import co.edu.unipiloto.rapicoopproject.ui_components.DeliveryCardAdapter;
 
 public class DomiciliosPendientesActivity extends AppCompatActivity {
     RecyclerView rvListaOrdenesPendientes;
     User userLogged;
+    OrderFacade orderFacade;
+    UserFacade userFacade;
     DeliveryCardAdapter orderAdapter;
 
 
@@ -25,6 +31,9 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_domicilios_pendientes);
         rvListaOrdenesPendientes = findViewById(R.id.rv_pending_order_list);
+        orderFacade = OrderFacade.getInstance(this);
+        userFacade = UserFacade.getInstance(this);
+        userLogged = UserLoggedContext.getInstance().getUser();
         loadOrdenesPendientes();
     }
 
@@ -38,21 +47,34 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
     }
 
     private void loadOrdenesPendientes(){
-        List<Delivery> listaOrdenes = new ArrayList<>();
-        listaOrdenes.add(new Delivery("100001", "Cra 111c # 88-17", "Cl 7 #3-12", 4));
-        listaOrdenes.add(new Delivery("100002", "Cra 1c # 10-17", "Cl 72 #3-12", 15));
-        listaOrdenes.add(new Delivery("100003", "Cra 11c # 2-17", "Cl 7 #2-11", 22));
-        listaOrdenes.add(new Delivery("100004", "Cra 11c # 99-7", "Cra 7 #3-12", 32));
-        System.out.println("Size lista ordenes:   "+ listaOrdenes.size());
-        orderAdapter = new DeliveryCardAdapter(this, listaOrdenes);
+        List<Delivery> domiciliosPendientes = getDomiciliosPendientes();
+        System.out.println("Size lista ordenes:   "+ domiciliosPendientes.size());
+        orderAdapter = new DeliveryCardAdapter(this, domiciliosPendientes);
         rvListaOrdenesPendientes.setAdapter(orderAdapter);
         rvListaOrdenesPendientes.setLayoutManager(new LinearLayoutManager(this));
         orderAdapter.setOnItemClickListener(position -> {
-            String orderNumberSelected = listaOrdenes.get(position).getOrderNumber();
+            String orderNumberSelected = domiciliosPendientes.get(position).getOrderNumber();
             Intent intent = new Intent(DomiciliosPendientesActivity.this, CurrentDeliveryActivity.class);
             intent.putExtra(CurrentDeliveryActivity.ORDER_NUMBER_SELECTED, orderNumberSelected );
             startActivity(intent);
         });
+    }
 
+    public List<Delivery> getDomiciliosPendientes(){
+        List<Order> unassignedOrders = orderFacade.getPendingOrders();
+        ArrayList<Delivery> pendingDeliveries = new ArrayList<>();
+        double[] coords = new double[] {0.0, 0.0};//Get user location
+        for (Order pendingOrder: unassignedOrders) {
+            double[] targetCoords = userFacade
+                    .getUserById(orderFacade.getOrderClientId(pendingOrder.getId()))
+                    .getAddressCoordinates(this);
+            Delivery mockDelivery = new Delivery(
+                    String.valueOf(pendingOrder.getId()),
+                    String.valueOf(userLogged.getId()),
+                    ""+coords[0]+","+coords[1],""+targetCoords[0]+","+targetCoords[1]
+            );
+            pendingDeliveries.add(mockDelivery);
+        }
+        return pendingDeliveries;
     }
 }

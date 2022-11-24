@@ -73,12 +73,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String MENU_DISH_PRICE = "PRICE";
     public static final String MENU_DISH_FOOD_CATEGORY = "FOOD_CATEGORY";
 
-    //ItemOrder table
-    public static final String ORDER_ITEM_TABLE_NAME = "order_items_table";
-    public static final String ORDER_ITEM_ID ="ID";
-    public static final String ORDER_ITEM_DISH_ID ="DISH_ID";
-    public static final String ORDER_ITEM_ORDER_ID ="ORDER_ID";
-
     //Orders table
     public static final String ORDER_TABLE_NAME = "orders_table";
     public static final String ORDER_ID ="ID";
@@ -86,7 +80,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String ORDER_RESTAURANT_ID = "RESTAURANT_ID";
     public static final String ORDER_TOTAL ="TOTAL";
     public static final String ORDER_DATE ="DATE";
-    public static final String ORDER_DESTINATION = "DESTINATION";
     public static final String ORDER_STATUS = "STATUS";
 
     //Deliveries Table
@@ -95,6 +88,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
     public static final String DELIVERY_ORDER_ID = "ORDER_ID";
     public static final String DELIVERY_GUY_ID = "DELIVERY_ID";
     public static final String DELIVERY_SOURCE = "SOURCE";
+    public static final String DELIVERY_DESTINATION = "DESTINATION";
     public static final String DELIVERY_ENDED = "ENDED";
 
     
@@ -136,7 +130,8 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 "LOCALITY TEXT NOT NULL, " +
                 "DESCRIPTION TEXT)";
 
-        String CREATE_LEASE_TABLE = "CREATE TABLE " + LEASE_TABLE_NAME + "( ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+        String CREATE_LEASE_TABLE = "CREATE TABLE " + LEASE_TABLE_NAME + "("+
+                LEASE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "VENDOR_ID	INTEGER NOT NULL," +
                 "KITCHEN_ID	INTEGER NOT NULL," +
                 "INI_DATE TEXT NOT NULL," +
@@ -161,13 +156,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 RESTAURANT_OWNER_ID + " INTEGER NOT NULL," +
                 "FOREIGN KEY ("+RESTAURANT_OWNER_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
 
-        String CREATE_ORDER_ITEMS_TABLE = "CREATE TABLE " + ORDER_ITEM_TABLE_NAME + "("+
-                ORDER_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                ORDER_ITEM_DISH_ID + " INTEGER NOT NULL," +
-                ORDER_ITEM_ORDER_ID + " INTEGER NOT NULL," +
-                "FOREIGN KEY ("+ORDER_ITEM_DISH_ID+") REFERENCES "+ MENU_DISHES_TABLE_NAME +"("+MENU_DISH_ID+")," +
-                "FOREIGN KEY ("+ORDER_ITEM_ORDER_ID+") REFERENCES "+ ORDER_TABLE_NAME +"("+ORDER_ID+"))";
-
         String CREATE_ORDERS_TABLE = "CREATE TABLE " + ORDER_TABLE_NAME + "("+
                 ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 ORDER_CLIENT_ID + " INTEGER NOT NULL," +  //CLIENTE
@@ -175,7 +163,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 ORDER_DATE + " INTEGER NOT NULL, " +
                 ORDER_STATUS + " TEXT, " +//
                 ORDER_RESTAURANT_ID + " INTEGER NOT NULL, " +
-                ORDER_DESTINATION + " TEXT NOT NULL, " +
                 "FOREIGN KEY ("+ORDER_CLIENT_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"),"+
                 "FOREIGN KEY ("+ORDER_RESTAURANT_ID+") REFERENCES "+ RESTAURANT_TABLE_NAME +"("+RESTAURANT_ID+"))";
 
@@ -184,6 +171,7 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
                 DELIVERY_GUY_ID + " INTEGER NOT NULL," +  //REPARTIDOR
                 DELIVERY_ORDER_ID + " INTEGER NOT NULL," +
                 DELIVERY_SOURCE + " TEXT," +
+                DELIVERY_DESTINATION + " TEXT," +
                 DELIVERY_ENDED + " INTEGER DEFAULT 0, " +
                 "FOREIGN KEY ("+DELIVERY_ORDER_ID+") REFERENCES "+ ORDER_TABLE_NAME +"("+ORDER_ID+")," +
                 "FOREIGN KEY ("+DELIVERY_GUY_ID+") REFERENCES "+ USERS_TABLE_NAME +"("+USER_ID+"))";
@@ -193,7 +181,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_LEASE_TABLE);
         sqLiteDatabase.execSQL(CREATE_MENU_DISHES_TABLE);
         sqLiteDatabase.execSQL(CREATE_RESTAURANTS_TABLE);
-        sqLiteDatabase.execSQL(CREATE_ORDER_ITEMS_TABLE);
         sqLiteDatabase.execSQL(CREATE_ORDERS_TABLE);
         sqLiteDatabase.execSQL(CREATE_DELIVERIES_TABLE);
     }
@@ -276,9 +263,9 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
             values.put(ORDER_ID, orderValues.get(ORDER_ID));
             values.put(ORDER_CLIENT_ID, orderValues.get(ORDER_CLIENT_ID));
             values.put(ORDER_RESTAURANT_ID, orderValues.get(ORDER_RESTAURANT_ID));
-            values.put(ORDER_DESTINATION,orderValues.get(ORDER_DESTINATION));
             values.put(ORDER_TOTAL, orderValues.get(ORDER_TOTAL));
             values.put(ORDER_DATE, orderValues.get(ORDER_DATE));
+            values.put(ORDER_STATUS, orderValues.get(ORDER_STATUS));
             db.insert(ORDER_TABLE_NAME,null,values);
             values.clear();
     }
@@ -291,23 +278,9 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         values.put(DELIVERY_ORDER_ID, deliveryValues.get(DELIVERY_ORDER_ID));
         values.put(DELIVERY_GUY_ID, deliveryValues.get(DELIVERY_GUY_ID));
         values.put(DELIVERY_SOURCE, deliveryValues.get(DELIVERY_SOURCE));
+        values.put(DELIVERY_DESTINATION, deliveryValues.get(DELIVERY_DESTINATION));
         db.insert(DELIVERY_TABLE_NAME,null,values);
         values.clear();
-    }
-
-    private void populateOrderItems(){
-        String [] orderItemValues = Faker.getItemOrderValues();
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        for(String itemData : orderItemValues){
-            String[] params = itemData.split(",");
-            int id = Integer.parseInt(params[0]);
-            values.put(ORDER_ITEM_ID, id);
-            values.put(ORDER_ITEM_DISH_ID, params[1]);
-            values.put(ORDER_ITEM_ORDER_ID, params[2]);
-            db.insert(ORDER_ITEM_TABLE_NAME,null,values);
-            values.clear();
-        }
     }
 
 
@@ -319,7 +292,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ LEASE_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ MENU_DISHES_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ ORDER_TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ ORDER_ITEM_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+ DELIVERY_TABLE_NAME);
         onCreate(sqLiteDatabase);
         populateKitchens();
@@ -327,7 +299,6 @@ public class RapicoopDataBaseHelper extends SQLiteOpenHelper {
         populateMenus();
         populateRestaurants();
         populateOrders();
-        populateOrderItems();
         populateDeliveries();
     }
 
