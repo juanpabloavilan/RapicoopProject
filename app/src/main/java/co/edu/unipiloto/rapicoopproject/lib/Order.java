@@ -7,21 +7,32 @@ public class Order {
     private final String clientId;
     private String orderTotal;
     private final String orderDate;
-    private final String destination;
     private OrderStatus status;
-    private String restaurantId;
+    private final String restaurantId;
 
-    public Order(String clientId, String orderTotal, String orderDate, String destination, String restaurantId) {
+    public Order(String clientId, String orderTotal, String orderDate, String restaurantId) {
         this.clientId = clientId;
         this.orderTotal = orderTotal;
         this.orderDate = orderDate;
-        this.destination = destination;
         status = OrderStatus.INICIADA;
+        this.restaurantId = restaurantId;
+    }
+
+    public Order(int id, String clientId, String orderTotal, String orderDate, OrderStatus status, String restaurantId) {
+        this.id = id;
+        this.clientId = clientId;
+        this.orderTotal = orderTotal;
+        this.orderDate = orderDate;
+        this.status = status;
         this.restaurantId = restaurantId;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
     }
 
     public String getClientId() {
@@ -42,10 +53,6 @@ public class Order {
 
     public OrderStatus getStatus() {
         return status;
-    }
-
-    public String getDestination() {
-        return destination;
     }
 
     public void setStatus(OrderStatus status) {

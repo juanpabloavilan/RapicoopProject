@@ -1,8 +1,15 @@
 package co.edu.unipiloto.rapicoopproject.lib;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
 import androidx.annotation.NonNull;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     private int id;
@@ -68,20 +75,8 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getBirthdate() {
@@ -92,8 +87,20 @@ public class User implements Serializable {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public double[] getAddressCoordinates(Context context) {
+        double[] coordinates = {0.0, 0.0};
+        Geocoder geocoder = new Geocoder(context);
+        List<Address> addressList;
+        try{
+            addressList = geocoder.getFromLocationName(address, 5);
+            if(!addressList.isEmpty()){
+                coordinates[0] = addressList.get(0).getLatitude();
+                coordinates[1] = addressList.get(0).getLongitude();
+            }
+        } catch(Exception err) {
+            err.printStackTrace();
+        }
+        return coordinates;
     }
 
     @NonNull

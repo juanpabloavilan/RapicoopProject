@@ -44,9 +44,9 @@ public class DeliveryCardAdapter extends RecyclerView.Adapter<DeliveryCardAdapte
     public void onBindViewHolder(@NonNull DeliveryCardViewHolder holder, int position) {
 
         holder.orderNumber.setText(data.get(position).getOrderNumber());
-        holder.destination.setText(data.get(position).getDestination());
-        holder.origin.setText(data.get(position).getOrigin());
-        holder.distance.setText(String.format("%d", data.get(position).getDistance()));
+        holder.destination.setText(data.get(position).getDestinationStringCoords());
+        holder.origin.setText(data.get(position).getOriginStringCoords());
+        holder.distance.setText(String.format("%.2f", data.get(position).getDistance()));
 
     }
 

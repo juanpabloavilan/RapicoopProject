@@ -27,7 +27,6 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
     public static final String USER_GENDER ="GENDER";
     public static final String USER_TYPE ="TYPE";
 
-    private RapicoopDataBaseHelper dataBaseHelper;
     private Context context;
 
     private static UserFacade instance;
@@ -47,8 +46,7 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
 
     @Override
     protected RapicoopDataBaseHelper getDatabaseHelper(Context context) {
-        dataBaseHelper = RapicoopDataBaseHelper.getInstance(context);
-        return dataBaseHelper;
+        return RapicoopDataBaseHelper.getInstance(context);
     }
 
     @Override
@@ -77,7 +75,6 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
         Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
         try{
             if(cursor.moveToFirst()){
-
                 @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
                 @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
                 @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
@@ -148,6 +145,30 @@ public class UserFacade extends AbstractFacade implements IUserFacade {
             }
         }
         return user;
+    }
+
+    public double[] getUserCoordinates(int clientId,Context deliverContext){
+        String USER_SELECT_QUERY = "SELECT USER_ADDRESS FROM "+ USERS_TABLE_NAME +
+                " WHERE "+ USER_ID +" = "+ clientId;
+        System.out.println(USER_SELECT_QUERY);
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
+        Cursor cursor = db.rawQuery(USER_SELECT_QUERY, null);
+        if(cursor.moveToFirst()){
+            @SuppressLint("Range") String fullname = cursor.getString(cursor.getColumnIndex(USER_FULLNAME));
+            @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex(USER_EMAIL));
+            @SuppressLint("Range") String gender = cursor.getString(cursor.getColumnIndex(USER_GENDER));
+            @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
+            @SuppressLint("Range") String birthdate = cursor.getString(cursor.getColumnIndex(USER_BIRTHDATE));
+            @SuppressLint("Range") String address = cursor.getString(cursor.getColumnIndex(USER_ADDRESS));
+            @SuppressLint("Range") String phone = cursor.getString(cursor.getColumnIndex(USER_PHONE));
+            @SuppressLint("Range") String type = cursor.getString(cursor.getColumnIndex(USER_TYPE));
+            @SuppressLint("Range") int id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(USER_ID)));
+            cursor.close();
+            User user = new User(id, fullname, email, phone, address, birthdate, password, gender, type);
+            return user.getAddressCoordinates(deliverContext);
+        }
+        cursor.close();
+        return null;
     }
 
     @Override

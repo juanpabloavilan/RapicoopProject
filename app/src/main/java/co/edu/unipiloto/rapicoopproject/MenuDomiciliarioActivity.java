@@ -12,6 +12,7 @@ import android.widget.TextView;
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.entities.DeliveryFacade;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
+import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
 import co.edu.unipiloto.rapicoopproject.lib.User;
 
 public class MenuDomiciliarioActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
     User userLogged;
     OrderFacade orderFacade;
     DeliveryFacade deliveryFacade;
+    UserFacade userFacade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
         userLogged = UserLoggedContext.getInstance().getUser();
         orderFacade = OrderFacade.getInstance(this);
         deliveryFacade = DeliveryFacade.getInstance(this);
+        userFacade = UserFacade.getInstance(this);
         welcomeMessageTextView = findViewById(R.id.user_logged_welcome_message);
 
         //Actualizar View con los datos del usuario loggeado
@@ -81,6 +84,7 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
 
     private double[] getOrderRoute(){
         int orderId = deliveryFacade.getOrderIdByDeliver(userLogged.getId());
-        return orderFacade.getOrderTarget(orderId);
+        int clientId = orderFacade.getOrderClientId(orderId);
+        return userFacade.getUserCoordinates(clientId,this);
     }
 }

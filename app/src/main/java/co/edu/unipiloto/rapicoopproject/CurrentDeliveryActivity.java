@@ -122,12 +122,12 @@ public class CurrentDeliveryActivity extends AppCompatActivity {
             getCurrentLocationProcess(); //Este metodo verifica los permisos de ubicación y llama al método getLocation
             //Crear entidad domicilio (Mateo)
             double[] deliverLocation = getOrderTargetLocation();
-            Delivery confirmation = new Delivery(orderNumber,
-                    String.valueOf(userLoggedIn.getId()), //Delivery guy id
-                    deliverLocation[0] + "," + deliverLocation[1]
-            );
+            //Delivery confirmation = new Delivery(orderNumber,
+            //        String.valueOf(userLoggedIn.getId()), //Delivery guy id
+            //        deliverLocation[0] + "," + deliverLocation[1]
+            //);
+
             //Notificar cliente y restaurante (STARTED SERVICE)
-            Log.d("THIS","THIS SHOULD WORK");
             notify(OrderStatus.ACEPTADA);
             //Llamar al bound service odometer para empezar a registrar la distancia recorrida por parte del domiciliario
             showDistance();

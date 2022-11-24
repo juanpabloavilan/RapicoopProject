@@ -6,7 +6,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.edu.unipiloto.rapicoopproject.db.RapicoopDataBaseHelper;
+import co.edu.unipiloto.rapicoopproject.enums.OrderStatus;
 import co.edu.unipiloto.rapicoopproject.interfaces.IOrderFacade;
 import co.edu.unipiloto.rapicoopproject.lib.Order;
 
@@ -18,7 +22,6 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
     public static final String ORDER_RESTAURANT_ID = "RESTAURANT_ID";
     public static final String ORDER_TOTAL ="TOTAL";
     public static final String ORDER_DATE ="DATE";
-    public static final String ORDER_DESTINATION = "DESTINATION";
     public static final String ORDER_STATUS = "STATUS";
 
     private RapicoopDataBaseHelper dataBaseHelper;
@@ -43,6 +46,26 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
         return RapicoopDataBaseHelper.getInstance(context);
     }
 
+    public List<Order> getPendingOrders() {
+        String PENDING_ORDERS_QUERY = " SELECT * FROM " + ORDER_TABLE_NAME + " WHERE " +
+                ORDER_STATUS + " = '" + OrderStatus.INICIADA +"'";
+        SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(PENDING_ORDERS_QUERY, null);
+        ArrayList<Order> pendingOrders = new ArrayList<>();
+        while(cursor.moveToNext()){
+            @SuppressLint("Range") String idString = cursor.getString(cursor.getColumnIndex(ORDER_ID));
+            @SuppressLint("Range") String clientId = cursor.getString(cursor.getColumnIndex(ORDER_CLIENT_ID));
+            @SuppressLint("Range") String restaurantId = cursor.getString(cursor.getColumnIndex(ORDER_RESTAURANT_ID));
+            @SuppressLint("Range") String total = cursor.getString(cursor.getColumnIndex(ORDER_TOTAL));
+            @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex(ORDER_DATE));
+            @SuppressLint("Range") String status = cursor.getString(cursor.getColumnIndex(ORDER_STATUS));
+            cursor.close();
+            int id = Integer.parseInt(idString);
+            pendingOrders.add(new Order(id,clientId,total,date,OrderStatus.INICIADA,restaurantId));
+        }
+        return pendingOrders;
+    }
+
     public long insertOrder(Order newOrder){
         SQLiteDatabase db = getDatabaseHelper(instance.context).getWritableDatabase();
         ContentValues orderDataSet = new ContentValues();
@@ -52,18 +75,16 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
         return db.insert(ORDER_TABLE_NAME, null, orderDataSet);
     }
 
-    public double[] getOrderTarget(int id){
-        String ORDER_QUERY = " SELECT " + ORDER_DESTINATION +" FROM " + ORDER_TABLE_NAME + " WHERE " + ORDER_ID + " = " + id;
-        ContentValues orderDataSet = new ContentValues();
+    public int getOrderClientId(int orderId){
+        String CLIENT_QUERY = " SELECT " + ORDER_CLIENT_ID +" FROM " + ORDER_TABLE_NAME + " WHERE " + ORDER_ID + " = " + orderId;
         SQLiteDatabase db = getDatabaseHelper(instance.context).getReadableDatabase();
-        Cursor cursor = db.rawQuery(ORDER_QUERY, null);
-        double[] indications = null;
+        Cursor cursor = db.rawQuery(CLIENT_QUERY, null);
         if(cursor.moveToFirst()){
-            @SuppressLint("Range") String destination = cursor.getString(cursor.getColumnIndex(ORDER_DESTINATION));
-            String[] arrDestination = destination.split(",");
-            indications = new double[] {Double.parseDouble(arrDestination[0]),Double.parseDouble(arrDestination[1])};
+            @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ORDER_CLIENT_ID));
+            cursor.close();
+            return Integer.parseInt(id);
         }
         cursor.close();
-        return indications;
+        return -1; //NOT FOUND
     }
 }
