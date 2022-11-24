@@ -13,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import co.edu.unipiloto.rapicoopproject.applicationcontext.ShoppingCartContext;
@@ -65,14 +68,24 @@ public class ShoppingCartActivity extends AppCompatActivity {
 
     }
 
-    private void calcularPrecioTotal(){
-
+    private String calcularPrecioTotal(){
+        return "";
     }
 
     private void crearOrden(){
         Toast.makeText(this, "Creando Orden", Toast.LENGTH_SHORT).show();
-        //Order newOrder = new Order()
-        //orderFacade.insertOrder(newOrder);
+        Date now = new Date();
+        int restaurantId = -1;
+        Set<Integer> platosId = shoppingCart.getProductos().keySet();
+        String nowStr = String.valueOf(now.getTime());
+        for (Integer id:platosId) {
+            restaurantId = shoppingCart.getRestauranteId(id);
+        }
+        Order newOrder = new Order(String.valueOf(userLogged.getId()),
+                calcularPrecioTotal(),
+                nowStr,
+                String.valueOf(restaurantId));
+        orderFacade.insertOrder(newOrder);
         //Para obtener id de restaurante de cada plato = shoppingCart.getRestauranteId(idPlato)
     }
 

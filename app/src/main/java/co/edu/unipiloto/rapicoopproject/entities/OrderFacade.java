@@ -93,6 +93,7 @@ public class OrderFacade extends AbstractFacade implements IOrderFacade {
         orderDataSet.put(ORDER_CLIENT_ID,newOrder.getClientId());
         orderDataSet.put(ORDER_TOTAL,newOrder.getOrderTotal());
         orderDataSet.put(ORDER_DATE,newOrder.getOrderDate());
+        orderDataSet.put(ORDER_RESTAURANT_ID,newOrder.getRestaurantId());
         return db.insert(ORDER_TABLE_NAME, null, orderDataSet);
     }
 
