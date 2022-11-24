@@ -10,6 +10,7 @@ public class MenuDish {
     private int image;
     private String foodCategory;
     private int restaurantId;
+    //private int cantidad = 0;
 
     public MenuDish(String descripcion, String nombre, int precio, int image) {
         this.descripcion = descripcion;
@@ -80,6 +81,25 @@ public class MenuDish {
     public void setImage(int image) {
         this.image= image;
     }
+/*
+    public int getCantidad(){
+        return cantidad;
+    }
+    public void setCantidad(int cantidad){
+        this.cantidad = cantidad;
+    }
+
+    public void increaseCantidad(){
+        this.cantidad++;
+    }
+
+    public void decreaseCantidad(){
+        if(this.cantidad <= 0){
+            return;
+        }
+        this.cantidad--;
+    }
+*/
 
     @NonNull
     @Override

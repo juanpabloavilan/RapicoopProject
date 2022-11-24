@@ -38,7 +38,7 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
     }
 
     private void loadOrdenesPendientes(){
-        List<Delivery> listaOrdenes = new ArrayList<>();
+        List<Delivery> listaOrdenes = new ArrayList<>(); //getOrdenesPendientes
         listaOrdenes.add(new Delivery("100001", "Cra 111c # 88-17", "Cl 7 #3-12", 4));
         listaOrdenes.add(new Delivery("100002", "Cra 1c # 10-17", "Cl 72 #3-12", 15));
         listaOrdenes.add(new Delivery("100003", "Cra 11c # 2-17", "Cl 7 #2-11", 22));
