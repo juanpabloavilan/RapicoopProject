@@ -61,7 +61,6 @@ public class ShoppingCartActivity extends AppCompatActivity {
         }
 
         mostrarListaPlatos();
-        calcularPrecioTotal();
         btnCrearOrden.setOnClickListener(v->{
             crearOrden();
         });
