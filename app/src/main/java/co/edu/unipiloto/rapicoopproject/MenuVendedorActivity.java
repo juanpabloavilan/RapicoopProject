@@ -62,7 +62,9 @@ public class MenuVendedorActivity extends AppCompatActivity {
     }
 
     public void onClickGoToMisPedidos(View view) {
+        Intent intent = new Intent(MenuVendedorActivity.this, ListaPedidosVendedor.class);
         Toast.makeText(this, "IR a mis pedidos", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
     }
 
     public void onClickGoToMiMenu(View view) {
