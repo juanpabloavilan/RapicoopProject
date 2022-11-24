@@ -6,17 +6,26 @@ import java.util.Map;
 
 public class ShoppingCart {
 
-    private Map<Integer, Integer> productos; //Id Producto, cantidad
+    private Map<Integer, Map<String, Integer>> productos; //Id Producto, [cantidad, idRestaurante]
 
     public ShoppingCart() {
         productos = new HashMap<>();
     }
 
-    public void addOrIncreaseProduct(int idProducto ){
+    public void addOrIncreaseProduct(int idProducto, int idRestaurante){
         if(productos.containsKey(idProducto)){
-            productos.put(idProducto, productos.get(idProducto) +1);
+            HashMap<String, Integer> values = (HashMap<String, Integer>) productos.get(idProducto);
+            boolean hasCantidad = values.containsKey("cantidad");
+            boolean hasRestauranteId = values.containsKey("restauranteId");
+            if(hasCantidad && hasRestauranteId){
+                int prevCantidad = values.get("cantidad");
+                productos.get(idProducto).put("cantidad", prevCantidad+1);
+            }
         }else {
-            productos.put(idProducto, 1);
+            HashMap<String, Integer> values = new HashMap<>();
+            values.put("cantidad", 1);
+            values.put("restauranteId", idRestaurante);
+            productos.put(idProducto,values);
         }
     }
 
@@ -24,30 +33,44 @@ public class ShoppingCart {
         return this.productos.size();
     }
 
-    public Map<Integer, Integer> getProductos() {
+    public Map<Integer, Map<String, Integer>> getProductos() {
         return productos;
     }
 
     public void removeOrDecreaseProduct(int idProducto ){
-        if(!productos.containsKey(idProducto)) return;
-        int currentCantidad = productos.get(idProducto);
-        if(currentCantidad == 1){
-            productos.remove(idProducto);
-        }else {
-            productos.put(idProducto, productos.get(idProducto) -1);
+        if(productos.containsKey(idProducto)){
+            HashMap<String, Integer> values = (HashMap<String, Integer>) productos.get(idProducto);
+            boolean hasCantidad = values.containsKey("cantidad");
+            boolean hasRestauranteId = values.containsKey("restauranteId");
+            if(hasCantidad && hasRestauranteId){
+                int prevCantidad = values.get("cantidad");
+                if(prevCantidad <= 1){
+                    productos.remove(idProducto);
+                }else{
+                    productos.get(idProducto).put("cantidad", prevCantidad-1);
+                }
+
+            }
         }
     }
 
     public int getCantidadProducto(int idProducto){
         if(!productos.containsKey(idProducto)) return 0;
-        return productos.get(idProducto);
+        return productos.get(idProducto).get("cantidad");
+    }
+
+    public int getRestauranteId(int idProducto){
+        if(!productos.containsKey(idProducto)) return 0;
+        return productos.get(idProducto).get("restauranteId");
     }
 
     @Override
     public String toString() {
         StringBuilder productosToString = new StringBuilder();
         for (Integer i : productos.keySet()) {
-            productosToString.append("key: ").append(i).append(" value: ").append(productos.get(i)).append(" \n");
+            productosToString.append("key: ").append(i).append(" value: \n")
+                    .append("Cantidad: ").append(productos.get(i).get("cantidad")).append(" \n")
+                    .append("IdRestaurante: ").append(productos.get(i).get("restauranteId")).append("\n");
         }
         return productosToString.toString();
     }

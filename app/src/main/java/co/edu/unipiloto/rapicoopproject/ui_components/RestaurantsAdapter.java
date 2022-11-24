@@ -44,10 +44,12 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         holder.tv_name.setText(restaurantsData.get(position).getName());
         holder.go_btn.setOnClickListener(v -> {
                 Intent restaurantMenu = new Intent(context, ClientRestaurantMenu.class);
+                restaurantMenu.putExtra(ClientRestaurantMenu.ID_RESTAURANTE, restaurantsData.get(position).getId());
                 context.startActivity(restaurantMenu);
         });
         holder.background_img.setOnClickListener(v -> {
             Intent restaurantMenu = new Intent(context, ClientRestaurantMenu.class);
+            restaurantMenu.putExtra(ClientRestaurantMenu.ID_RESTAURANTE, restaurantsData.get(position).getId());
             context.startActivity(restaurantMenu);
         });
     }

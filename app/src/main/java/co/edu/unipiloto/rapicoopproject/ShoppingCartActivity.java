@@ -73,6 +73,7 @@ public class ShoppingCartActivity extends AppCompatActivity {
         Toast.makeText(this, "Creando Orden", Toast.LENGTH_SHORT).show();
         //Order newOrder = new Order()
         //orderFacade.insertOrder(newOrder);
+        //Para obtener id de restaurante de cada plato = shoppingCart.getRestauranteId(idPlato)
     }
 
     private void mostrarShoppingCartVacio(){

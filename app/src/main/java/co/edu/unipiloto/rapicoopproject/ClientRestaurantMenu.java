@@ -19,16 +19,19 @@ import co.edu.unipiloto.rapicoopproject.ui_components.MenuAdapter;
 
 public class ClientRestaurantMenu extends AppCompatActivity {
     private static final String TAG = "CLIENT_RESTAURANT_MENU";
-    RecyclerView rvListaPlatosMenu;
-    User userLogged;
-    MenuAdapter menuAdapter;
-    ShoppingCart shoppingCart;
-    MenuDishFacade menuDishFacade;
+    public static final String ID_RESTAURANTE = "id_restaurante";
+    private RecyclerView rvListaPlatosMenu;
+    private User userLogged;
+    private MenuAdapter menuAdapter;
+    private ShoppingCart shoppingCart;
+    private MenuDishFacade menuDishFacade;
+    private int idRestaurante;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_restaurant_menu);
+        idRestaurante = getIntent().getIntExtra(ID_RESTAURANTE, 1);
         rvListaPlatosMenu = findViewById(R.id.rv_menu_dishes_list);
         shoppingCart = ShoppingCartContext.getInstance().getShoppingCart();
         menuDishFacade = MenuDishFacade.getInstance(this);
@@ -36,8 +39,13 @@ public class ClientRestaurantMenu extends AppCompatActivity {
     }
 
     private void  loadMenuRestaurante(){
-        List<MenuDish> listaPlatos = menuDishFacade.getMenuDishesByVendorID(1); //Platos Facade
-
+        List<MenuDish> listaPlatos = menuDishFacade.getMenuDishesByVendorID(idRestaurante); //Platos Facade
+        if(listaPlatos == null){
+            return;
+        }
+        if(listaPlatos.size() == 0){
+            return;
+        }
         /*listaPlatos.add(new MenuDish(1,"Unos deliciosos perros calientes", "Super perro", 9999, R.drawable.hot_dog));
         listaPlatos.add(new MenuDish(2,"Hamburguesa con to do", "Hamburquesa", 9999, R.drawable.hot_dog));
         listaPlatos.add(new MenuDish(3,"Sandwich de pavo", "Sandwich", 9999, R.drawable.hot_dog));
@@ -60,7 +68,7 @@ public class ClientRestaurantMenu extends AppCompatActivity {
             public void onItemClickIncrease(int position) {
                 MenuDish currentPlato = listaPlatos.get(position);
                 //Persistir cambio en carrito
-                shoppingCart.addOrIncreaseProduct(currentPlato.getId());
+                shoppingCart.addOrIncreaseProduct(currentPlato.getId(), idRestaurante);
                 Log.v(TAG, String.format("SHOPPING CART = %s", shoppingCart.toString()));
 
             }
