@@ -10,6 +10,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.unipiloto.rapicoopproject.applicationcontext.CurrentLocationContext;
 import co.edu.unipiloto.rapicoopproject.applicationcontext.UserLoggedContext;
 import co.edu.unipiloto.rapicoopproject.entities.OrderFacade;
 import co.edu.unipiloto.rapicoopproject.entities.UserFacade;
@@ -63,7 +64,9 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
     public List<Delivery> getDomiciliosPendientes(){
         List<Order> unassignedOrders = orderFacade.getPendingOrders();
         ArrayList<Delivery> pendingDeliveries = new ArrayList<>();
-        double[] coords = new double[] {0.0, 0.0};//Get user location
+        double[] coords = new double[] {
+                CurrentLocationContext.getInstance().getLatitude(),
+                CurrentLocationContext.getInstance().getLongitude()};//Get user location
         for (Order pendingOrder: unassignedOrders) {
             double[] targetCoords = userFacade
                     .getUserById(orderFacade.getOrderClientId(pendingOrder.getId()))
