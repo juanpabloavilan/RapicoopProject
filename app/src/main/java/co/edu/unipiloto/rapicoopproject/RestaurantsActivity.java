@@ -26,7 +26,7 @@ public class RestaurantsActivity extends AppCompatActivity {
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         RecyclerView restaurantsRv = findViewById(R.id.restaurantRecyclerView);
-        RecyclerView recommendedRv = findViewById(R.id.recommendedRecyclerView);
+        //RecyclerView recommendedRv = findViewById(R.id.recommendedRecyclerView);
 
         restaurantFacade = RestaurantFacade.getInstance(this);
         List<Restaurant> restaurantList = restaurantFacade.getRestaurants();
@@ -34,7 +34,7 @@ public class RestaurantsActivity extends AppCompatActivity {
         RestaurantsAdapter adapter = new RestaurantsAdapter(this,restaurantList);
         restaurantsRv.setAdapter(adapter);
         restaurantsRv.setLayoutManager(new LinearLayoutManager(this));
-        recommendedRv.setAdapter(adapter);
-        recommendedRv.setLayoutManager(new LinearLayoutManager(this));
+        //recommendedRv.setAdapter(adapter);
+        //recommendedRv.setLayoutManager(new LinearLayoutManager(this));
     }
 }

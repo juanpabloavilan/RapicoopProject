@@ -65,7 +65,9 @@ public class DomiciliosPendientesActivity extends AppCompatActivity {
     public List<Delivery> getDomiciliosPendientes(){
         List<Order> unassignedOrders = orderFacade.getPendingOrders();
         ArrayList<Delivery> pendingDeliveries = new ArrayList<>();
-        double[] coords = new double[] {4.5981956,-74.0750252};//Get user location
+        double[] coords = new double[] {
+                CurrentLocationContext.getInstance().getLatitude(),
+                CurrentLocationContext.getInstance().getLongitude()};//Get user location
         for (Order pendingOrder: unassignedOrders) {
             double[] targetCoords = userFacade
                     .getUserById(orderFacade.getOrderClientId(pendingOrder.getId()))
