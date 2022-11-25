@@ -73,9 +73,7 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
         verRuta = findViewById(R.id.constraint_ver_ruta);
 
         //SI NO TIENE PEDIDOS ACTIVOS NO PODRA VER INDICACIONES
-        if(deliveryFacade.getDeliveryByDeliver(userLogged.getId()) == null){
-            verRuta.setVisibility(View.GONE);
-        }
+
 
         //Añadiendo Click event Handlers
         misPedidosPendientesButton.setOnClickListener(this::onClickGoToMisPedidosPendientes);
@@ -106,6 +104,10 @@ public class MenuDomiciliarioActivity extends AppCompatActivity {
     }
 
     public void onClickViewActiveRoute(View view) {
+        if(!deliveryFacade.hasActiveDelivery(userLogged.getId())){
+            Toast.makeText(this,"No tienes pedidos activos",Toast.LENGTH_LONG).show();
+            return;
+        }
         double[] targetCoords = getOrderRoute();
         Uri.Builder builder= new Uri.Builder();
         builder.scheme("https").authority("www.google.com").
